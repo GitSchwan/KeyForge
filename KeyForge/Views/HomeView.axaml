@@ -26,8 +26,10 @@
   
         </Grid>
         
-        <Grid>
-            <DataGrid></DataGrid>          
+        <Grid ShowGridLines="True"
+              ColumnDefinitions="*, Auto"
+              RowDefinitions="Auto">
+            <DataGrid Grid.Column="1"></DataGrid>          
         </Grid>
     </StackPanel>
 
