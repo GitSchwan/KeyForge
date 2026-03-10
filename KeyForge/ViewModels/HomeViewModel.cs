@@ -2,5 +2,4 @@
 
 public class HomeViewModel : ViewModelBase
 {
-    public string WelcomeMessage => "Welcome to KeyForge!";
 }

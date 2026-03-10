@@ -13,7 +13,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(ILoginService loginService)
     {
-        CurrentViewModel = new LoginViewModel(loginService, NavigateToHome);
+        //CurrentViewModel = new LoginViewModel(loginService, NavigateToHome);
+        CurrentViewModel = new HomeViewModel(); // For testing only WIP
     }
 
     private void NavigateToHome()
