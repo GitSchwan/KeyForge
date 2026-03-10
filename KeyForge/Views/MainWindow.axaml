@@ -26,19 +26,31 @@
                    />
         
         <TextBox Watermark="Bitte gib deinen Nutzernamen ein..."
+                 Text="{Binding Username}"
                  Width="300"
+                 AcceptsReturn="True"
                  HorizontalAlignment="Left"
+                 Margin="0,10,0,0"
                  />
         <!-- Password Block -->
         <TextBlock Text="Masterpasswort"
                    HorizontalAlignment="Left"
+                   Margin="0,10,0,0"
                    />
         
         <TextBox Watermark="Bitte gib dein Masterpasswort ein..."
+                 Text="{Binding MasterPassword}"
                  Width="300" 
+                 PasswordChar="*"
                  AcceptsReturn="True" 
                  HorizontalAlignment="Left"
                  Margin="0,10,0,0"/>
+        
+        <Button Content="Einloggen"
+                HorizontalAlignment="Center"
+                Margin="10"
+                Command="{Binding LoginCommand}"
+                />
     </StackPanel>
 
 </Window>
