@@ -8,7 +8,7 @@ namespace KeyForge.ViewModels;
 
 public class HomeViewModel : ViewModelBase
 {
-    public ObservableCollection<Site> Data { get; }
+    public ObservableCollection<VaultEntry> Data { get; }
     private readonly Action _navigateToAdd;
     public IRelayCommand NavigateToAddCommand { get; }
 
@@ -19,14 +19,14 @@ public class HomeViewModel : ViewModelBase
         _navigateToAdd = navigateToAdd;
 
         //Table
-        var data = new List<Site>
+        var data = new List<VaultEntry>
         {
-            new Site("youtube.com", "Doe"),
-            new Site("github.com", "Doe"),
-            new Site("youtrack.cloud", "Smith")
+            new VaultEntry("youtube.com", "Doe"),
+            new VaultEntry("github.com", "Doe"),
+            new VaultEntry("youtrack.cloud", "Smith")
         };
 
-        Data = new ObservableCollection<Site>(data);
+        Data = new ObservableCollection<VaultEntry>(data);
     }
 
     private void NavigateToAdd()

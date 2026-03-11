@@ -52,7 +52,16 @@ public partial class MainWindow : Window
         else
         {
             TransparencyLevelHint = [WindowTransparencyLevel.None];
-            Background = Brushes.Black;
+            Background = new LinearGradientBrush
+            {
+                StartPoint = new Avalonia.RelativePoint(0, 0, Avalonia.RelativeUnit.Relative),
+                EndPoint = new Avalonia.RelativePoint(1, 1, Avalonia.RelativeUnit.Relative),
+                GradientStops =
+                {
+                    new GradientStop { Color = Color.FromRgb(128, 0, 128), Offset = 0 },
+                    new GradientStop { Color = Color.FromRgb(151, 17, 56), Offset = 1 }
+                }
+            };
         }
     }
 }

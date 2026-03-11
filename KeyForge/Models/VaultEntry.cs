@@ -1,12 +1,15 @@
 ﻿namespace KeyForge.Models;
 
 
-public class Site
+public class VaultEntry
 {
 
+    public int Id { get; set; }
     public string Website { get; set; }
     public string Username { get; set; }
-    public Site(string website , string username)
+    public string Password { get; set; } = string.Empty;
+    
+    public VaultEntry(string website , string username)
     {
         Website = website;
         Username = username;
