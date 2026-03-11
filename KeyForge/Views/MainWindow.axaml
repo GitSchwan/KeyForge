@@ -18,6 +18,10 @@
         <DataTemplate DataType="vm:HomeViewModel">
             <views:HomeView />
         </DataTemplate>
+        
+        <DataTemplate DataType="vm:AddViewModel">
+            <views:AddView/>
+        </DataTemplate>
     </Window.DataTemplates>
 
     <ContentControl Content="{Binding CurrentViewModel}" />
