@@ -5,12 +5,12 @@
              x:DataType="vm:HomeViewModel">
     <StackPanel>
         <Border BorderThickness="5" Background="SlateGray">
-            <Grid ShowGridLines="True"
+            <Grid ShowGridLines="False"
                   Margin="0,0,0,5"
                   ColumnDefinitions="Auto, *, Auto, Auto"
                   RowDefinitions="Auto">
                 
-                <TextBlock Grid.Column="0" 
+                <TextBlock Grid.Column="0"
                     Text="KeyForge"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -28,11 +28,13 @@
             </Grid>
         </Border>
         
+
+        
         <Grid ShowGridLines="True"
-              ColumnDefinitions="*, Auto"
+              ColumnDefinitions="Auto, Auto"
               RowDefinitions="Auto">
             
-            <DataGrid Grid.Column="1" 
+            <DataGrid Grid.Column="1"
                       ItemsSource="{Binding Data}"
                       AutoGenerateColumns="True"
                       IsReadOnly="True"
