@@ -3,31 +3,72 @@
              xmlns:vm="using:KeyForge.ViewModels"
              x:Class="KeyForge.Views.AddView"
              x:DataType="vm:AddViewModel">
-    
-    
-    <Border Background="#80000000">
-        <Grid ShowGridLines="False"
-              Margin="0,0,0,0"
-              ColumnDefinitions="Auto, *, Auto, Auto"
-              RowDefinitions="Auto">
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" Background="#80000000">
+            <Grid ShowGridLines="False"
+                  Margin="0,0,0,0"
+                  ColumnDefinitions="Auto, *, Auto, Auto"
+                  RowDefinitions="Auto">
+
+                <TextBlock Grid.Column="0"
+                           Text="KeyForge"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="44"
+                           Margin="20,0,0,20"/>
+
+                <Button Grid.Column="2"
+                        Command="{Binding ToHomeView }"
+                        Margin="10,0,10,0"
+                        Content="⟵"/>
+
+                <Button Grid.Column="3"
+                        Margin="10,0,10,0"
+                        Content="⚙"/>
+
+            </Grid>
+        </Border>
+
+        <!-- Input field -->
+        
+        <Border Grid.Row="1"
+                Background="#80000000"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="20">
+            <Grid ShowGridLines="False"
+                  ColumnSpacing="10"
+                  RowSpacing="10"
+                  ColumnDefinitions="Auto,220"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                 
-            <TextBlock Grid.Column="0"
-                       Text="KeyForge"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="44"
-                       Margin="20,0,0,20"/>
-            
-            <Button Grid.Column="2"
-                    Command="{Binding ToHomeView }"
-                    Margin="10,0,10,0"
-                    Content="⟵"/>
-                
-            <Button Grid.Column="3"
-                    Margin="10,0,10,0"
-                    Content="⚙"/>
-      
-        </Grid>
-    </Border>
-    
+                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                           Text="Passwort Hinzufügen"
+                           Margin="0,0,0,0"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="1"
+                           Text="Webseite"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Column="1" Grid.Row="1"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="2"
+                           Text="Nutzername"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Column="1" Grid.Row="2"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="3"
+                           Text="Passwort"
+                           VerticalAlignment="Center"/>
+
+                <TextBox Grid.Column="1" Grid.Row="3"/>
+
+                <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"
+                        Content="Speichern"/>
+
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>
