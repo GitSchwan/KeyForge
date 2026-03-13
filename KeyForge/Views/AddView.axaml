@@ -3,5 +3,31 @@
              xmlns:vm="using:KeyForge.ViewModels"
              x:Class="KeyForge.Views.AddView"
              x:DataType="vm:AddViewModel">
-
+    
+    
+    <Border Background="#80000000">
+        <Grid ShowGridLines="False"
+              Margin="0,0,0,0"
+              ColumnDefinitions="Auto, *, Auto, Auto"
+              RowDefinitions="Auto">
+                
+            <TextBlock Grid.Column="0"
+                       Text="KeyForge"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="44"
+                       Margin="20,0,0,20"/>
+            
+            <Button Grid.Column="2"
+                    Command="{Binding ToHomeView }"
+                    Margin="10,0,10,0"
+                    Content="⟵"/>
+                
+            <Button Grid.Column="3"
+                    Margin="10,0,10,0"
+                    Content="⚙"/>
+      
+        </Grid>
+    </Border>
+    
 </UserControl>

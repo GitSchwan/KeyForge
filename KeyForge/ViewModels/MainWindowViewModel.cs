@@ -24,6 +24,6 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToAdd()
     {
-        CurrentViewModel = new AddViewModel();
+        CurrentViewModel = new AddViewModel(NavigateToHome);
     }
 }
