@@ -13,8 +13,14 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(ILoginService loginService)
     {
-        //CurrentViewModel = new LoginViewModel(loginService, NavigateToHome);
-        CurrentViewModel = new HomeViewModel(NavigateToAdd); // For testing only WIP
+        if (loginService.HasUsers())
+        {
+            CurrentViewModel = new LoginViewModel(loginService, NavigateToHome);
+        }
+        else
+        {
+            CurrentViewModel = new CreateUserViewModel(NavigateToLogin);
+        }
     }
 
     private void NavigateToHome()
@@ -25,5 +31,10 @@ public partial class MainWindowViewModel : ViewModelBase
     private void NavigateToAdd()
     {
         CurrentViewModel = new AddViewModel(NavigateToHome);
+    }
+
+    private void NavigateToLogin()
+    {
+        CurrentViewModel = new LoginViewModel(new LoginService(new Data.KeyForgeDbContext()), NavigateToHome);
     }
 }

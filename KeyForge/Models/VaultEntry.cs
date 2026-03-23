@@ -11,11 +11,11 @@ public class VaultEntry
 
     public int UserId { get; set; }
 
-    public byte[] Password { get; set; }
+    public string Password { get; set; }
 
     public User? User { get; set; }
 
-    public VaultEntry(int id, string website, string websiteusername ,int userId, byte[] password)
+    public VaultEntry(int id, string website, string websiteusername ,int userId, string password)
     {
         Id = id;
         Website = website;

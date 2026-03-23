@@ -2,5 +2,6 @@
 
 public class CryptoMasterService
 {
+    private string password = "foobar";
     
 }

@@ -39,7 +39,7 @@ public partial class MainWindow : Window
 
     private void UpdateWindowAppearance(ViewModelBase? currentViewModel)
     {
-        if (currentViewModel is LoginViewModel)
+        if (currentViewModel is LoginViewModel or CreateUserViewModel)
         {
             TransparencyLevelHint =
             [

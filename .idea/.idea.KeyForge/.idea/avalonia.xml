@@ -5,6 +5,7 @@
       <map>
         <entry key="KeyForge/App.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/AddView.axaml" value="KeyForge/KeyForge.csproj" />
+        <entry key="KeyForge/Views/CreateUserView.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/HomeView.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/LoginView.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/MainWindow.axaml" value="KeyForge/KeyForge.csproj" />

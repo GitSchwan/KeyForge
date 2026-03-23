@@ -30,14 +30,14 @@ public partial class App : Application
             using (var db = new KeyForgeDbContext())
             {
                 db.Database.Migrate();
+
+                    ILoginService loginService = new LoginService(db);
+
+                    desktop.MainWindow = new MainWindow
+                    {
+                        DataContext = new MainWindowViewModel(loginService),
+                    };
             }
-
-            ILoginService loginService = new LoginService();
-
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowViewModel(loginService),
-            };
         }
 
         base.OnFrameworkInitializationCompleted();
