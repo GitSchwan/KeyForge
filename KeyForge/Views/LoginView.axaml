@@ -8,7 +8,8 @@
         <Button Content="Neuer Nutzer"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
-                Margin="5"/>
+                Margin="5"
+                Command="{Binding NavCreateUserCommand}"/>
         <StackPanel VerticalAlignment="Center" Margin="0,200,0,0" Width="300" HorizontalAlignment="Center" >
             <Border>
                 <StackPanel>

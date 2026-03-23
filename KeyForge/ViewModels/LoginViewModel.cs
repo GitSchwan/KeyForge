@@ -8,6 +8,7 @@ public partial class LoginViewModel : ViewModelBase
 {
     private readonly ILoginService _loginService;
     private readonly Action _navigateToHome;
+    private readonly Action _navigateToCreateUser;
 
     private string? _masterPassword;
     public string? MasterPassword
@@ -24,12 +25,15 @@ public partial class LoginViewModel : ViewModelBase
     }
 
     public IRelayCommand LoginCommand { get; }
+    public IRelayCommand NavCreateUserCommand { get;  }
 
-    public LoginViewModel(ILoginService loginService, Action navigateToHome)
+    public LoginViewModel(ILoginService loginService, Action navigateToHome, Action navigateToCreateUser)
     {
         _loginService = loginService;
         _navigateToHome = navigateToHome;
+        _navigateToCreateUser = navigateToCreateUser;
         LoginCommand = new RelayCommand(Login);
+        NavCreateUserCommand = new RelayCommand(navigateToCreateUser);
     }
 
     private void Login()

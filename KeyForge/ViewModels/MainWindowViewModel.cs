@@ -4,6 +4,9 @@ namespace KeyForge.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private readonly ILoginService _loginService;
+    private readonly ICryptoMasterService _cryptoMasterService;
+
     private ViewModelBase? _currentViewModel;
     public ViewModelBase? CurrentViewModel
     {
@@ -13,13 +16,16 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(ILoginService loginService, ICryptoMasterService cryptoMasterService)
     {
-        if (loginService.HasUsers())
+        _loginService = loginService;
+        _cryptoMasterService = cryptoMasterService;
+
+        if (_loginService.HasUsers())
         {
-            CurrentViewModel = new LoginViewModel(loginService, NavigateToHome);
+            CurrentViewModel = new LoginViewModel(_loginService, NavigateToHome, NavigateToCreateUser);
         }
         else
         {
-            CurrentViewModel = new CreateUserViewModel(cryptoMasterService, NavigateToHome);
+            CurrentViewModel = new CreateUserViewModel(_cryptoMasterService, NavigateToHome);
         }
     }
 
@@ -33,8 +39,8 @@ public partial class MainWindowViewModel : ViewModelBase
         CurrentViewModel = new AddViewModel(NavigateToHome);
     }
 
-    private void NavigateToLogin()
+    private void NavigateToCreateUser()
     {
-        CurrentViewModel = new LoginViewModel(new LoginService(new Data.KeyForgeDbContext()), NavigateToHome);
+        CurrentViewModel = new CreateUserViewModel(_cryptoMasterService, NavigateToHome);
     }
 }
