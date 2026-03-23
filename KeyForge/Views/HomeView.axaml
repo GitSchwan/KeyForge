@@ -44,7 +44,8 @@
                 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
-                    <DataGridTextColumn Header="Nutzername" Binding="{Binding Username}"/>
+                    <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
+                    <DataGridTextColumn Header="Passwort" Binding="{Binding Password}"/>
                 </DataGrid.Columns>
                 
             </DataGrid>

@@ -21,9 +21,9 @@ public class HomeViewModel : ViewModelBase
         //Table
         var data = new List<VaultEntry>
         {
-            new VaultEntry("youtube.com", "Doe"),
-            new VaultEntry("github.com", "Doe"),
-            new VaultEntry("youtrack.cloud", "Smith")
+            new VaultEntry(1, "youtube.com","James",0, "DontLook"),
+            new VaultEntry(2, "github.com", "Tommy",0, "DontLook"),
+            new VaultEntry(3, "youtrack.cloud", "Giraffe02",0, "DontLook")
         };
 
         Data = new ObservableCollection<VaultEntry>(data);

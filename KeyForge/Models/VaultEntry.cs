@@ -3,15 +3,24 @@
 
 public class VaultEntry
 {
-
     public int Id { get; set; }
+
     public string Website { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; } = string.Empty;
-    
-    public VaultEntry(string website , string username)
+
+    public string Websiteusername { get; set; }
+
+    public int UserId { get; set; }
+
+    public byte[] Password { get; set; }
+
+    public User? User { get; set; }
+
+    public VaultEntry(int id, string website, string websiteusername ,int userId, byte[] password)
     {
+        Id = id;
         Website = website;
-        Username = username;
+        Websiteusername = websiteusername;
+        UserId = userId;
+        Password = password;
     }
 }

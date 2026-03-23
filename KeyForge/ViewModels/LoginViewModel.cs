@@ -34,11 +34,10 @@ public partial class LoginViewModel : ViewModelBase
 
     private void Login()
     {
-        var username = Username;
-        var password = MasterPassword;
+        var username = _username;
+        var password = _masterPassword;
 
-        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-            return;
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return;
 
         var done = _loginService.Login(username, password);
         if (done)
