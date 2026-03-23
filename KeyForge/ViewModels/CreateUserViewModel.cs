@@ -25,12 +25,14 @@ public class CreateUserViewModel : ViewModelBase
     }
 
     public IRelayCommand CreateUserCommand { get; }
+    public IRelayCommand NavigateToLogin { get; }
 
-    public CreateUserViewModel(ICryptoMasterService cryptoMasterService, Action navigateToHome)
+    public CreateUserViewModel(ICryptoMasterService cryptoMasterService, Action navigateToLogin)
     {
-        _navigateToLogin = navigateToHome;
+        _navigateToLogin = navigateToLogin;
         _cryptoMasterService = cryptoMasterService;
         CreateUserCommand = new RelayCommand(CreateUser);
+        NavigateToLogin = new RelayCommand(navigateToLogin);
     }
 
     private void CreateUser()
@@ -45,6 +47,6 @@ public class CreateUserViewModel : ViewModelBase
         _cryptoMasterService.InsertUserData(username, Encoding.UTF8.GetBytes(hashedPassword));
         
         
-        //_navigateToLogin();
+        _navigateToLogin();
     }
 }

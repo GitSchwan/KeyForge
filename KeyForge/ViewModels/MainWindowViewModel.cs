@@ -41,6 +41,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToCreateUser()
     {
-        CurrentViewModel = new CreateUserViewModel(_cryptoMasterService, NavigateToHome);
+        CurrentViewModel = new CreateUserViewModel(_cryptoMasterService, NavigateToLogin);
+    }
+    
+    private void NavigateToLogin()
+    {
+        CurrentViewModel = new LoginViewModel(_loginService, NavigateToHome, NavigateToCreateUser);
     }
 }

@@ -3,42 +3,48 @@
              xmlns:vm="using:KeyForge.ViewModels"
              x:Class="KeyForge.Views.CreateUserView"
              x:DataType="vm:CreateUserViewModel">
-    
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-            <Border>
-                <StackPanel>
-                    <TextBlock Text="Neuer Nutzer"
-                               HorizontalAlignment="Center"
-                               TextWrapping="Wrap"
-                               FontSize="24"
-                               Margin="10"/>
+   <StackPanel>
+    <Button Content="Anmelden"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Margin="5"
+            Command="{Binding NavigateToLogin}"/>
+        <StackPanel VerticalAlignment="Center" Margin="0,200,0,0" HorizontalAlignment="Center" Width="300">
+                <Border>
+                    <StackPanel>
+                        <TextBlock Text="Neuer Nutzer"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   FontSize="24"
+                                   Margin="10"/>
 
-                    <TextBlock Text="Username"
-                               HorizontalAlignment="Left"/>
+                        <TextBlock Text="Username"
+                                   HorizontalAlignment="Left"/>
 
-                    <TextBox Watermark="Bitte gib einen Nutzernamen ein..."
-                             Text="{Binding Username}"
-                             Width="300"
-                             HorizontalAlignment="Left"
-                             Margin="0,10,0,0"/>
+                        <TextBox Watermark="Bitte gib einen Nutzernamen ein..."
+                                 Text="{Binding Username}"
+                                 Width="300"
+                                 HorizontalAlignment="Left"
+                                 Margin="0,10,0,0"/>
 
-                    <TextBlock Text="Masterpasswort"
-                               HorizontalAlignment="Left"
-                               Margin="0,10,0,0"/>
+                        <TextBlock Text="Masterpasswort"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,10,0,0"/>
 
-                    <TextBox Watermark="Bitte gib ein Masterpasswort ein..."
-                             Text="{Binding MasterPassword}"
-                             Width="300"
-                             PasswordChar="*"
-                             HorizontalAlignment="Left"
-                             Margin="0,10,0,0"/>
+                        <TextBox Watermark="Bitte gib ein Masterpasswort ein..."
+                                 Text="{Binding MasterPassword}"
+                                 Width="300"
+                                 PasswordChar="*"
+                                 HorizontalAlignment="Left"
+                                 Margin="0,10,0,0"/>
 
-                    <Button Content="Nutzer anlegen"
-                            HorizontalAlignment="Center"
-                            Margin="10"
-                            Command="{Binding CreateUserCommand}" />
-                    
-                </StackPanel>
-            </Border>
-        </StackPanel>
+                        <Button Content="Nutzer anlegen"
+                                HorizontalAlignment="Center"
+                                Margin="10"
+                                Command="{Binding CreateUserCommand}" />
+                        
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+   </StackPanel>
 </UserControl>

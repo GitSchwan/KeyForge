@@ -13,7 +13,7 @@
         <StackPanel VerticalAlignment="Center" Margin="0,200,0,0" Width="300" HorizontalAlignment="Center" >
             <Border>
                 <StackPanel>
-                    <TextBlock Text="Passwort Manager"
+                    <TextBlock Text="Anmelden"
                                HorizontalAlignment="Center"
                                TextWrapping="Wrap"
                                FontSize="24"
