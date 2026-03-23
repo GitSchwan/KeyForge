@@ -13,9 +13,8 @@ public class User
     public List<VaultEntry> VaultEntries { get; set; }
 
 
-    public User(int id, string name, byte[] masterPassword)
+    public User(string name, byte[] masterPassword)
     {
-        Id = id;
         Name = name;
         MasterPassword = masterPassword;
     }

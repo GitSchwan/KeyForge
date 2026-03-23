@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Services;
 
@@ -7,6 +8,7 @@ namespace KeyForge.ViewModels;
 public class CreateUserViewModel : ViewModelBase
 {
     private readonly Action _navigateToLogin;
+    private readonly ICryptoMasterService _cryptoMasterService;
 
     private string? _masterPassword;
     public string? MasterPassword
@@ -24,9 +26,10 @@ public class CreateUserViewModel : ViewModelBase
 
     public IRelayCommand CreateUserCommand { get; }
 
-    public CreateUserViewModel(Action navigateToHome)
+    public CreateUserViewModel(ICryptoMasterService cryptoMasterService, Action navigateToHome)
     {
         _navigateToLogin = navigateToHome;
+        _cryptoMasterService = cryptoMasterService;
         CreateUserCommand = new RelayCommand(CreateUser);
     }
 
@@ -37,6 +40,11 @@ public class CreateUserViewModel : ViewModelBase
 
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return;
         
-        _navigateToLogin();
+        var hashedPassword = _cryptoMasterService.HashMasterPassword(password);
+        
+        _cryptoMasterService.InsertUserData(username, Encoding.UTF8.GetBytes(hashedPassword));
+        
+        
+        //_navigateToLogin();
     }
 }

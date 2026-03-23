@@ -25,7 +25,7 @@ public partial class MainWindow : Window
 
         UpdateWindowAppearance(vm.CurrentViewModel);
     }
-
+    
     private void MainWindowViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (sender is not MainWindowViewModel vm)
@@ -36,7 +36,7 @@ public partial class MainWindow : Window
             UpdateWindowAppearance(vm.CurrentViewModel);
         }
     }
-
+    
     private void UpdateWindowAppearance(ViewModelBase? currentViewModel)
     {
         if (currentViewModel is LoginViewModel or CreateUserViewModel)

@@ -11,7 +11,7 @@ public partial class MainWindowViewModel : ViewModelBase
         set => SetProperty(ref _currentViewModel, value);
     }
 
-    public MainWindowViewModel(ILoginService loginService)
+    public MainWindowViewModel(ILoginService loginService, ICryptoMasterService cryptoMasterService)
     {
         if (loginService.HasUsers())
         {
@@ -19,7 +19,7 @@ public partial class MainWindowViewModel : ViewModelBase
         }
         else
         {
-            CurrentViewModel = new CreateUserViewModel(NavigateToLogin);
+            CurrentViewModel = new CreateUserViewModel(cryptoMasterService, NavigateToHome);
         }
     }
 

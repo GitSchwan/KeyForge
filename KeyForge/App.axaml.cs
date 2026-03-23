@@ -14,6 +14,8 @@ namespace KeyForge;
 
 public partial class App : Application
 {
+    private KeyForgeDbContext? _dbContext;
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -27,17 +29,16 @@ public partial class App : Application
             // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
 
-            using (var db = new KeyForgeDbContext())
+            _dbContext = new KeyForgeDbContext();
+            _dbContext.Database.Migrate();
+
+            ILoginService loginService = new LoginService(_dbContext);
+            ICryptoMasterService cryptoMasterService = new CryptoMasterService(_dbContext);
+
+            desktop.MainWindow = new MainWindow
             {
-                db.Database.Migrate();
-
-                    ILoginService loginService = new LoginService(db);
-
-                    desktop.MainWindow = new MainWindow
-                    {
-                        DataContext = new MainWindowViewModel(loginService),
-                    };
-            }
+                DataContext = new MainWindowViewModel(loginService, cryptoMasterService),
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
