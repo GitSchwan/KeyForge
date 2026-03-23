@@ -16,6 +16,14 @@ public class CreateUserViewModel : ViewModelBase
         get => _masterPassword;
         set => SetProperty(ref _masterPassword, value);
     }
+    
+    private string? _confirmPassword;
+
+    public string? ConfirmPassword
+    {
+        get => _confirmPassword; 
+        set => SetProperty(ref _confirmPassword, value);
+    }
 
     private string? _username;
     public string? Username
@@ -39,8 +47,11 @@ public class CreateUserViewModel : ViewModelBase
     {
         var username = _username;
         var password = _masterPassword;
+        var confirmPassword = _confirmPassword;
 
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return;
+        
+        if (password != confirmPassword) return;
         
         var hashedPassword = _cryptoMasterService.HashMasterPassword(password);
         

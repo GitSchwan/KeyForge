@@ -37,6 +37,17 @@
                                  PasswordChar="*"
                                  HorizontalAlignment="Left"
                                  Margin="0,10,0,0"/>
+                        
+                        <TextBlock Text="Erneut Eingeben"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,10,0,0"/>
+                        
+                        <TextBox Watermark="Bitte gib dein Masterpasswort erneut ein..."
+                                 Text="{Binding ConfirmPassword}"
+                                 Width="300"
+                                 PasswordChar="*"
+                                 HorizontalAlignment="Left"
+                                 Margin="0,10,0,0"/>
 
                         <Button Content="Nutzer anlegen"
                                 HorizontalAlignment="Center"
