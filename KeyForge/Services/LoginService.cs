@@ -14,19 +14,25 @@ public class LoginService : ILoginService
 {
     private readonly KeyForgeDbContext _dbContext;
     private readonly ICryptoService _cryptoService;
+    private readonly SessionService _sessionService;
 
-    public LoginService(KeyForgeDbContext dbContext)
+    public LoginService(KeyForgeDbContext dbContext, SessionService sessionService)
     {
         _dbContext = dbContext;
-        _cryptoService = new CryptoService(dbContext);
+        _cryptoService = new CryptoService(dbContext, sessionService);
+        _sessionService = sessionService;
     }
 
     public bool Login(string username, string password)
     {
-        var user = _dbContext.Users.FirstOrDefault(u => u.Name == username); // If user doesn't exist, this will return null'
-        if (user is null) return false;                                                                        
-        
-        return _cryptoService.VerifyPassword(password, user.MasterPassword);
+        var user = _dbContext.Users.FirstOrDefault(u => u.Name == username);
+        if (user is null) return false;
+
+        var success = _cryptoService.VerifyPassword(password, user.MasterPassword);
+        if (!success) return false;
+
+        _sessionService.SetCurrentUser(user.Id, user.Name);
+        return true;
     }
 
     public bool HasUsers()

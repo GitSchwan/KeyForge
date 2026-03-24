@@ -15,9 +15,8 @@ public class VaultEntry
 
     public User? User { get; set; }
 
-    public VaultEntry(int id, string website, string websiteusername ,int userId, string password)
+    public VaultEntry(string website, string websiteusername ,int userId, string password)
     {
-        Id = id;
         Website = website;
         Websiteusername = websiteusername;
         UserId = userId;

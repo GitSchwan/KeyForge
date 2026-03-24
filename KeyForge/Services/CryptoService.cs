@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using KeyForge.Data;
 using KeyForge.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KeyForge.Services;
 
@@ -12,6 +14,8 @@ public interface ICryptoService
     void InsertUserData(string username, string hashedPassword);
     
     bool VerifyPassword(string password, string storedHash);
+    
+    void InsertVaultData(string website, string username, string hashedPassword);
 }
 
 public class CryptoService : ICryptoService
@@ -32,10 +36,12 @@ public class CryptoService : ICryptoService
     private const int Iterations = 100_000;
 
     private readonly KeyForgeDbContext _dbContext;
+    private readonly SessionService _sessionService;
 
-    public CryptoService(KeyForgeDbContext dbContext)
+    public CryptoService(KeyForgeDbContext dbContext, SessionService sessionService)
     {
         _dbContext = dbContext;
+        _sessionService = sessionService;
     }
 
     public string HashPassword(string password)
@@ -56,7 +62,8 @@ public class CryptoService : ICryptoService
         // Store: iterations.salt.hash
         return $"{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
-
+    
+    //Insert User Data 
     public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
@@ -65,6 +72,29 @@ public class CryptoService : ICryptoService
         _dbContext.SaveChanges();
     }
 
+    //Insert Vault Data
+    public void InsertVaultData(string website, string username, string hashedPassword)
+    {
+        Console.WriteLine("CWD:");
+        Console.WriteLine(Environment.CurrentDirectory);
+
+        Console.WriteLine("DB:");
+        Console.WriteLine(_dbContext.Database.GetDbConnection().DataSource);
+        
+        var userid = _dbContext.Users.FirstOrDefault(u => u.Id == _sessionService.CurrentUserId);
+        if (userid is null)
+        {
+            Console.WriteLine("DEBUG: No user with id " + _sessionService.CurrentUserId + " found");
+            return;
+        }
+        
+        var vaultEntry = new VaultEntry(website, username, _sessionService.CurrentUserId, hashedPassword);
+        
+        _dbContext.VaultEntries.Add(vaultEntry);
+        _dbContext.SaveChanges();
+    }
+
+    //Verify Password
     public bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))

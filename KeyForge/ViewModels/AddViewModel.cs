@@ -4,13 +4,14 @@ using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
 
-public partial class AddViewModel : ViewModelBase
+public class AddViewModel : ViewModelBase
 {
     private readonly Action _navigateToHome;
+    private readonly ICryptoService _cryptoService;
 
     
     private string? _addViewWebsite;
-    private string? AddViewWebsite
+    public string? AddViewWebsite
     {
         get => _addViewWebsite;
         set => SetProperty(ref _addViewWebsite, value); 
@@ -18,7 +19,7 @@ public partial class AddViewModel : ViewModelBase
     
     private string? _addViewUsername;
     
-    private string? AddViewUsername
+    public string? AddViewUsername
     {
         get => _addViewUsername;
         set => SetProperty(ref _addViewUsername, value); 
@@ -26,7 +27,7 @@ public partial class AddViewModel : ViewModelBase
     
     private string? _addViewPassword;
     
-    private string? AddViewPassword
+    public string? AddViewPassword
     {
         get => _addViewPassword;
         set => SetProperty(ref _addViewPassword, value); 
@@ -37,25 +38,27 @@ public partial class AddViewModel : ViewModelBase
     // Back Button
     public IRelayCommand ToHomeView { get; }
 
-    public AddViewModel(Action navigateToHome)
+    public AddViewModel(Action navigateToHome, ICryptoService cryptoService)
     {
         _navigateToHome = navigateToHome;
         ToHomeView = new RelayCommand(GoBackToHomeView);
-        
+        _cryptoService = cryptoService;
         AddViewSaveCommand = new RelayCommand(SecureAndSaveData);
     }
     
-        private void SecureAndSaveData()
+    private void SecureAndSaveData()
     {
-        var website = AddViewWebsite;
-        var username = AddViewUsername;
-        var password = AddViewPassword;
+        var website = _addViewWebsite;
+        var username = _addViewUsername;
+        var password = _addViewPassword;
 
         if (string.IsNullOrWhiteSpace(website) ||
             string.IsNullOrWhiteSpace(username) ||
             string.IsNullOrWhiteSpace(password)) return;
         
-        
+        var hashedPassword = _cryptoService.HashPassword(password);
+        _cryptoService.InsertVaultData(website, username, hashedPassword);
+        GoBackToHomeView();
         
     }
     

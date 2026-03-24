@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
@@ -15,6 +16,13 @@ namespace KeyForge;
 public partial class App : Application
 {
     private KeyForgeDbContext? _dbContext;
+    public IServiceProvider Services { get; }
+
+    public App(IServiceProvider services)
+    {
+        Services = services;
+    }
+    
 
     public override void Initialize()
     {
@@ -32,8 +40,8 @@ public partial class App : Application
             _dbContext = new KeyForgeDbContext();
             _dbContext.Database.Migrate();
 
-            ILoginService loginService = new LoginService(_dbContext);
-            ICryptoService cryptoService = new CryptoService(_dbContext);
+            ILoginService loginService = new LoginService(_dbContext, new SessionService());
+            ICryptoService cryptoService = new CryptoService(_dbContext, new SessionService());
 
             desktop.MainWindow = new MainWindow
             {

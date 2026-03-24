@@ -36,7 +36,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToAdd()
     {
-        CurrentViewModel = new AddViewModel(NavigateToHome);
+        CurrentViewModel = new AddViewModel(NavigateToHome, _cryptoService);
     }
 
     private void NavigateToCreateUser()
