@@ -53,7 +53,7 @@ public class CreateUserViewModel : ViewModelBase
         
         if (password != confirmPassword) return;
         
-        var hashedPassword = _cryptoService.HashMasterPassword(password);
+        var hashedPassword = _cryptoService.HashPassword(password);
         
         _cryptoService.InsertUserData(username, hashedPassword);
         

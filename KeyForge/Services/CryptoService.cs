@@ -7,7 +7,7 @@ namespace KeyForge.Services;
 
 public interface ICryptoService
 {
-    string HashMasterPassword(string password);
+    string HashPassword(string password);
     
     void InsertUserData(string username, string hashedPassword);
     
@@ -38,7 +38,7 @@ public class CryptoService : ICryptoService
         _dbContext = dbContext;
     }
 
-    public string HashMasterPassword(string password)
+    public string HashPassword(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
             throw new ArgumentException("Password cannot be empty :3", nameof(password));
