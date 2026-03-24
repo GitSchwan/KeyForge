@@ -33,11 +33,11 @@ public partial class App : Application
             _dbContext.Database.Migrate();
 
             ILoginService loginService = new LoginService(_dbContext);
-            ICryptoMasterService cryptoMasterService = new CryptoMasterService(_dbContext);
+            ICryptoService cryptoService = new CryptoService(_dbContext);
 
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(loginService, cryptoMasterService),
+                DataContext = new MainWindowViewModel(loginService, cryptoService),
             };
         }
 

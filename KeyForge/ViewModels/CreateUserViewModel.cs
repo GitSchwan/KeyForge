@@ -8,7 +8,7 @@ namespace KeyForge.ViewModels;
 public class CreateUserViewModel : ViewModelBase
 {
     private readonly Action _navigateToLogin;
-    private readonly ICryptoMasterService _cryptoMasterService;
+    private readonly ICryptoService _cryptoService;
 
     private string? _masterPassword;
     public string? MasterPassword
@@ -35,10 +35,10 @@ public class CreateUserViewModel : ViewModelBase
     public IRelayCommand CreateUserCommand { get; }
     public IRelayCommand NavigateToLogin { get; }
 
-    public CreateUserViewModel(ICryptoMasterService cryptoMasterService, Action navigateToLogin)
+    public CreateUserViewModel(ICryptoService cryptoService, Action navigateToLogin)
     {
         _navigateToLogin = navigateToLogin;
-        _cryptoMasterService = cryptoMasterService;
+        _cryptoService = cryptoService;
         CreateUserCommand = new RelayCommand(CreateUser);
         NavigateToLogin = new RelayCommand(navigateToLogin);
     }
@@ -53,9 +53,9 @@ public class CreateUserViewModel : ViewModelBase
         
         if (password != confirmPassword) return;
         
-        var hashedPassword = _cryptoMasterService.HashMasterPassword(password);
+        var hashedPassword = _cryptoService.HashMasterPassword(password);
         
-        _cryptoMasterService.InsertUserData(username, hashedPassword);
+        _cryptoService.InsertUserData(username, hashedPassword);
         
         
         _navigateToLogin();

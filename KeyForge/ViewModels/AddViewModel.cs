@@ -55,7 +55,8 @@ public partial class AddViewModel : ViewModelBase
             string.IsNullOrWhiteSpace(username) ||
             string.IsNullOrWhiteSpace(password)) return;
         
-        CryptoService.Hash(password, new byte[32]);
+        
+        
     }
     
     private void GoBackToHomeView() 

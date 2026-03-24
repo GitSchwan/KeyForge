@@ -13,12 +13,12 @@ public interface ILoginService
 public class LoginService : ILoginService
 {
     private readonly KeyForgeDbContext _dbContext;
-    private readonly ICryptoMasterService _cryptoMasterService;
+    private readonly ICryptoService _cryptoService;
 
     public LoginService(KeyForgeDbContext dbContext)
     {
         _dbContext = dbContext;
-        _cryptoMasterService = new CryptoMasterService(dbContext);
+        _cryptoService = new CryptoService(dbContext);
     }
 
     public bool Login(string username, string password)
@@ -26,7 +26,7 @@ public class LoginService : ILoginService
         var user = _dbContext.Users.FirstOrDefault(u => u.Name == username); // If user doesn't exist, this will return null'
         if (user is null) return false;                                                                        
         
-        return _cryptoMasterService.VerifyMasterPassword(password, user.MasterPassword);
+        return _cryptoService.VerifyMasterPassword(password, user.MasterPassword);
     }
 
     public bool HasUsers()
