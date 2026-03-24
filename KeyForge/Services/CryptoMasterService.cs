@@ -9,7 +9,9 @@ public interface ICryptoMasterService
 {
     string HashMasterPassword(string password);
     
-    void InsertUserData(string username, byte[] hashedPassword);
+    void InsertUserData(string username, string hashedPassword);
+    
+    bool VerifyMasterPassword(string password, string storedHash);
 }
 
 public class CryptoMasterService : ICryptoMasterService
@@ -55,11 +57,35 @@ public class CryptoMasterService : ICryptoMasterService
         return $"{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
 
-    public void InsertUserData(string username, byte[] hashedPassword)
+    public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
         
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
+    }
+
+    public bool VerifyMasterPassword(string password, string storedHash)
+    {
+        if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))
+            return false;
+
+        var parts = storedHash.Split('.');
+        if (parts.Length != 3)
+            return false;
+
+        int iterations = int.Parse(parts[0]);
+        byte[] salt = Convert.FromBase64String(parts[1]);
+        byte[] expectedHash = Convert.FromBase64String(parts[2]);
+
+        using var deriveBytes = new Rfc2898DeriveBytes(
+            password,
+            salt,
+            iterations,
+            HashAlgorithmName.SHA256);
+
+        byte[] actualHash = deriveBytes.GetBytes(expectedHash.Length);
+
+        return CryptographicOperations.FixedTimeEquals(actualHash, expectedHash);
     }
 }

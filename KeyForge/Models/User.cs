@@ -8,12 +8,12 @@ public class User
 
     public string Name { get; set; }
 
-    public byte[] MasterPassword { get; set; }
+    public string MasterPassword { get; set; }
 
     public List<VaultEntry> VaultEntries { get; set; }
 
 
-    public User(string name, byte[] masterPassword)
+    public User(string name, string masterPassword)
     {
         Name = name;
         MasterPassword = masterPassword;

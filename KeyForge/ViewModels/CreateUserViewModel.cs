@@ -55,7 +55,7 @@ public class CreateUserViewModel : ViewModelBase
         
         var hashedPassword = _cryptoMasterService.HashMasterPassword(password);
         
-        _cryptoMasterService.InsertUserData(username, Encoding.UTF8.GetBytes(hashedPassword));
+        _cryptoMasterService.InsertUserData(username, hashedPassword);
         
         
         _navigateToLogin();

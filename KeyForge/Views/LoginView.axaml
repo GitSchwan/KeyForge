@@ -32,13 +32,22 @@
                                HorizontalAlignment="Left"
                                Margin="0,10,0,0"/>
 
-                    <TextBox Watermark="Bitte gib dein Masterpasswort ein..."
+                    <TextBox x:Name="PasswordBox"
+                             Watermark="Bitte gib dein Masterpasswort ein..."
                              Text="{Binding MasterPassword}"
                              Width="300"
                              PasswordChar="*"
                              HorizontalAlignment="Left"
-                             Margin="0,10,0,0"/>
-
+                             Margin="0,10,0,0">
+                        <TextBox.InnerRightContent>
+                            <ToggleButton 
+                                Content="👁" 
+                                IsChecked="{Binding #PasswordBox.RevealPassword}"
+                                VerticalAlignment="Center"/>
+                        </TextBox.InnerRightContent>
+                        
+                    </TextBox>
+                    
                     <Button Content="Einloggen"
                             HorizontalAlignment="Center"
                             Margin="10"

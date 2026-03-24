@@ -31,23 +31,43 @@
                                    HorizontalAlignment="Left"
                                    Margin="0,10,0,0"/>
 
-                        <TextBox Watermark="Bitte gib ein Masterpasswort ein..."
+                        <TextBox x:Name="MasterPasswordBox"
+                            Watermark="Bitte gib ein Masterpasswort ein..."
                                  Text="{Binding MasterPassword}"
                                  Width="300"
                                  PasswordChar="*"
                                  HorizontalAlignment="Left"
-                                 Margin="0,10,0,0"/>
+                                 Margin="0,10,0,0">
+                            <TextBox.InnerRightContent>
+                                <ToggleButton 
+                                    Content="👁" 
+                                    IsChecked="{Binding #MasterPasswordBox.RevealPassword}"
+                                    VerticalAlignment="Center"/>
+                            </TextBox.InnerRightContent>
+                            
+                            
+                        </TextBox>
                         
                         <TextBlock Text="Erneut eingeben"
                                    HorizontalAlignment="Left"
                                    Margin="0,10,0,0"/>
                         
-                        <TextBox Watermark="Bitte gib dein Masterpasswort erneut ein..."
+                        <TextBox x:Name="ConfirmBox" 
+                                Watermark="Bitte gib dein Masterpasswort erneut ein..."
                                  Text="{Binding ConfirmPassword}"
                                  Width="300"
                                  PasswordChar="*"
                                  HorizontalAlignment="Left"
-                                 Margin="0,10,0,0"/>
+                                 Margin="0,10,0,0">
+                            
+                            <TextBox.InnerRightContent>
+                                <ToggleButton 
+                                    Content="👁" 
+                                    IsChecked="{Binding #ConfirmBox.RevealPassword}"
+                                    VerticalAlignment="Center"/>
+                            </TextBox.InnerRightContent>
+                            
+                        </TextBox>
 
                         <Button Content="Nutzer anlegen"
                                 HorizontalAlignment="Center"
