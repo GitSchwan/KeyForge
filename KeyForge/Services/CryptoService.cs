@@ -11,7 +11,7 @@ public interface ICryptoService
     
     void InsertUserData(string username, string hashedPassword);
     
-    bool VerifyMasterPassword(string password, string storedHash);
+    bool VerifyPassword(string password, string storedHash);
 }
 
 public class CryptoService : ICryptoService
@@ -65,7 +65,7 @@ public class CryptoService : ICryptoService
         _dbContext.SaveChanges();
     }
 
-    public bool VerifyMasterPassword(string password, string storedHash)
+    public bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))
             return false;

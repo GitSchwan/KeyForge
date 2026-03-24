@@ -26,7 +26,7 @@ public class LoginService : ILoginService
         var user = _dbContext.Users.FirstOrDefault(u => u.Name == username); // If user doesn't exist, this will return null'
         if (user is null) return false;                                                                        
         
-        return _cryptoService.VerifyMasterPassword(password, user.MasterPassword);
+        return _cryptoService.VerifyPassword(password, user.MasterPassword);
     }
 
     public bool HasUsers()
