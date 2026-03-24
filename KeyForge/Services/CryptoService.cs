@@ -75,12 +75,6 @@ public class CryptoService : ICryptoService
     //Insert Vault Data
     public void InsertVaultData(string website, string username, string hashedPassword)
     {
-        Console.WriteLine("CWD:");
-        Console.WriteLine(Environment.CurrentDirectory);
-
-        Console.WriteLine("DB:");
-        Console.WriteLine(_dbContext.Database.GetDbConnection().DataSource);
-        
         var userid = _dbContext.Users.FirstOrDefault(u => u.Id == _sessionService.CurrentUserId);
         if (userid is null)
         {

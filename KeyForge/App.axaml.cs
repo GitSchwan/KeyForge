@@ -40,8 +40,10 @@ public partial class App : Application
             _dbContext = new KeyForgeDbContext();
             _dbContext.Database.Migrate();
 
-            ILoginService loginService = new LoginService(_dbContext, new SessionService());
-            ICryptoService cryptoService = new CryptoService(_dbContext, new SessionService());
+            var usersession = new SessionService();
+            
+            ILoginService loginService = new LoginService(_dbContext, usersession);
+            ICryptoService cryptoService = new CryptoService(_dbContext,usersession);
 
             desktop.MainWindow = new MainWindow
             {
