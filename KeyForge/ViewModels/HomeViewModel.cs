@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Models;
 using KeyForge.Services;
@@ -13,6 +14,8 @@ public class HomeViewModel : ViewModelBase
     private readonly SessionService _sessionService;
 
     public IRelayCommand NavigateToAddCommand { get; }
+    
+    public ICommand SaveCommand { get; }
 
     private string _welcomeMessage = string.Empty;
 
@@ -25,16 +28,25 @@ public class HomeViewModel : ViewModelBase
     public HomeViewModel(
         Action navigateToAdd,
         IVaultService vaultService,
-        SessionService sessionService)
+        SessionService sessionService )
     {
         NavigateToAddCommand = new RelayCommand(navigateToAdd);
         _vaultService = vaultService;
         _sessionService = sessionService;
+        SaveCommand = new RelayCommand<VaultEntry>(Save);
 
         WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername ?? "Gast"}.";
 
         Data = new ObservableCollection<VaultEntry>();
         LoadData();
+    }
+
+    private void Save(VaultEntry? entry)
+    {
+        if (entry is null)
+            return;
+
+        entry.IsModified = false;
     }
 
     private void LoadData()
