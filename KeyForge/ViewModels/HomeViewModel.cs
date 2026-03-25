@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Models;
 using KeyForge.Services;
@@ -10,11 +9,18 @@ namespace KeyForge.ViewModels;
 public class HomeViewModel : ViewModelBase
 {
     public ObservableCollection<VaultEntry> Data { get; }
-    private readonly Action _navigateToAdd;
     private readonly IVaultService _vaultService;
     private readonly SessionService _sessionService;
 
     public IRelayCommand NavigateToAddCommand { get; }
+
+    private string _welcomeMessage = string.Empty;
+
+    public string WelcomeMessage
+    {
+        get => _welcomeMessage;
+        set => SetProperty(ref _welcomeMessage, value);
+    }
 
     public HomeViewModel(
         Action navigateToAdd,
@@ -22,9 +28,10 @@ public class HomeViewModel : ViewModelBase
         SessionService sessionService)
     {
         NavigateToAddCommand = new RelayCommand(navigateToAdd);
-        _navigateToAdd = navigateToAdd;
         _vaultService = vaultService;
         _sessionService = sessionService;
+
+        WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername ?? "Gast"}.";
 
         Data = new ObservableCollection<VaultEntry>();
         LoadData();
@@ -37,10 +44,5 @@ public class HomeViewModel : ViewModelBase
 
         foreach (var entry in entries)
             Data.Add(entry);
-    }
-
-    private void NavigateToAdd()
-    {
-        _navigateToAdd();
     }
 }

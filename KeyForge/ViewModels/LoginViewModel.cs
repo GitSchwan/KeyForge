@@ -25,7 +25,7 @@ public partial class LoginViewModel : ViewModelBase
     }
 
     public IRelayCommand LoginCommand { get; }
-    public IRelayCommand NavCreateUserCommand { get;  }
+    public IRelayCommand NavCreateUserCommand { get; }
 
     public LoginViewModel(ILoginService loginService, Action navigateToHome, Action navigateToCreateUser)
     {
