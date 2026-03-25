@@ -48,7 +48,7 @@ public class CryptoService : ICryptoService
     /// <summary>
     /// Hashes the password using the PBKDF2 algorithm.
     /// </summary>
-    /// <param name="password"></param>
+    /// <param name="password"><see cref="string"/></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
     public string HashPassword(string password)
@@ -70,8 +70,8 @@ public class CryptoService : ICryptoService
     /// <summary>
     /// Inserts a new user into the database.
     /// </summary>
-    /// <param name="username"></param>
-    /// <param name="hashedPassword"></param>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="hashedPassword"><see cref="string"/></param>
     public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
@@ -83,9 +83,9 @@ public class CryptoService : ICryptoService
     /// <summary>
     /// Inserts a new vault entry into the database.
     /// </summary>
-    /// <param name="website"></param>
-    /// <param name="username"></param>
-    /// <param name="hashedPassword"></param>
+    /// <param name="website"><see cref="string"/></param>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="hashedPassword"><see cref="string"/></param>
     public void InsertVaultData(string website, string username, string hashedPassword)
     {
         var userid = _dbContext.Users.FirstOrDefault(u => u.Id == _sessionService.CurrentUserId);
