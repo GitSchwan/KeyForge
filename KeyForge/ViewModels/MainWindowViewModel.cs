@@ -1,4 +1,5 @@
-﻿using KeyForge.Services;
+﻿using KeyForge.Data;
+using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
 
@@ -6,6 +7,8 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly ILoginService _loginService;
     private readonly ICryptoService _cryptoService;
+    private readonly KeyForgeDbContext? _dbContext;
+    private readonly SessionService _sessionService;
 
     private ViewModelBase? _currentViewModel;
     public ViewModelBase? CurrentViewModel
@@ -14,10 +17,14 @@ public partial class MainWindowViewModel : ViewModelBase
         set => SetProperty(ref _currentViewModel, value);
     }
 
-    public MainWindowViewModel(ILoginService loginService, ICryptoService cryptoService)
+    public MainWindowViewModel(ILoginService loginService, 
+        ICryptoService cryptoService, 
+        KeyForgeDbContext dbContext, SessionService sessionService)
     {
         _loginService = loginService;
         _cryptoService = cryptoService;
+        _dbContext = dbContext;
+        _sessionService = sessionService;
 
         if (_loginService.HasUsers())
         {
@@ -31,7 +38,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToHome()
     {
-        CurrentViewModel = new HomeViewModel(NavigateToAdd);
+        CurrentViewModel = new HomeViewModel(NavigateToAdd, new VaultService(_dbContext),_sessionService);
     }
 
     private void NavigateToAdd()

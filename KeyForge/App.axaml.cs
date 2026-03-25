@@ -47,7 +47,7 @@ public partial class App : Application
 
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(loginService, cryptoService),
+                DataContext = new MainWindowViewModel(loginService, cryptoService, _dbContext, usersession),
             };
         }
 
