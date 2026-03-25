@@ -22,6 +22,7 @@ public class CryptoService : ICryptoService
 {
     private const int SaltSize = 16;
     private const int KeySize = 32;
+    private const string HashVersion = "v1";
 
     /// <summary>
     /// Represents the number of iterations used in the key derivation process
@@ -50,19 +51,16 @@ public class CryptoService : ICryptoService
             throw new ArgumentException("Password cannot be empty :3", nameof(password));
 
         byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
-
-        using var deriveBytes = new Rfc2898DeriveBytes(
+        byte[] hash = Rfc2898DeriveBytes.Pbkdf2(
             password,
             salt,
             Iterations,
-            HashAlgorithmName.SHA256);
+            HashAlgorithmName.SHA256,
+            KeySize);
 
-        byte[] hash = deriveBytes.GetBytes(KeySize);
-
-        // Store: iterations.salt.hash
-        return $"{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
+        return $"{HashVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
-    
+
     //Insert User Data 
     public void InsertUserData(string username, string hashedPassword)
     {
@@ -95,20 +93,37 @@ public class CryptoService : ICryptoService
             return false;
 
         var parts = storedHash.Split('.');
-        if (parts.Length != 3)
+        if (parts.Length != 4)
             return false;
 
-        int iterations = int.Parse(parts[0]);
-        byte[] salt = Convert.FromBase64String(parts[1]);
-        byte[] expectedHash = Convert.FromBase64String(parts[2]);
+        if (!string.Equals(parts[0], HashVersion, StringComparison.Ordinal))
+            return false;
 
-        using var deriveBytes = new Rfc2898DeriveBytes(
+        if (!int.TryParse(parts[1], out int iterations))
+            return false;
+
+        byte[] salt;
+        byte[] expectedHash;
+
+        try
+        {
+            salt = Convert.FromBase64String(parts[2]);
+            expectedHash = Convert.FromBase64String(parts[3]);
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+
+        if (salt.Length == 0 || expectedHash.Length == 0)
+            return false;
+
+        byte[] actualHash = Rfc2898DeriveBytes.Pbkdf2(
             password,
             salt,
             iterations,
-            HashAlgorithmName.SHA256);
-
-        byte[] actualHash = deriveBytes.GetBytes(expectedHash.Length);
+            HashAlgorithmName.SHA256,
+            expectedHash.Length);
 
         return CryptographicOperations.FixedTimeEquals(actualHash, expectedHash);
     }

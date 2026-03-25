@@ -39,13 +39,14 @@
                       IsReadOnly="True"
                       GridLinesVisibility="All"
                       BorderThickness="1"
+                      Width="600"
                       BorderBrush="SlateGray"
                       Background="#80000000">
                 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
                     <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
-                    <DataGridTextColumn Header="Passwort" Binding="{Binding Password}"/>
+                    <DataGridTextColumn Width="200" Header="Passwort" Binding="{Binding Password}"/>
                 </DataGrid.Columns>
                 
             </DataGrid>
