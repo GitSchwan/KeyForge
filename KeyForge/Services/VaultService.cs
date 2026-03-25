@@ -19,7 +19,12 @@ public class VaultService : IVaultService
     {
         _dbContext = dbContext;
     }
-
+    
+    /// <summary>
+    /// Gets all vault entries for a user
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public List<VaultEntry> GetVaultEntriesForUser(int userId)
     {
         return _dbContext.VaultEntries

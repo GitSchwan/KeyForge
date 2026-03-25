@@ -35,7 +35,7 @@ public partial class LoginViewModel : ViewModelBase
         LoginCommand = new RelayCommand(Login);
         NavCreateUserCommand = new RelayCommand(navigateToCreateUser);
     }
-
+    
     private void Login()
     {
         var username = _username;
