@@ -45,6 +45,12 @@ public class CryptoService : ICryptoService
         _sessionService = sessionService;
     }
 
+    /// <summary>
+    /// Hashes the password using the PBKDF2 algorithm.
+    /// </summary>
+    /// <param name="password"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public string HashPassword(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
@@ -61,7 +67,11 @@ public class CryptoService : ICryptoService
         return $"{HashVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
 
-    //Insert User Data 
+    /// <summary>
+    /// Inserts a new user into the database.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="hashedPassword"></param>
     public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
@@ -70,7 +80,12 @@ public class CryptoService : ICryptoService
         _dbContext.SaveChanges();
     }
 
-    //Insert Vault Data
+    /// <summary>
+    /// Inserts a new vault entry into the database.
+    /// </summary>
+    /// <param name="website"></param>
+    /// <param name="username"></param>
+    /// <param name="hashedPassword"></param>
     public void InsertVaultData(string website, string username, string hashedPassword)
     {
         var userid = _dbContext.Users.FirstOrDefault(u => u.Id == _sessionService.CurrentUserId);
@@ -86,7 +101,12 @@ public class CryptoService : ICryptoService
         _dbContext.SaveChanges();
     }
 
-    //Verify Password
+    /// <summary>
+    /// Verifies the password against the stored hash.
+    /// </summary>
+    /// <param name="password" ><see cref="string"/></param>
+    /// <param name="storedHash"><see cref="string"/></param>
+    /// <returns></returns>
     public bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))
