@@ -18,18 +18,21 @@
                                    FontSize="24"
                                    Margin="10"/>
 
-                        <TextBlock Text="Username"
-                                   HorizontalAlignment="Left"/>
+                        <Label Content="Nutzername"
+                               Target="CreateUserNameBox"
+                               HorizontalAlignment="Left"/>
 
                         <TextBox Watermark="Bitte gib einen Nutzernamen ein..."
                                  Text="{Binding Username}"
                                  Width="300"
+                                 x:Name="CreateUserNameBox"
                                  HorizontalAlignment="Left"
                                  Margin="0,10,0,0"/>
 
-                        <TextBlock Text="Masterpasswort"
-                                   HorizontalAlignment="Left"
-                                   Margin="0,10,0,0"/>
+                        <Label Content="Masterpasswort"
+                               HorizontalAlignment="Left"
+                               Target="MasterPasswordBox"
+                               Margin="0,10,0,0"/>
 
                         <TextBox x:Name="MasterPasswordBox"
                             Watermark="Bitte gib ein Masterpasswort ein..."
@@ -48,8 +51,9 @@
                             
                         </TextBox>
                         
-                        <TextBlock Text="Erneut eingeben"
+                        <Label Content="Erneut eingeben"
                                    HorizontalAlignment="Left"
+                                   Target="ConfirmBox"
                                    Margin="0,10,0,0"/>
                         
                         <TextBox x:Name="ConfirmBox" 
@@ -72,6 +76,7 @@
                         <Button Content="Nutzer anlegen"
                                 HorizontalAlignment="Center"
                                 Margin="10"
+                                HotKey="Return"
                                 Command="{Binding CreateUserCommand}" />
                         
                     </StackPanel>
