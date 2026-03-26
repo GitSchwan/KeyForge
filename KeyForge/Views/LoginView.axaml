@@ -10,8 +10,11 @@
                 HorizontalAlignment="Right"
                 Margin="5"
                 Command="{Binding NavCreateUserCommand}"/>
-        <StackPanel VerticalAlignment="Center" Margin="0,200,0,0" Width="300" HorizontalAlignment="Center" >
-            <Border>
+        <StackPanel VerticalAlignment="Center" 
+                    Margin="0,150,0,0" 
+                    Width="400" 
+                    HorizontalAlignment="Center">
+            <Border Width="400" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" Background="#30000000">
                 <StackPanel>
                     <TextBlock Text="Anmelden"
                                HorizontalAlignment="Center"
@@ -21,19 +24,20 @@
 
                     <Label Content="Nutzername"
                            Target="UsernameBox"
-                           HorizontalAlignment="Left"/>
+                           HorizontalAlignment="Left"
+                           Margin="50,0,0,0"/>
 
                     <TextBox Watermark="Bitte gib deinen Nutzernamen ein..."
                              Text="{Binding Username}"
                              Width="300"
                              x:Name="UsernameBox"
                              HorizontalAlignment="Left"
-                             Margin="0,10,0,0"/>
+                             Margin="50,10,0,0"/>
 
                     <Label Content="Masterpasswort"
                            Target="PasswordBox"
                            HorizontalAlignment="Left"
-                           Margin="0,10,0,0"/>
+                           Margin="50,10,0,0"/>
 
                     <TextBox x:Name="PasswordBox"
                              Watermark="Bitte gib dein Masterpasswort ein..."
@@ -41,7 +45,7 @@
                              Width="300"
                              PasswordChar="*"
                              HorizontalAlignment="Left"
-                             Margin="0,10,0,0">
+                             Margin="50,10,0,0">
                         <TextBox.InnerRightContent>
                             <ToggleButton 
                                 Content="👁" 
