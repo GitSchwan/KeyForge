@@ -32,7 +32,7 @@ public class HomeViewModel : ViewModelBase
         _vaultService = vaultService;
         _sessionService = sessionService;
 
-        WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername ?? "Gast"}";
+        WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
 
         Data = new ObservableCollection<VaultEntry>();
         LoadData();
