@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using System.ComponentModel.DataAnnotations;
+using KeyForge.Data;
 
 namespace KeyForge.Models;
 
@@ -9,7 +11,8 @@ namespace KeyForge.Models;
 public class VaultEntry : INotifyPropertyChanged
 {
     public int Id { get; set; }
-    
+
+    private bool _isLoading;
 
     private string _website = string.Empty;
 
@@ -23,7 +26,8 @@ public class VaultEntry : INotifyPropertyChanged
             {
                 _website = value;
                 OnPropertyChanged();
-                IsModified = true;
+                if (!_isLoading)
+                    IsModified = true;
             }   
         }
     }
@@ -39,7 +43,8 @@ public class VaultEntry : INotifyPropertyChanged
             {
                 _websiteusername = value;
                 OnPropertyChanged();
-                IsModified = true;
+                if (!_isLoading)
+                    IsModified = true;
             }   
         }
     }
@@ -58,22 +63,45 @@ public class VaultEntry : INotifyPropertyChanged
             {
                 _password = value;
                 OnPropertyChanged();
-                IsModified = true;
+                if (!_isLoading)
+                    IsModified = true;
             }
         }
     }
 
     public User? User { get; set; }
 
-    private bool _isModified;
+    private bool _isModified = false;
 
     public bool IsModified
     {
         get => _isModified;
         set{ 
             _isModified = value; 
+            Console.WriteLine("Modified: " + _isModified);
             OnPropertyChanged();
         }
+    }
+
+    public void Save(VaultEntry? entry)
+    {
+        Console.WriteLine("Save");
+        if (entry is null)
+            return;
+
+        using (var context = new KeyForgeDbContext())
+        {
+            var existingEntry = context.VaultEntries.Find(entry.Id);
+            if (existingEntry != null)
+            {
+                existingEntry.Website = entry.Website;
+                existingEntry.Websiteusername = entry.Websiteusername;
+                existingEntry.Password = entry.Password;
+                context.SaveChanges();
+            }
+        }
+
+        entry.IsModified = false;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -88,9 +116,15 @@ public class VaultEntry : INotifyPropertyChanged
 
     public VaultEntry(string website, string websiteusername ,int userId, string password)
     {
+        _isLoading = true; // prevent Save Button from being enabled
+        IsModified = false;
+        
         Website = website;
         Websiteusername = websiteusername;
         UserId = userId;
         Password = password;
+        
+        _isLoading = false;
+        IsModified = false;
     }
 }

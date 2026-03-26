@@ -1,7 +1,9 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:KeyForge.ViewModels"
+             xmlns:models="clr-namespace:KeyForge.Models"
              x:Class="KeyForge.Views.HomeView"
+             x:Name="Root"
              x:DataType="vm:HomeViewModel">
     <StackPanel>
         <Border Background="#80000000">
@@ -9,55 +11,62 @@
                   Margin="0,0,0,0"
                   ColumnDefinitions="Auto, *, Auto, Auto"
                   RowDefinitions="Auto">
-                
+
                 <TextBlock Grid.Column="0"
-                    Text="KeyForge"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="44"
-                    Margin="20,0,0,20"/>
-                
+                           Text="KeyForge"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="44"
+                           Margin="20,0,0,20"/>
+
                 <Button Grid.Column="2"
                         Command="{Binding NavigateToAddCommand}"
                         Margin="10,0,10,0"
                         Content="+Add"/>
-                
+
                 <Button Grid.Column="3"
                         Margin="10,0,10,0"
                         Content="⚙"/>
-      
+
             </Grid>
         </Border>
-        
+
         <Grid ShowGridLines="False"
               ColumnDefinitions="Auto, Auto"
               RowDefinitions="Auto, Auto"
               Margin="0,10,0,0">
-            
+
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                        Text="{Binding WelcomeMessage}"
                        FontSize="30"/>
-            
+
             <DataGrid Grid.Row="1" Grid.Column="1"
                       ItemsSource="{Binding Data}"
-                      IsReadOnly="True"
+                      IsReadOnly="False"
                       GridLinesVisibility="All"
                       BorderThickness="1"
                       Width="600"
                       BorderBrush="SlateGray"
                       Background="#80000000">
-                
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
                     <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
                     <DataGridTextColumn Width="200" Header="Passwort" Binding="{Binding Password}"/>
+                    <DataGridTemplateColumn Header="Save">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="✔"
+                                        IsVisible="{Binding IsModified}"
+                                        Command="{Binding Save}"
+                                        CommandParameter="{Binding}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
-                
+
             </DataGrid>
-            
+
         </Grid>
     </StackPanel>
-
-    
-
 </UserControl>
