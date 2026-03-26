@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.Input;
 using KeyForge.Data;
+using KeyForge.ViewModels;
 
 namespace KeyForge.Models;
-
 
 public class VaultEntry : INotifyPropertyChanged
 {
@@ -76,18 +76,20 @@ public class VaultEntry : INotifyPropertyChanged
     public bool IsModified
     {
         get => _isModified;
-        set{ 
-            _isModified = value; 
-            Console.WriteLine("Modified: " + _isModified);
+        set
+        { 
+            _isModified = value;
             OnPropertyChanged();
         }
     }
 
-    public void Save(VaultEntry? entry)
+    public IRelayCommand SaveCommand { get; }
+    public IRelayCommand DeleteEntryCommand { get; }
+
+    public static void Save(VaultEntry? entry)
     {
         Console.WriteLine("Save");
-        if (entry is null)
-            return;
+        if (entry is null) return;
 
         using (var context = new KeyForgeDbContext())
         {
@@ -104,6 +106,17 @@ public class VaultEntry : INotifyPropertyChanged
         entry.IsModified = false;
     }
 
+    public static void DeleteEntry(VaultEntry? entry)
+    {
+        if (entry is null) return;
+        
+        using (var context = new KeyForgeDbContext())
+        {
+            context.VaultEntries.Remove(entry);
+            context.SaveChanges();
+        }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
@@ -113,17 +126,19 @@ public class VaultEntry : INotifyPropertyChanged
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-
-    public VaultEntry(string website, string websiteusername ,int userId, string password)
+    public VaultEntry(string website, string websiteusername, int userId, string password)
     {
-        _isLoading = true; // prevent Save Button from being enabled
+        _isLoading = true;
         IsModified = false;
-        
+
         Website = website;
         Websiteusername = websiteusername;
         UserId = userId;
         Password = password;
-        
+
+        SaveCommand = new RelayCommand(() => Save(this));
+        DeleteEntryCommand = new RelayCommand(() => DeleteEntry(this));
+
         _isLoading = false;
         IsModified = false;
     }

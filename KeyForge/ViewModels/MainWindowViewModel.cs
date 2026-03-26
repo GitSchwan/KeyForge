@@ -7,7 +7,7 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly ILoginService _loginService;
     private readonly ICryptoService _cryptoService;
-    private readonly KeyForgeDbContext? _dbContext;
+    private readonly KeyForgeDbContext _dbContext;
     private readonly SessionService _sessionService;
 
     private ViewModelBase? _currentViewModel;

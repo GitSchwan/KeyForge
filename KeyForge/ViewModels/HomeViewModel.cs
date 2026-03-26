@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Models;
 using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
+
+interface IHomeViewModel
+{
+    void LoadData();
+}
 
 public class HomeViewModel : ViewModelBase
 {
@@ -16,7 +20,6 @@ public class HomeViewModel : ViewModelBase
     public IRelayCommand NavigateToAddCommand { get; }
 
     private string _welcomeMessage = string.Empty;
-
     public string WelcomeMessage
     {
         get => _welcomeMessage;
@@ -26,7 +29,7 @@ public class HomeViewModel : ViewModelBase
     public HomeViewModel(
         Action navigateToAdd,
         IVaultService vaultService,
-        SessionService sessionService )
+        SessionService sessionService)
     {
         NavigateToAddCommand = new RelayCommand(navigateToAdd);
         _vaultService = vaultService;

@@ -57,13 +57,27 @@
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
                     <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
                     <DataGridTextColumn Width="200" Header="Passwort" Binding="{Binding Password}" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Save">
+                    
+                    <DataGridTemplateColumn Header="Speichern">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="✔"
                                         IsVisible="{Binding IsModified}"
-                                        Command="{Binding Save}"
-                                        CommandParameter="{Binding}" 
+                                        Command="{Binding SaveCommand}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Background="#80000000"
+                                        Foreground="White"
+                                        BorderBrush="White"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                
+                    <DataGridTemplateColumn Header="Löschen">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="X"
+                                        Command="{Binding DeleteEntryCommand}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Background="#80000000"
@@ -73,9 +87,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-
             </DataGrid>
-
         </Grid>
     </StackPanel>
 </UserControl>
