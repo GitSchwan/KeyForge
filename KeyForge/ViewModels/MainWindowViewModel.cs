@@ -43,7 +43,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToAdd()
     {
-        CurrentViewModel = new AddViewModel(NavigateToHome, _cryptoService);
+        CurrentViewModel = new AddViewModel(NavigateToHome, _cryptoService, _sessionService);
     }
 
     private void NavigateToCreateUser()

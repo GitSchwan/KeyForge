@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using System;
+using System.Linq;
+using System.Security.Cryptography;
 using KeyForge.Data;
 using KeyForge.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,19 +13,26 @@ namespace KeyForge.Services;
 public interface ICryptoService
 {
     string HashPassword(string password);
-    
+
     void InsertUserData(string username, string hashedPassword);
-    
+
     bool VerifyPassword(string password, string storedHash);
+
+    void InsertVaultData(string website, string username, string encryptedPassword);
     
-    void InsertVaultData(string website, string username, string hashedPassword);
+    string EncryptPassword(string password, string masterPassword);
+    
+    string DecryptPassword(string encryptedPassword, string masterPassword);
 }
 
 public class CryptoService : ICryptoService
 {
     private const int SaltSize = 16;
     private const int KeySize = 32;
+    private const int NonceSize = 12;
+    private const int TagSize = 16;
     private const string HashVersion = "v1";
+    private const string EncVersion = "v1";
 
     /// <summary>
     /// Represents the number of iterations used in the key derivation process
@@ -45,12 +55,6 @@ public class CryptoService : ICryptoService
         _sessionService = sessionService;
     }
 
-    /// <summary>
-    /// Hashes the password using the PBKDF2 algorithm.
-    /// </summary>
-    /// <param name="password"><see cref="string"/></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
     public string HashPassword(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
@@ -67,26 +71,15 @@ public class CryptoService : ICryptoService
         return $"{HashVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
 
-    /// <summary>
-    /// Inserts a new user into the database.
-    /// </summary>
-    /// <param name="username"><see cref="string"/></param>
-    /// <param name="hashedPassword"><see cref="string"/></param>
     public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
-        
+
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
     }
 
-    /// <summary>
-    /// Inserts a new vault entry into the database.
-    /// </summary>
-    /// <param name="website"><see cref="string"/></param>
-    /// <param name="username"><see cref="string"/></param>
-    /// <param name="hashedPassword"><see cref="string"/></param>
-    public void InsertVaultData(string website, string username, string hashedPassword)
+    public void InsertVaultData(string website, string username, string encryptedPassword)
     {
         var userid = _dbContext.Users.FirstOrDefault(u => u.Id == _sessionService.CurrentUserId);
         if (userid is null)
@@ -94,19 +87,13 @@ public class CryptoService : ICryptoService
             Console.WriteLine("DEBUG: No user with id " + _sessionService.CurrentUserId + " found");
             return;
         }
-        
-        var vaultEntry = new VaultEntry(website, username, _sessionService.CurrentUserId, hashedPassword);
-        
+
+        var vaultEntry = new VaultEntry(website, username, _sessionService.CurrentUserId, encryptedPassword);
+
         _dbContext.VaultEntries.Add(vaultEntry);
         _dbContext.SaveChanges();
     }
 
-    /// <summary>
-    /// Verifies the password against the stored hash.
-    /// </summary>
-    /// <param name="password" ><see cref="string"/></param>
-    /// <param name="storedHash"><see cref="string"/></param>
-    /// <returns></returns>
     public bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))
@@ -146,5 +133,70 @@ public class CryptoService : ICryptoService
             expectedHash.Length);
 
         return CryptographicOperations.FixedTimeEquals(actualHash, expectedHash);
+    }
+
+    public string EncryptPassword(string password, string masterPassword)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ArgumentException("Password cannot be empty :3", nameof(password));
+
+        if (string.IsNullOrWhiteSpace(masterPassword))
+            throw new ArgumentException("Master password cannot be empty :3", nameof(masterPassword));
+
+        byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
+        byte[] key = Rfc2898DeriveBytes.Pbkdf2(
+            masterPassword,
+            salt,
+            Iterations,
+            HashAlgorithmName.SHA256,
+            KeySize);
+
+        byte[] nonce = RandomNumberGenerator.GetBytes(NonceSize);
+        byte[] plaintext = System.Text.Encoding.UTF8.GetBytes(password);
+        byte[] ciphertext = new byte[plaintext.Length];
+        byte[] tag = new byte[TagSize];
+
+        using var aes = new AesGcm(key, TagSize);
+        aes.Encrypt(nonce, plaintext, ciphertext, tag);
+
+        return $"{EncVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(nonce)}.{Convert.ToBase64String(tag)}.{Convert.ToBase64String(ciphertext)}";
+    }
+
+    public string DecryptPassword(string encryptedPassword, string masterPassword)
+    {
+        if (string.IsNullOrWhiteSpace(encryptedPassword))
+            throw new ArgumentException("Encrypted password cannot be empty :3", nameof(encryptedPassword));
+
+        if (string.IsNullOrWhiteSpace(masterPassword))
+            throw new ArgumentException("Master password cannot be empty :3", nameof(masterPassword));
+
+        var parts = encryptedPassword.Split('.');
+        if (parts.Length != 6)
+            throw new FormatException("Invalid encrypted password format :3");
+
+        if (!string.Equals(parts[0], EncVersion, StringComparison.Ordinal))
+            throw new FormatException("Unsupported encryption version :3");
+
+        if (!int.TryParse(parts[1], out _))
+            throw new FormatException("Invalid iteration count.");
+
+        byte[] salt = Convert.FromBase64String(parts[2]);
+        byte[] nonce = Convert.FromBase64String(parts[3]);
+        byte[] tag = Convert.FromBase64String(parts[4]);
+        byte[] ciphertext = Convert.FromBase64String(parts[5]);
+
+        byte[] key = Rfc2898DeriveBytes.Pbkdf2(
+            masterPassword,
+            salt,
+            Iterations,
+            HashAlgorithmName.SHA256,
+            KeySize);
+
+        byte[] plaintext = new byte[ciphertext.Length];
+
+        using var aes = new AesGcm(key, TagSize);
+        aes.Decrypt(nonce, ciphertext, tag, plaintext);
+
+        return System.Text.Encoding.UTF8.GetString(plaintext);
     }
 }

@@ -31,7 +31,7 @@ public class LoginService : ILoginService
         var success = _cryptoService.VerifyPassword(password, user.MasterPassword);
         if (!success) return false;
 
-        _sessionService.SetCurrentUser(user.Id, user.Name);
+        _sessionService.SetCurrentUser(user.Id, user.Name, user.MasterPassword);
         return true;
     }
 

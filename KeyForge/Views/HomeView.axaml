@@ -56,7 +56,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
                     <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
-                    <DataGridTextColumn Width="200" Header="Passwort" Binding="{Binding Password}"/>
+                    <DataGridTextColumn Width="200" Header="Passwort" Binding="{Binding Password}" IsReadOnly="True"/>
                     <DataGridTemplateColumn Header="Save">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

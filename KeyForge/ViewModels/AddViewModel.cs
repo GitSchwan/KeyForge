@@ -8,6 +8,7 @@ public class AddViewModel : ViewModelBase
 {
     private readonly Action _navigateToHome;
     private readonly ICryptoService _cryptoService;
+    private readonly SessionService _sessionService;
 
     
     private string? _addViewWebsite;
@@ -38,12 +39,13 @@ public class AddViewModel : ViewModelBase
     // Back Button
     public IRelayCommand ToHomeView { get; }
 
-    public AddViewModel(Action navigateToHome, ICryptoService cryptoService)
+    public AddViewModel(Action navigateToHome, ICryptoService cryptoService, SessionService sessionService)
     {
         _navigateToHome = navigateToHome;
         ToHomeView = new RelayCommand(GoBackToHomeView);
         _cryptoService = cryptoService;
         AddViewSaveCommand = new RelayCommand(SecureAndSaveData);
+        _sessionService = sessionService;
     }
     
     private void SecureAndSaveData()
@@ -55,9 +57,11 @@ public class AddViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(website) ||
             string.IsNullOrWhiteSpace(username) ||
             string.IsNullOrWhiteSpace(password)) return;
-        
-        var hashedPassword = _cryptoService.HashPassword(password);
-        _cryptoService.InsertVaultData(website, username, hashedPassword);
+
+
+        var master = _sessionService.HashedMasterPassword;
+        var encryptedPassword = _cryptoService.EncryptPassword(password, master);
+        _cryptoService.InsertVaultData(website, username, encryptedPassword);
         GoBackToHomeView();
         
     }
