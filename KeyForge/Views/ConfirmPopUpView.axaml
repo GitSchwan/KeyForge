@@ -2,27 +2,84 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:KeyForge.ViewModels"
         x:Class="KeyForge.Views.ConfirmPopUpView"
-        Title="Confirm"
+        Title="Bestätigen"
         Width="400"
         Height="200"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
+       
+        SystemDecorations="None"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0"
+        
         WindowStartupLocation="CenterOwner"
+        Icon="/Assets/anvil.ico"
         CanResize="False"
         ShowInTaskbar="False"
         x:DataType="vm:ConfirmPopUpViewModel">
-    <Grid RowDefinitions="*,Auto" Margin="20">
-        <TextBlock Grid.Row="0"
-                   Text="{Binding Message}"
-                   TextWrapping="Wrap"
-                   VerticalAlignment="Center" />
+    
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#30000000"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
 
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Spacing="8">
-            <Button Content="Cancel"
-                    Click="Cancel_Click" />
-            <Button Content="OK"
-                    Click="Confirm_Click" />
-        </StackPanel>
+        <Style Selector="Button:pointerover">
+            <Setter Property="Background" Value="#444"/>
+        </Style>
+
+        <Style Selector="Button:pressed">
+            <Setter Property="Background" Value="#666"/>
+        </Style>
+    </Window.Styles>
+    
+    <Grid RowDefinitions="Auto,*">
+    
+        <!-- Custom Titlebar -->
+        <Border Background="#222" Height="40" PointerPressed="TitleBar_PointerPressed">
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+            
+                <!-- Titel -->
+                <TextBlock Text="Bestätigen"
+                           VerticalAlignment="Center"
+                           Margin="10,0"/>
+
+                <!-- Minimize -->
+                <Button Grid.Column="1" Content="—" Click="Minimize_Click"/>
+
+                <!-- Maximize -->
+                <Button Grid.Column="2" Content="□" Click="Maximize_Click"/>
+
+                <!-- Close -->
+                <Button Grid.Column="3" Content="X" Click="Close_Click"/>
+            
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <Grid Grid.Row="1">
+            <Grid RowDefinitions="*,Auto" Margin="20" HorizontalAlignment="Center">
+                <TextBlock Grid.Row="0"
+                           Text="{Binding Message}"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Spacing="8">
+                    <Button Content="Abbrechen"
+                            Click="Cancel_Click"/>
+                    <Button Content="Bestätigen"
+                            Click="Confirm_Click"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
     </Grid>
+    
+    
+
 </Window>

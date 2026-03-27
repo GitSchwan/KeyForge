@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using KeyForge.ViewModels;
 
@@ -20,4 +21,27 @@ public partial class ConfirmPopUpView : Window
     {
         Close(false);
     }
+    
+    private void Minimize_Click(object? sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Minimized;
+    }
+
+    private void Maximize_Click(object? sender, RoutedEventArgs e)
+    {
+        this.WindowState = this.WindowState == WindowState.Maximized
+            ? WindowState.Normal
+            : WindowState.Maximized;
+    }
+
+    private void Close_Click(object? sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
+    
+    private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        BeginMoveDrag(e);
+    }
+    
 }
