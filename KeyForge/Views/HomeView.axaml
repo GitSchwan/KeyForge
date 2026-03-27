@@ -1,8 +1,12 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:KeyForge.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:models="clr-namespace:KeyForge.Models"
              x:Class="KeyForge.Views.HomeView"
+             
              x:Name="Root"
              x:DataType="vm:HomeViewModel">
     <StackPanel>
@@ -63,7 +67,8 @@
                             <DataTemplate>
                                 <Button Content="✔"
                                         IsVisible="{Binding IsModified}"
-                                        Command="{Binding SaveCommand}"
+                                        Command="{Binding DataContext.SaveCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Background="#80000000"
@@ -72,12 +77,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                
+
                     <DataGridTemplateColumn Header="Löschen">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="X"
-                                        Command="{Binding DeleteEntryCommand}"
+                                        Command="{Binding DataContext.DeleteEntryCommand, ElementName=Root}"
+                                        CommandParameter="{Binding}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Background="#80000000"

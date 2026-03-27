@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using KeyForge.Data;
 using KeyForge.Models;
 using KeyForge.Services;
 
@@ -25,7 +26,45 @@ public class HomeViewModel : ViewModelBase
         get => _welcomeMessage;
         set => SetProperty(ref _welcomeMessage, value);
     }
+    
+    public IRelayCommand<VaultEntry> SaveCommand { get; }
+    public IRelayCommand<VaultEntry> DeleteEntryCommand { get; }
 
+    public static void Save(VaultEntry? entry)
+    {
+        if (entry is null) return;
+
+        using (var context = new KeyForgeDbContext())
+        {
+            var existingEntry = context.VaultEntries.Find(entry.Id);
+            if (existingEntry != null)
+            {
+                existingEntry.Website = entry.Website;
+                existingEntry.Websiteusername = entry.Websiteusername;
+                existingEntry.Password = entry.Password;
+                context.SaveChanges();
+            }
+        }
+
+        entry.IsModified = false;
+    }
+
+    public static void DeleteEntry(VaultEntry? entry)
+    {
+        if (entry is null) return;
+
+        using (var context = new KeyForgeDbContext())
+        {
+            context.VaultEntries.Remove(entry);
+            context.SaveChanges();
+        }
+    }
+
+
+    /// <summary>
+    /// Represents the ViewModel for the Home view, managing data and commands for displaying and interacting
+    /// with the user's vault entries.
+    /// </summary>
     public HomeViewModel(
         Action navigateToAdd,
         IVaultService vaultService,
@@ -34,6 +73,10 @@ public class HomeViewModel : ViewModelBase
         NavigateToAddCommand = new RelayCommand(navigateToAdd);
         _vaultService = vaultService;
         _sessionService = sessionService;
+        
+        
+        SaveCommand = new RelayCommand<VaultEntry>(Save);
+        DeleteEntryCommand = new RelayCommand<VaultEntry>(DeleteEntry);
 
         WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
 

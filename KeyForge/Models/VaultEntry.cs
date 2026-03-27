@@ -83,40 +83,6 @@ public class VaultEntry : INotifyPropertyChanged
         }
     }
 
-    public IRelayCommand SaveCommand { get; }
-    public IRelayCommand DeleteEntryCommand { get; }
-
-    public static void Save(VaultEntry? entry)
-    {
-        Console.WriteLine("Save");
-        if (entry is null) return;
-
-        using (var context = new KeyForgeDbContext())
-        {
-            var existingEntry = context.VaultEntries.Find(entry.Id);
-            if (existingEntry != null)
-            {
-                existingEntry.Website = entry.Website;
-                existingEntry.Websiteusername = entry.Websiteusername;
-                existingEntry.Password = entry.Password;
-                context.SaveChanges();
-            }
-        }
-
-        entry.IsModified = false;
-    }
-
-    public static void DeleteEntry(VaultEntry? entry)
-    {
-        if (entry is null) return;
-        
-        using (var context = new KeyForgeDbContext())
-        {
-            context.VaultEntries.Remove(entry);
-            context.SaveChanges();
-        }
-    }
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
@@ -135,9 +101,6 @@ public class VaultEntry : INotifyPropertyChanged
         Websiteusername = websiteusername;
         UserId = userId;
         Password = password;
-
-        SaveCommand = new RelayCommand(() => Save(this));
-        DeleteEntryCommand = new RelayCommand(() => DeleteEntry(this));
 
         _isLoading = false;
         IsModified = false;
