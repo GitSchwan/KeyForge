@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Data;
 using KeyForge.Models;
 using KeyForge.Services;
+using KeyForge.Views;
 
 namespace KeyForge.ViewModels;
-
-interface IHomeViewModel
-{
-    void LoadData();
-}
 
 public class HomeViewModel : ViewModelBase
 {
@@ -19,6 +18,8 @@ public class HomeViewModel : ViewModelBase
     private readonly SessionService _sessionService;
 
     public IRelayCommand NavigateToAddCommand { get; }
+    public IRelayCommand<VaultEntry> SaveCommand { get; }
+    public IRelayCommand<VaultEntry> DeleteEntryCommand { get; }
 
     private string _welcomeMessage = string.Empty;
     public string WelcomeMessage
@@ -26,9 +27,47 @@ public class HomeViewModel : ViewModelBase
         get => _welcomeMessage;
         set => SetProperty(ref _welcomeMessage, value);
     }
-    
-    public IRelayCommand<VaultEntry> SaveCommand { get; }
-    public IRelayCommand<VaultEntry> DeleteEntryCommand { get; }
+
+    public HomeViewModel(
+        Action navigateToAdd,
+        IVaultService vaultService,
+        SessionService sessionService)
+    {
+        NavigateToAddCommand = new RelayCommand(navigateToAdd);
+        _vaultService = vaultService;
+        _sessionService = sessionService;
+
+        SaveCommand = new RelayCommand<VaultEntry>(Save);
+        DeleteEntryCommand = new AsyncRelayCommand<VaultEntry>(DeleteEntryAsync);
+
+        WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
+
+        Data = new ObservableCollection<VaultEntry>();
+        LoadData();
+    }
+
+    private async Task DeleteEntryAsync(VaultEntry? entry)
+    {
+        if (entry is null)
+            return;
+
+        var dialog = new ConfirmPopUpView
+        {
+            DataContext = new ConfirmPopUpViewModel("Wirklich löschen?")
+        };
+
+        var owner = App.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+            ? desktop.MainWindow
+            : null;
+
+        bool confirmed = owner is not null && await dialog.ShowDialog<bool>(owner);
+
+        if (confirmed)
+        {
+            DeleteEntry(entry);
+            Data.Remove(entry);
+        }
+    }
 
     public static void Save(VaultEntry? entry)
     {
@@ -58,30 +97,6 @@ public class HomeViewModel : ViewModelBase
             context.VaultEntries.Remove(entry);
             context.SaveChanges();
         }
-    }
-
-
-    /// <summary>
-    /// Represents the ViewModel for the Home view, managing data and commands for displaying and interacting
-    /// with the user's vault entries.
-    /// </summary>
-    public HomeViewModel(
-        Action navigateToAdd,
-        IVaultService vaultService,
-        SessionService sessionService)
-    {
-        NavigateToAddCommand = new RelayCommand(navigateToAdd);
-        _vaultService = vaultService;
-        _sessionService = sessionService;
-        
-        
-        SaveCommand = new RelayCommand<VaultEntry>(Save);
-        DeleteEntryCommand = new RelayCommand<VaultEntry>(DeleteEntry);
-
-        WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
-
-        Data = new ObservableCollection<VaultEntry>();
-        LoadData();
     }
 
     private void LoadData()

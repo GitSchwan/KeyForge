@@ -1,0 +1,28 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:KeyForge.ViewModels"
+        x:Class="KeyForge.Views.ConfirmPopUpView"
+        Title="Confirm"
+        Width="400"
+        Height="200"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False"
+        x:DataType="vm:ConfirmPopUpViewModel">
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <TextBlock Grid.Row="0"
+                   Text="{Binding Message}"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Center" />
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="8">
+            <Button Content="Cancel"
+                    Click="Cancel_Click" />
+            <Button Content="OK"
+                    Click="Confirm_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
