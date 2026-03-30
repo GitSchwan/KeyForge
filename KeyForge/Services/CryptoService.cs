@@ -32,7 +32,7 @@ public class CryptoService : ICryptoService
     private const int NonceSize = 12;
     private const int TagSize = 16;
     private const string HashVersion = "v1";
-    private const string EncVersion = "v1";
+    private const string EncVersion = "v2";
  
     
     /// <summary>

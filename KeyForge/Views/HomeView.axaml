@@ -64,7 +64,8 @@
                       Width="800"
                       RowHeight="42"
                       BorderBrush="SlateGray"
-                      Background="#80000000">
+                      Background="#80000000"
+                      DoubleTapped="DataGrid_DoubleTapped">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input.Platform;
 using KeyForge.Data;
 using KeyForge.Models;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +46,24 @@ public class VaultService : IVaultService
     /// <returns></returns>
     public string getUserSpecifcWebsitePassword(int id, int userId)
     {
-        return _dbContext.VaultEntries.AsNoTracking().Where(v => v.Id == id && v.UserId == userId).FirstOrDefault().Password;
+        try
+        {
+            return _dbContext.VaultEntries.AsNoTracking().Where(v => v.Id == id && v.UserId == userId).FirstOrDefault()?.Password ?? string.Empty; 
+        }
+        catch
+        {
+            return string.Empty;
+        }
+            
     }
+
+    public static IClipboard Get()
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: { } window }) {
+            return window.Clipboard!;
+        }
+
+        return null!;
+    }
+    
 }
