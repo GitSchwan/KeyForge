@@ -7,6 +7,8 @@ namespace KeyForge.ViewModels;
 public partial class LoginViewModel : ViewModelBase
 {
     private readonly ILoginService _loginService;
+    private readonly ICryptoService _cryptoService;
+    private readonly SessionService _sessionService;
     private readonly Action _navigateToHome;
     private readonly Action _navigateToCreateUser;
 
@@ -27,11 +29,13 @@ public partial class LoginViewModel : ViewModelBase
     public IRelayCommand LoginCommand { get; }
     public IRelayCommand NavCreateUserCommand { get; }
 
-    public LoginViewModel(ILoginService loginService, Action navigateToHome, Action navigateToCreateUser)
+    public LoginViewModel(ICryptoService cryptoService ,ILoginService loginService, SessionService sessionService, Action navigateToHome, Action navigateToCreateUser)
     {
         _loginService = loginService;
         _navigateToHome = navigateToHome;
         _navigateToCreateUser = navigateToCreateUser;
+        _cryptoService = cryptoService;
+        _sessionService = sessionService;
         LoginCommand = new RelayCommand(Login);
         NavCreateUserCommand = new RelayCommand(navigateToCreateUser);
     }
@@ -43,9 +47,13 @@ public partial class LoginViewModel : ViewModelBase
 
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return;
 
-        var done = _loginService.Login(username, password);
+        var done = _loginService.LoginServiceLogin(username, password);
         if (done)
         {
+            var key = _cryptoService.DeriveEncryptionKey(password, _sessionService.HashedMasterPassword);
+            
+            _sessionService.EncryptionKey = key;
+            
             _navigateToHome();
         }
     }

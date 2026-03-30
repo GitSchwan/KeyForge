@@ -6,7 +6,7 @@ namespace KeyForge.Services;
 
 public interface ILoginService
 {
-    bool Login(string username, string password);
+    bool LoginServiceLogin(string username, string password);
     bool HasUsers();
 }
 
@@ -23,7 +23,7 @@ public class LoginService : ILoginService
         _sessionService = sessionService;
     }
 
-    public bool Login(string username, string password)
+    public bool LoginServiceLogin(string username, string password)
     {
         var user = _dbContext.Users.FirstOrDefault(u => u.Name == username);
         if (user is null) return false;

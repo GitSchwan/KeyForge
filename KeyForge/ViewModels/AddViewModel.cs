@@ -60,7 +60,7 @@ public class AddViewModel : ViewModelBase
 
 
         var master = _sessionService.HashedMasterPassword;
-        var encryptedPassword = _cryptoService.EncryptPassword(password, master);
+        var encryptedPassword = _cryptoService.EncryptPassword(password);
         _cryptoService.InsertVaultData(website, username, encryptedPassword);
         GoBackToHomeView();
         

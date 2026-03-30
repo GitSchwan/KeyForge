@@ -28,7 +28,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
         if (_loginService.HasUsers())
         {
-            CurrentViewModel = new LoginViewModel(_loginService, NavigateToHome, NavigateToCreateUser);
+            CurrentViewModel = new LoginViewModel(_cryptoService ,_loginService, _sessionService, NavigateToHome, NavigateToCreateUser);
         }
         else
         {
@@ -53,6 +53,6 @@ public partial class MainWindowViewModel : ViewModelBase
     
     private void NavigateToLogin()
     {
-        CurrentViewModel = new LoginViewModel(_loginService, NavigateToHome, NavigateToCreateUser);
+        CurrentViewModel = new LoginViewModel(_cryptoService ,_loginService, _sessionService, NavigateToHome, NavigateToCreateUser);
     }
 }

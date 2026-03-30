@@ -13,6 +13,8 @@ namespace KeyForge.ViewModels;
 
 public class HomeViewModel : ViewModelBase
 {
+    #region Properties and Command
+    
     public ObservableCollection<VaultEntry> Data { get; }
     private readonly IVaultService _vaultService;
     private readonly SessionService _sessionService;
@@ -30,6 +32,8 @@ public class HomeViewModel : ViewModelBase
         get => _welcomeMessage;
         set => SetProperty(ref _welcomeMessage, value);
     }
+    
+    #endregion
 
     public HomeViewModel(
         Action navigateToAdd,
@@ -101,7 +105,7 @@ public class HomeViewModel : ViewModelBase
         using var context = new KeyForgeDbContext();
         {
             var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
-            var encryptedPassword = _cryptoService.DecryptPassword(password, _sessionService.HashedMasterPassword);
+            var encryptedPassword = _cryptoService.DecryptPassword(password);
             entry.Password = encryptedPassword;
         }
     }
