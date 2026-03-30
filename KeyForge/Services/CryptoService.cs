@@ -17,7 +17,7 @@ public interface ICryptoService
 
     void InsertVaultData(string website, string username, string encryptedPassword);
     
-    string EncryptPassword(string password, string masterPassword);
+    string EncryptPassword(string password, string HashedmasterPassword);
     
     string DecryptPassword(string encryptedPassword, string masterPassword);
 }
@@ -39,7 +39,7 @@ public class CryptoService : ICryptoService
     /// Increasing the number of iterations enhances security by making brute-force
     /// attacks more computationally expensive. However, it also impacts the
     /// performance of the hashing process. The default value in this implementation
-    /// is set to 100,000 iterations, which balances security and performance.
+    /// is set to 100 thousand iterations, which balances security and performance.
     /// </remarks>
     private const int Iterations = 100_000;
 
@@ -162,21 +162,21 @@ public class CryptoService : ICryptoService
     /// <summary>
     /// Encrypts a password using the provided master password.
     /// </summary>
-    /// <param name="password"></param>
-    /// <param name="masterPassword"></param>
+    /// <param name="password"><see cref="string"/></param>
+    /// <param name="HashedmasterPassword"><see cref="string"/></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public string EncryptPassword(string password, string masterPassword)
+    public string EncryptPassword(string password, string HashedmasterPassword)
     {
         if (string.IsNullOrWhiteSpace(password))
             throw new ArgumentException("Password cannot be empty :3", nameof(password));
 
-        if (string.IsNullOrWhiteSpace(masterPassword))
-            throw new ArgumentException("Master password cannot be empty :3", nameof(masterPassword));
+        if (string.IsNullOrWhiteSpace(HashedmasterPassword))
+            throw new ArgumentException("Master password cannot be empty :3", nameof(HashedmasterPassword));
 
         byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
         byte[] key = Rfc2898DeriveBytes.Pbkdf2(
-            masterPassword,
+            HashedmasterPassword,
             salt,
             Iterations,
             HashAlgorithmName.SHA256,
