@@ -9,6 +9,8 @@ namespace KeyForge.Services;
 public interface IVaultService
 {
     List<VaultEntry> GetVaultEntriesForUser(int userId);
+    
+    string getUserSpecifcWebsitePassword(int id, int userId);
 }
 
 public class VaultService : IVaultService
@@ -31,5 +33,16 @@ public class VaultService : IVaultService
             .AsNoTracking()
             .Where(v => v.UserId == userId)
             .ToList();
+    }
+    
+    /// <summary>
+    /// Gets the password for a specific website
+    /// </summary>
+    /// <param name="id"><see cref="int"/></param>
+    /// <param name="userId"><see cref="int"/></param>
+    /// <returns></returns>
+    public string getUserSpecifcWebsitePassword(int id, int userId)
+    {
+        return _dbContext.VaultEntries.AsNoTracking().Where(v => v.Id == id && v.UserId == userId).FirstOrDefault().Password;
     }
 }

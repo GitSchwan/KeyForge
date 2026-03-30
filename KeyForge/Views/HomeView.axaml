@@ -21,7 +21,8 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="44"
-                           Margin="20,0,0,20"/>
+                           Foreground="White"
+                           Margin="20,10,0,20"/>
 
                 <Button Grid.Column="2"
                         Command="{Binding NavigateToAddCommand}"
@@ -38,21 +39,29 @@
         <Grid ShowGridLines="False"
               HorizontalAlignment="Center"
               ColumnDefinitions="Auto, Auto"
-              RowDefinitions="Auto, Auto"
+              RowDefinitions="Auto, Auto, Auto"
               Margin="0,10,0,0">
 
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                        Text="{Binding WelcomeMessage}"
                        FontSize="35"
                        HorizontalAlignment="Center"
+                       Foreground="White"
                        Margin="0,0,0,30"/>
+            
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="Deine Vault"
+                       FontSize="30"
+                       HorizontalAlignment="Left"
+                       Foreground="White"
+                       Margin="0,10,0,0"/>
 
-            <DataGrid Grid.Row="1" Grid.Column="1"
+            <DataGrid Grid.Row="2" Grid.Column="1"
                       ItemsSource="{Binding Data}"
                       IsReadOnly="False"
                       GridLinesVisibility="All"
                       BorderThickness="1"
-                      Width="600"
+                      Width="800"
                       RowHeight="42"
                       BorderBrush="SlateGray"
                       Background="#80000000">
@@ -60,7 +69,19 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
                     <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
-                    <DataGridTextColumn Width="200" Header="Passwort" Binding="{Binding Password}" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="Passwort">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock Width="300" Text="{Binding Password}" VerticalAlignment="Center"/>
+                                    <Button Content="👁" 
+                                            Command="{Binding DataContext.DecryptSelectedEntryCommand, 
+                                            ElementName=Root}"
+                                            CommandParameter="{Binding}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     
                     <DataGridTemplateColumn Header="Speichern">
                         <DataGridTemplateColumn.CellTemplate>
@@ -81,7 +102,7 @@
                     <DataGridTemplateColumn Header="Löschen">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="X"
+                                <Button Content="×"
                                         Command="{Binding DataContext.DeleteEntryCommand, ElementName=Root}"
                                         CommandParameter="{Binding}"
                                         HorizontalAlignment="Center"

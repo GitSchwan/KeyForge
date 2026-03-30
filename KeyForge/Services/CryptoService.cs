@@ -52,6 +52,13 @@ public class CryptoService : ICryptoService
         _sessionService = sessionService;
     }
 
+    
+    /// <summary>
+    /// Hashes a password using the PBKDF2 algorithm.
+    /// </summary>
+    /// <param name="password"><see cref="string"/></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public string HashPassword(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
@@ -68,6 +75,12 @@ public class CryptoService : ICryptoService
         return $"{HashVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
 
+    
+    /// <summary>
+    /// Inserts a new user into the database.
+    /// </summary>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="hashedPassword"><see cref="string"/></param>
     public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
@@ -76,6 +89,12 @@ public class CryptoService : ICryptoService
         _dbContext.SaveChanges();
     }
 
+    /// <summary>
+    /// Inserts a new vault entry into the database.
+    /// </summary>
+    /// <param name="website"><see cref="string"/></param>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="encryptedPassword"><see cref="string"/></param>
     public void InsertVaultData(string website, string username, string encryptedPassword)
     {
         var userid = _dbContext.Users.FirstOrDefault(u => u.Id == _sessionService.CurrentUserId);
@@ -91,6 +110,13 @@ public class CryptoService : ICryptoService
         _dbContext.SaveChanges();
     }
 
+    
+    /// <summary>
+    /// Verifies a password against a stored hash.
+    /// </summary>
+    /// <param name="password"><see cref="string"/></param>
+    /// <param name="storedHash"><see cref="string"/></param>
+    /// <returns></returns>
     public bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))
@@ -132,6 +158,14 @@ public class CryptoService : ICryptoService
         return CryptographicOperations.FixedTimeEquals(actualHash, expectedHash);
     }
 
+    
+    /// <summary>
+    /// Encrypts a password using the provided master password.
+    /// </summary>
+    /// <param name="password"></param>
+    /// <param name="masterPassword"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public string EncryptPassword(string password, string masterPassword)
     {
         if (string.IsNullOrWhiteSpace(password))
@@ -159,6 +193,14 @@ public class CryptoService : ICryptoService
         return $"{EncVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(nonce)}.{Convert.ToBase64String(tag)}.{Convert.ToBase64String(ciphertext)}";
     }
 
+    /// <summary>
+    /// Decrypts a password using the provided master password.
+    /// </summary>
+    /// <param name="encryptedPassword" ><see cref="string"/></param>
+    /// <param name="masterPassword"><see cref="string"/></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="FormatException"></exception>
     public string DecryptPassword(string encryptedPassword, string masterPassword)
     {
         if (string.IsNullOrWhiteSpace(encryptedPassword))

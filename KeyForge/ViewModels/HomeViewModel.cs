@@ -16,10 +16,13 @@ public class HomeViewModel : ViewModelBase
     public ObservableCollection<VaultEntry> Data { get; }
     private readonly IVaultService _vaultService;
     private readonly SessionService _sessionService;
+    private readonly ICryptoService _cryptoService;
 
     public IRelayCommand NavigateToAddCommand { get; }
     public IRelayCommand<VaultEntry> SaveCommand { get; }
     public IRelayCommand<VaultEntry> DeleteEntryCommand { get; }
+    
+    public IRelayCommand<VaultEntry> DecryptSelectedEntryCommand { get; }
 
     private string _welcomeMessage = string.Empty;
     public string WelcomeMessage
@@ -31,14 +34,17 @@ public class HomeViewModel : ViewModelBase
     public HomeViewModel(
         Action navigateToAdd,
         IVaultService vaultService,
-        SessionService sessionService)
+        SessionService sessionService,
+        ICryptoService cryptoService)
     {
         NavigateToAddCommand = new RelayCommand(navigateToAdd);
         _vaultService = vaultService;
         _sessionService = sessionService;
+        _cryptoService = cryptoService;
 
         SaveCommand = new RelayCommand<VaultEntry>(Save);
         DeleteEntryCommand = new AsyncRelayCommand<VaultEntry>(DeleteEntryAsync);
+        DecryptSelectedEntryCommand = new RelayCommand<VaultEntry>(DecryptSelectedEntry);
 
         WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
 
@@ -46,7 +52,7 @@ public class HomeViewModel : ViewModelBase
         LoadData();
     }
 
-    private async Task DeleteEntryAsync(VaultEntry? entry)
+    private async Task DeleteEntryAsync(VaultEntry? entry) //async because of the dialog
     {
         if (entry is null)
             return;
@@ -88,11 +94,23 @@ public class HomeViewModel : ViewModelBase
         entry.IsModified = false;
     }
 
-    public static void DeleteEntry(VaultEntry? entry)
+    private void DecryptSelectedEntry(VaultEntry? entry)
     {
         if (entry is null) return;
 
-        using (var context = new KeyForgeDbContext())
+        using var context = new KeyForgeDbContext();
+        {
+            var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
+            var encryptedPassword = _cryptoService.DecryptPassword(password, _sessionService.HashedMasterPassword);
+            entry.Password = encryptedPassword;
+        }
+    }
+
+    private static void DeleteEntry(VaultEntry? entry)
+    {
+        if (entry is null) return;
+
+        using var context = new KeyForgeDbContext();
         {
             context.VaultEntries.Remove(entry);
             context.SaveChanges();
