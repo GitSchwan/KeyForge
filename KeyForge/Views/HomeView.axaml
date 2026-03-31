@@ -9,113 +9,136 @@
              
              x:Name="Root"
              x:DataType="vm:HomeViewModel">
-    <StackPanel>
-        <Border Background="#80000000">
+    <Grid>
+        <StackPanel>
+            <Border Background="#80000000">
+                <Grid ShowGridLines="False"
+                      Margin="0,0,0,0"
+                      ColumnDefinitions="Auto, *, Auto, Auto"
+                      RowDefinitions="Auto">
+
+                    <TextBlock Grid.Column="0"
+                               Text="KeyForge"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="44"
+                               Foreground="White"
+                               Margin="20,10,0,20"/>
+
+                    <Button Grid.Column="2"
+                            Command="{Binding NavigateToAddCommand}"
+                            Margin="10,0,10,0"
+                            Content="+Add"/>
+
+                    <Button Grid.Column="3"
+                            Margin="10,0,10,0"
+                            Content="⚙"/>
+
+                </Grid>
+            </Border>
+
             <Grid ShowGridLines="False"
-                  Margin="0,0,0,0"
-                  ColumnDefinitions="Auto, *, Auto, Auto"
-                  RowDefinitions="Auto">
+                  HorizontalAlignment="Center"
+                  ColumnDefinitions="Auto, Auto"
+                  RowDefinitions="Auto, Auto, Auto"
+                  Margin="0,10,0,0">
 
-                <TextBlock Grid.Column="0"
-                           Text="KeyForge"
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                           Text="{Binding WelcomeMessage}"
+                           FontSize="35"
                            HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontSize="44"
                            Foreground="White"
-                           Margin="20,10,0,20"/>
-
-                <Button Grid.Column="2"
-                        Command="{Binding NavigateToAddCommand}"
-                        Margin="10,0,10,0"
-                        Content="+Add"/>
-
-                <Button Grid.Column="3"
-                        Margin="10,0,10,0"
-                        Content="⚙"/>
-
-            </Grid>
-        </Border>
-
-        <Grid ShowGridLines="False"
-              HorizontalAlignment="Center"
-              ColumnDefinitions="Auto, Auto"
-              RowDefinitions="Auto, Auto, Auto"
-              Margin="0,10,0,0">
-
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                       Text="{Binding WelcomeMessage}"
-                       FontSize="35"
-                       HorizontalAlignment="Center"
-                       Foreground="White"
-                       Margin="0,0,0,30"/>
+                           Margin="0,0,0,30"/>
             
-            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                       Text="Deine Vault"
-                       FontSize="30"
-                       HorizontalAlignment="Left"
-                       Foreground="White"
-                       Margin="0,10,0,0"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                           Text="Deine Vault"
+                           FontSize="30"
+                           HorizontalAlignment="Left"
+                           Foreground="White"
+                           Margin="0,10,0,0"/>
 
-            <DataGrid Grid.Row="2" Grid.Column="1"
-                      ItemsSource="{Binding Data}"
-                      IsReadOnly="False"
-                      GridLinesVisibility="All"
-                      BorderThickness="1"
-                      Width="800"
-                      RowHeight="42"
-                      BorderBrush="SlateGray"
-                      Background="#80000000"
-                      DoubleTapped="DataGrid_DoubleTapped">
+                <DataGrid Grid.Row="2" Grid.Column="1"
+                          ItemsSource="{Binding Data}"
+                          IsReadOnly="{Binding EditNotAllowed}"
+                          GridLinesVisibility="All"
+                          BorderThickness="1"
+                          Width="800"
+                          RowHeight="42"
+                          BorderBrush="SlateGray"
+                          Background="#80000000"
+                          PointerPressed="DataGrid_PointerPressed">
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
-                    <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
-                    <DataGridTemplateColumn Header="Passwort">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <TextBlock Width="300" Text="{Binding Password}" VerticalAlignment="Center"/>
-                                    <Button Content="👁" 
-                                            Command="{Binding DataContext.DecryptSelectedEntryCommand, 
-                                            ElementName=Root}"
-                                            CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
+                        <DataGridTextColumn Header="Nutzername" Binding="{Binding Websiteusername}"/>
+                        <DataGridTemplateColumn Header="Passwort">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <TextBox Width="300" 
+                                                 Text="{Binding Password}" 
+                                                 VerticalAlignment="Center"
+                                                 IsReadOnly="{Binding DataContext.EditNotAllowed, ElementName=Root}"/>
+                                    
+                                        <Button Content="👁" 
+                                                Command="{Binding DataContext.DecryptSelectedEntryCommand, 
+                                                ElementName=Root}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     
-                    <DataGridTemplateColumn Header="Speichern">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="✔"
-                                        IsVisible="{Binding IsModified}"
-                                        Command="{Binding DataContext.SaveCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Background="#80000000"
-                                        Foreground="White"
-                                        BorderBrush="White"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Speichern">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✔"
+                                            IsVisible="{Binding IsModified}"
+                                            IsEnabled="{Binding DataContext.CanSave, ElementName=Root}"
+                                            Command="{Binding DataContext.SaveCommand, ElementName=Root}"
+                                            CommandParameter="{Binding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Background="#80000000"
+                                            Foreground="White"
+                                            BorderBrush="White"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Header="Löschen">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="×"
-                                        Command="{Binding DataContext.DeleteEntryCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Background="#80000000"
-                                        Foreground="White"
-                                        BorderBrush="White"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-    </StackPanel>
+                        <DataGridTemplateColumn Header="Löschen">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="×"
+                                            Command="{Binding DataContext.DeleteEntryCommand, ElementName=Root}"
+                                            CommandParameter="{Binding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Background="#80000000"
+                                            Foreground="White"
+                                            BorderBrush="White"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </StackPanel>
+
+        <Border x:Name="ToastHost"
+                IsVisible="False"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,24"
+                CornerRadius="8"
+                Background="#CC222222"
+                BorderBrush="#66FFFFFF"
+                BorderThickness="1"
+                Padding="14,8">
+            <TextBlock x:Name="ToastText"
+                       Foreground="White"
+                       FontSize="14"
+                       Text="Copied to clipboard"/>
+        </Border>
+    </Grid>
 </UserControl>

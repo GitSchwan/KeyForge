@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Data;
 using KeyForge.Models;
@@ -33,8 +34,23 @@ public class HomeViewModel : ViewModelBase
         set => SetProperty(ref _welcomeMessage, value);
     }
     
+    private bool _editNotAllowed;
+    public bool EditNotAllowed
+    {
+        get => _editNotAllowed;
+        set => SetProperty(ref _editNotAllowed, value);
+    }
+
+    private bool _canSave;
+    public bool CanSave
+    {
+        get => _canSave;
+        set => SetProperty(ref _canSave, value);
+    }
+    
     #endregion
 
+    private bool _shown;
     public HomeViewModel(
         Action navigateToAdd,
         IVaultService vaultService,
@@ -79,20 +95,24 @@ public class HomeViewModel : ViewModelBase
         }
     }
 
-    public static void Save(VaultEntry? entry)
+    private void Save(VaultEntry? entry)
     {
         if (entry is null) return;
 
-        using (var context = new KeyForgeDbContext())
+        using var context = new KeyForgeDbContext();
+
+        var existingEntry = context.VaultEntries.Find(entry.Id);
+        if (existingEntry != null)
         {
-            var existingEntry = context.VaultEntries.Find(entry.Id);
-            if (existingEntry != null)
+            existingEntry.Website = entry.Website;
+            existingEntry.Websiteusername = entry.Websiteusername;
+            if (entry.IsModified)
             {
-                existingEntry.Website = entry.Website;
-                existingEntry.Websiteusername = entry.Websiteusername;
-                existingEntry.Password = entry.Password;
-                context.SaveChanges();
+                existingEntry.Password = _cryptoService.EncryptPassword(entry.Password);
+                Console.WriteLine("DEBUG: Password changed " + existingEntry.Password);
             }
+
+            context.SaveChanges();
         }
 
         entry.IsModified = false;
@@ -102,12 +122,27 @@ public class HomeViewModel : ViewModelBase
     {
         if (entry is null) return;
 
-        using var context = new KeyForgeDbContext();
+        if (!_shown)
+        {
+            using var context = new KeyForgeDbContext();
+            {
+                var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
+                var encryptedPassword = _cryptoService.DecryptPassword(password);
+                entry.Password = encryptedPassword;
+                _shown = true;
+                EditNotAllowed = false;
+                CanSave = true;
+            }
+        }
+        else
         {
             var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
-            var encryptedPassword = _cryptoService.DecryptPassword(password);
-            entry.Password = encryptedPassword;
+            entry.Password = password;
+            _shown = false;
+            EditNotAllowed = true;
+            CanSave = false;
         }
+
     }
 
     private static void DeleteEntry(VaultEntry? entry)

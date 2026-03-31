@@ -21,7 +21,7 @@
     
     <Window.Styles>
         <Style Selector="Button">
-            <Setter Property="Background" Value="#30000000"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
 
@@ -52,7 +52,9 @@
                 <Button Grid.Column="2" Content="□" Click="Maximize_Click"/>
 
                 <!-- Close -->
-                <Button Grid.Column="3" Content="X" Click="Close_Click"/>
+                <Button Grid.Column="3"  Click="Close_Click">
+                    <Image Source="/Assets/close.png"/>
+                </Button>
             
             </Grid>
         </Border>
@@ -71,8 +73,10 @@
                             HorizontalAlignment="Right"
                             Spacing="8">
                     <Button Content="Abbrechen"
+                            Background="#33000000"
                             Click="Cancel_Click"/>
                     <Button Content="Bestätigen"
+                            Background="#33000000"
                             Click="Confirm_Click"/>
                 </StackPanel>
             </Grid>
