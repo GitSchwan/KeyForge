@@ -22,6 +22,8 @@ public interface ICryptoService
     string DecryptPassword(string encryptedPassword);
     
     byte[] DeriveEncryptionKey(string masterPassword, string storedHash);
+    
+    string GenerateSavePassword();
 }
 
 public class CryptoService : ICryptoService
@@ -213,6 +215,19 @@ public class CryptoService : ICryptoService
         aes.Decrypt(nonce, ciphertext, tag, plaintext);
 
         return System.Text.Encoding.UTF8.GetString(plaintext);
+    }
+
+    public string GenerateSavePassword()
+    {
+        const string validChars = "!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~";
+        
+        return string.Create(20, validChars, (span, chars) =>
+        {
+            for (int i = 0; i < span.Length; i++)
+            {
+                span[i] = chars[RandomNumberGenerator.GetInt32(chars.Length)];
+            }
+        });
     }
     
     #region Database Operations

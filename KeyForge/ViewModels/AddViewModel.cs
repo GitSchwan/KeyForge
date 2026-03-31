@@ -6,19 +6,25 @@ namespace KeyForge.ViewModels;
 
 public class AddViewModel : ViewModelBase
 {
+    #region Fields
+    
     private readonly Action _navigateToHome;
     private readonly ICryptoService _cryptoService;
     private readonly SessionService _sessionService;
-
     
     private string? _addViewWebsite;
+    private string? _addViewUsername;
+    private string? _addViewPassword;
+    
+    #endregion
+    
+    #region Properties
+    
     public string? AddViewWebsite
     {
         get => _addViewWebsite;
         set => SetProperty(ref _addViewWebsite, value); 
     }
-    
-    private string? _addViewUsername;
     
     public string? AddViewUsername
     {
@@ -26,18 +32,23 @@ public class AddViewModel : ViewModelBase
         set => SetProperty(ref _addViewUsername, value); 
     }
     
-    private string? _addViewPassword;
-    
     public string? AddViewPassword
     {
         get => _addViewPassword;
         set => SetProperty(ref _addViewPassword, value); 
     }
+    
+    #endregion
+    
+    #region Commands
 
     public IRelayCommand AddViewSaveCommand { get; }
     
-    // Back Button
+    public IRelayCommand GenPassCommand { get; }
+    
     public IRelayCommand ToHomeView { get; }
+    
+    #endregion
 
     public AddViewModel(Action navigateToHome, ICryptoService cryptoService, SessionService sessionService)
     {
@@ -45,6 +56,7 @@ public class AddViewModel : ViewModelBase
         ToHomeView = new RelayCommand(GoBackToHomeView);
         _cryptoService = cryptoService;
         AddViewSaveCommand = new RelayCommand(SecureAndSaveData);
+        GenPassCommand = new RelayCommand(GenPass);
         _sessionService = sessionService;
     }
     
@@ -65,6 +77,13 @@ public class AddViewModel : ViewModelBase
         GoBackToHomeView();
         
     }
+
+    private void GenPass()
+    {
+        var generatedpassword = _cryptoService.GenerateSavePassword();
+        AddViewPassword = generatedpassword;
+    }
+    
     
     private void GoBackToHomeView() 
     { 
