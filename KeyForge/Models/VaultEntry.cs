@@ -2,20 +2,44 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.DataAnnotations;
-using CommunityToolkit.Mvvm.Input;
 using KeyForge.Data;
-using KeyForge.ViewModels;
 
 namespace KeyForge.Models;
 
 public class VaultEntry : INotifyPropertyChanged
 {
-    public int Id { get; set; }
+    #region Private Fields
 
     private bool _isLoading;
+    private bool _isPasswordDecrypted;
+    private bool _isModified = false;
+
+    #endregion
+
+    #region Constructors
+
+    public VaultEntry(string website, string websiteusername, int userId, string password)
+    {
+        _isLoading = true;
+        IsModified = false;
+
+        Website = website;
+        Websiteusername = websiteusername;
+        UserId = userId;
+        Password = password;
+
+        _isLoading = false;
+        IsModified = false;
+        IsPasswordDecrypted = false;
+    }
+
+    #endregion
+
+    #region Properties
+
+    public int Id { get; set; }
 
     private string _website = string.Empty;
-
     [MaxLength(200)]
     public string Website
     {
@@ -28,7 +52,7 @@ public class VaultEntry : INotifyPropertyChanged
                 OnPropertyChanged();
                 if (!_isLoading)
                     IsModified = true;
-            }   
+            }
         }
     }
 
@@ -45,14 +69,13 @@ public class VaultEntry : INotifyPropertyChanged
                 OnPropertyChanged();
                 if (!_isLoading)
                     IsModified = true;
-            }   
+            }
         }
     }
 
     public int UserId { get; set; }
 
     private string _password = string.Empty;
-    
     [MaxLength(500)]
     public string Password
     {
@@ -69,7 +92,6 @@ public class VaultEntry : INotifyPropertyChanged
         }
     }
 
-    private bool _isPasswordDecrypted;
     public bool IsPasswordDecrypted
     {
         get => _isPasswordDecrypted;
@@ -88,19 +110,25 @@ public class VaultEntry : INotifyPropertyChanged
 
     public User? User { get; set; }
 
-    private bool _isModified = false;
-
     public bool IsModified
     {
         get => _isModified;
         set
-        { 
+        {
             _isModified = value;
             OnPropertyChanged();
         }
     }
 
+    #endregion
+
+    #region Events
+
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    #endregion
+
+    #region Methods
 
     /// <summary>
     /// Raises the PropertyChanged event
@@ -109,18 +137,5 @@ public class VaultEntry : INotifyPropertyChanged
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-    public VaultEntry(string website, string websiteusername, int userId, string password)
-    {
-        _isLoading = true;
-        IsModified = false;
-
-        Website = website;
-        Websiteusername = websiteusername;
-        UserId = userId;
-        Password = password;
-
-        _isLoading = false;
-        IsModified = false;
-        IsPasswordDecrypted = false;
-    }
+    #endregion
 }
