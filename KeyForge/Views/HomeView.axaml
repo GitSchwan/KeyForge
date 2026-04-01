@@ -65,7 +65,7 @@
                           RowHeight="42"
                           BorderBrush="SlateGray"
                           Background="#80000000"
-                          PointerPressed="DataGrid_PointerPressed">
+                          ClipboardCopyMode="ExcludeHeader">
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Webseite" Binding="{Binding Website}"/>
@@ -78,7 +78,13 @@
                                         <TextBox Width="300"
                                                  Text="{Binding Password}"
                                                  VerticalAlignment="Center"
-                                                 IsReadOnly="{Binding IsPasswordReadOnly}"/>
+                                                 IsReadOnly="{Binding IsPasswordReadOnly}">
+                                            <TextBox.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="in die Zwischenablage" Click="MenuItem_OnClick"/>
+                                                </ContextMenu>
+                                            </TextBox.ContextMenu>
+                                        </TextBox>
                                     
                                         <Button Content="👁"
                                                 Command="{Binding DataContext.DecryptSelectedEntryCommand, ElementName=Root}"

@@ -17,42 +17,35 @@ public partial class HomeView : UserControl
         InitializeComponent();
     }
 
-    private async void DataGrid_PointerPressed(object? sender, PointerPressedEventArgs e)
+    private async void MenuItem_OnClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (sender is not DataGrid grid)
-            return;
-
-        var point = e.GetCurrentPoint(grid);
-        if (!point.Properties.IsRightButtonPressed)
-            return;
-
-        if (grid.SelectedItem is not VaultEntry entry)
-            return;
-
-        if (string.IsNullOrWhiteSpace(entry.Password))
-            return;
-
-        var topLevel = TopLevel.GetTopLevel(this);
-        var clipboard = topLevel?.Clipboard;
-
-        if (clipboard is null)
-            return;
-
-        var copiedText = entry.Password;
-        await clipboard.SetTextAsync(copiedText);
-
-        ShowToast("Copied to clipboard");
-
-        _ = Task.Run(async () =>
+        if (sender is MenuItem menuItem && menuItem.DataContext is VaultEntry entry)
         {
-            await Task.Delay(TimeSpan.FromSeconds(20));
+            if (string.IsNullOrWhiteSpace(entry.Password))
+                return;
 
-            var currentText = await clipboard.TryGetTextAsync();
-            if (currentText == copiedText)
+            var topLevel = TopLevel.GetTopLevel(this);
+            var clipboard = topLevel?.Clipboard;
+
+            if (clipboard is null)
+                return;
+
+            var copiedText = entry.Password;
+            await clipboard.SetTextAsync(copiedText);
+
+            ShowToast("In die Zwischenablage kopiert");
+
+            _ = Task.Run(async () =>
             {
-                await clipboard.SetTextAsync(string.Empty);
-            }
-        });
+                await Task.Delay(TimeSpan.FromSeconds(20));
+
+                var currentText = await clipboard.TryGetTextAsync();
+                if (currentText == copiedText)
+                {
+                    await clipboard.SetTextAsync(string.Empty);
+                }
+            });
+        }
     }
 
     private void ShowToast(string message)
