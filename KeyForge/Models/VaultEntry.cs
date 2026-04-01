@@ -69,6 +69,23 @@ public class VaultEntry : INotifyPropertyChanged
         }
     }
 
+    private bool _isPasswordDecrypted;
+    public bool IsPasswordDecrypted
+    {
+        get => _isPasswordDecrypted;
+        set
+        {
+            if (_isPasswordDecrypted != value)
+            {
+                _isPasswordDecrypted = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsPasswordReadOnly));
+            }
+        }
+    }
+
+    public bool IsPasswordReadOnly => !IsPasswordDecrypted;
+
     public User? User { get; set; }
 
     private bool _isModified = false;
@@ -104,5 +121,6 @@ public class VaultEntry : INotifyPropertyChanged
 
         _isLoading = false;
         IsModified = false;
+        IsPasswordDecrypted = false;
     }
 }

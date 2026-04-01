@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -50,7 +51,9 @@ public class HomeViewModel : ViewModelBase
     
     #endregion
 
+    private readonly HashSet<int> _decryptedEntries = new();
     private bool _shown;
+    
     public HomeViewModel(
         Action navigateToAdd,
         IVaultService vaultService,
@@ -100,49 +103,51 @@ public class HomeViewModel : ViewModelBase
         if (entry is null) return;
 
         using var context = new KeyForgeDbContext();
-
         var existingEntry = context.VaultEntries.Find(entry.Id);
-        if (existingEntry != null)
-        {
-            existingEntry.Website = entry.Website;
-            existingEntry.Websiteusername = entry.Websiteusername;
-            if (entry.IsModified)
-            {
-                existingEntry.Password = _cryptoService.EncryptPassword(entry.Password);
-                Console.WriteLine("DEBUG: Password changed " + existingEntry.Password);
-            }
 
-            context.SaveChanges();
+        if (existingEntry is null)
+            return;
+
+        existingEntry.Website = entry.Website;
+        existingEntry.Websiteusername = entry.Websiteusername;
+
+        if (entry.IsPasswordDecrypted)
+        {
+            existingEntry.Password = _cryptoService.EncryptPassword(entry.Password);
+            entry.IsPasswordDecrypted = false;
+        }
+        else
+        {
+            existingEntry.Password = entry.Password;
         }
 
+        context.SaveChanges();
         entry.IsModified = false;
+        CanSave = false;
+        EditNotAllowed = true;
     }
 
     private void DecryptSelectedEntry(VaultEntry? entry)
     {
         if (entry is null) return;
 
-        if (!_shown)
+        using var context = new KeyForgeDbContext();
+        var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
+
+        if (entry.IsPasswordDecrypted)
         {
-            using var context = new KeyForgeDbContext();
-            {
-                var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
-                var encryptedPassword = _cryptoService.DecryptPassword(password);
-                entry.Password = encryptedPassword;
-                _shown = true;
-                EditNotAllowed = false;
-                CanSave = true;
-            }
+            entry.Password = password;
+            entry.IsPasswordDecrypted = false;
+            EditNotAllowed = true;
         }
         else
         {
-            var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
-            entry.Password = password;
-            _shown = false;
-            EditNotAllowed = true;
-            CanSave = false;
+            entry.Password = _cryptoService.DecryptPassword(password);
+            entry.IsPasswordDecrypted = true;
+            EditNotAllowed = false;
         }
 
+        CanSave = true;
     }
 
     private static void DeleteEntry(VaultEntry? entry)
@@ -162,6 +167,9 @@ public class HomeViewModel : ViewModelBase
         Data.Clear();
 
         foreach (var entry in entries)
+        {
+            entry.IsPasswordDecrypted = false;
             Data.Add(entry);
+        }
     }
 }
