@@ -21,8 +21,8 @@ public class HomeViewModel : ViewModelBase
     private readonly ICryptoService _cryptoService;
 
     public IRelayCommand NavigateToAddCommand { get; }
-    public IRelayCommand<VaultEntry> SaveCommand { get; }
-    public IRelayCommand<VaultEntry> DeleteEntryCommand { get; }
+    public IAsyncRelayCommand<VaultEntry> ToggleEditCommand { get; }
+    public IAsyncRelayCommand<VaultEntry> DeleteEntryCommand { get; }
     
     public IRelayCommand<VaultEntry> DecryptSelectedEntryCommand { get; }
 
@@ -33,11 +33,27 @@ public class HomeViewModel : ViewModelBase
         set => SetProperty(ref _welcomeMessage, value);
     }
     
+    private string _editButtonText = "Bearbeiten";
+    public string EditButtonText
+    {
+        get => _editButtonText;
+        set => SetProperty(ref _editButtonText, value);
+    }
+
     private bool _editNotAllowed;
     public bool EditNotAllowed
     {
         get => _editNotAllowed;
-        set => SetProperty(ref _editNotAllowed, value);
+        set
+        {
+            if (SetProperty(ref _editNotAllowed, value))
+            {
+                if (SelectedEntry != null)
+                {
+                    SelectedEntry.IsHomeViewModelEditAllowed = !value;
+                }
+            }
+        }
     }
 
     private bool _canSave;
@@ -51,13 +67,24 @@ public class HomeViewModel : ViewModelBase
     public VaultEntry? SelectedEntry
     {
         get => _selectedEntry;
-        set => SetProperty(ref _selectedEntry, value);
+        set
+        {
+            if (SetProperty(ref _selectedEntry, value))
+            {
+                EditNotAllowed = true;
+                EditButtonText = "Bearbeiten";
+                
+                if (_selectedEntry != null)
+                {
+                    _selectedEntry.IsHomeViewModelEditAllowed = false;
+                }
+            }
+        }
     }
     
     #endregion
 
     private readonly HashSet<int> _decryptedEntries = new();
-    private bool _shown;
     
     public HomeViewModel(
         Action navigateToAdd,
@@ -70,11 +97,13 @@ public class HomeViewModel : ViewModelBase
         _sessionService = sessionService;
         _cryptoService = cryptoService;
 
-        SaveCommand = new RelayCommand<VaultEntry>(Save);
+        ToggleEditCommand = new AsyncRelayCommand<VaultEntry>(ToggleEditAsync);
         DeleteEntryCommand = new AsyncRelayCommand<VaultEntry>(DeleteEntryAsync);
         DecryptSelectedEntryCommand = new RelayCommand<VaultEntry>(DecryptSelectedEntry);
 
         WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
+        
+        EditNotAllowed = true;
 
         Data = new ObservableCollection<VaultEntry>();
         LoadData();
@@ -103,33 +132,54 @@ public class HomeViewModel : ViewModelBase
         }
     }
 
-    private void Save(VaultEntry? entry)
+    private async Task ToggleEditAsync(VaultEntry? entry)
     {
         if (entry is null) return;
 
-        using var context = new KeyForgeDbContext();
-        var existingEntry = context.VaultEntries.Find(entry.Id);
-
-        if (existingEntry is null)
-            return;
-
-        existingEntry.Website = entry.Website;
-        existingEntry.Websiteusername = entry.Websiteusername;
-
-        if (entry.IsPasswordDecrypted)
+        if (EditNotAllowed)
         {
-            existingEntry.Password = _cryptoService.EncryptPassword(entry.Password);
-            entry.IsPasswordDecrypted = false;
+            EditNotAllowed = false;
+            EditButtonText = "Speichern";
         }
         else
         {
-            existingEntry.Password = entry.Password;
+            await SaveAsync(entry);
+            EditButtonText = "Bearbeiten";
         }
+    }
 
-        context.SaveChanges();
-        entry.IsModified = false;
-        CanSave = false;
-        EditNotAllowed = true;
+    private async Task SaveAsync(VaultEntry? entry)
+    {
+        if (entry is null) return;
+
+        await Task.Run(() =>
+        {
+            using var context = new KeyForgeDbContext();
+            var existingEntry = context.VaultEntries.Find(entry.Id);
+
+            if (existingEntry is null)
+                return;
+
+            existingEntry.Website = entry.Website;
+            existingEntry.Websiteusername = entry.Websiteusername;
+
+            if (entry.IsPasswordDecrypted)
+            {
+                existingEntry.Password = _cryptoService.EncryptPassword(entry.Password);
+                
+                entry.Password = existingEntry.Password;
+                entry.IsPasswordDecrypted = false;
+            }
+            else
+            {
+                existingEntry.Password = entry.Password;
+            }
+
+            context.SaveChanges();
+            entry.IsModified = false;
+            CanSave = false;
+            EditNotAllowed = true;
+        });
     }
 
     private void DecryptSelectedEntry(VaultEntry? entry)
@@ -143,13 +193,11 @@ public class HomeViewModel : ViewModelBase
         {
             entry.Password = password;
             entry.IsPasswordDecrypted = false;
-            EditNotAllowed = true;
         }
         else
         {
             entry.Password = _cryptoService.DecryptPassword(password);
             entry.IsPasswordDecrypted = true;
-            EditNotAllowed = false;
         }
 
         CanSave = true;

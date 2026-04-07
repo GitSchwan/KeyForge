@@ -101,12 +101,41 @@ public class VaultEntry : INotifyPropertyChanged
             {
                 _isPasswordDecrypted = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(IsPasswordReadOnly));
+                NotifyPasswordReadOnlyChanged();
             }
         }
     }
 
-    public bool IsPasswordReadOnly => !IsPasswordDecrypted;
+    private bool _isHomeViewModelEditAllowed = false;
+    public bool IsHomeViewModelEditAllowed
+    {
+        get => _isHomeViewModelEditAllowed;
+        set
+        {
+            if (_isHomeViewModelEditAllowed != value)
+            {
+                _isHomeViewModelEditAllowed = value;
+                OnPropertyChanged();
+                NotifyPasswordReadOnlyChanged();
+            }
+        }
+    }
+
+    public bool IsPasswordReadOnly
+    {
+        get
+        {
+            if (!_isHomeViewModelEditAllowed)
+                return true;
+
+            return !IsPasswordDecrypted;
+        }
+    }
+
+    public void NotifyPasswordReadOnlyChanged()
+    {
+        OnPropertyChanged(nameof(IsPasswordReadOnly));
+    }
 
     public User? User { get; set; }
 

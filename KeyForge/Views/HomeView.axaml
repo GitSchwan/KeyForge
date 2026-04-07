@@ -11,132 +11,220 @@
              x:DataType="vm:HomeViewModel">
     <Grid>
         <StackPanel>
-            <Border Background="#80000000">
-                <Grid ShowGridLines="False"
-                      Margin="0,0,0,0"
-                      ColumnDefinitions="Auto, *, Auto, Auto"
-                      RowDefinitions="Auto">
+            <Border Background="#80000000" Padding="10">
+                <Grid ColumnDefinitions="Auto, *, Auto, Auto">
 
                     <TextBlock Grid.Column="0"
                                Text="KeyForge"
-                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="44"
+                               FontSize="36"
+                               FontWeight="Bold"
                                Foreground="White"
-                               Margin="20,10,0,20"/>
+                               Margin="10,0,0,0"/>
 
-                    <Button Grid.Column="2"
-                            Command="{Binding NavigateToAddCommand}"
-                            Margin="10,0,10,0"
-                            Content="+"
-                            FontSize="20"
-                            Foreground="White"/>
+                    <StackPanel Grid.Column="2" Grid.ColumnSpan="2" 
+                                Orientation="Horizontal" 
+                                VerticalAlignment="Center"
+                                Spacing="10"
+                                Margin="0,0,10,0">
+                        <Button Command="{Binding NavigateToAddCommand}"
+                                Content="+"
+                                FontSize="18"
+                                Width="40"
+                                Height="40"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Foreground="White"/>
 
-                    <Button Grid.Column="3"
-                            Margin="10,0,10,0"
-                            Content="⚙"
-                            FontSize="20"
-                            Foreground="White"/>
-
+                        <Button Content="⚙"
+                                FontSize="18"
+                                Width="40"
+                                Height="40"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Foreground="White"/>
+                    </StackPanel>
                 </Grid>
             </Border>
 
-            <Grid ShowGridLines="False"
-                  ColumnDefinitions="*, *"
-                  RowDefinitions="Auto, Auto, *"
-                  Margin="0,0,0,0"
-                  ColumnSpacing="5"
-                  Background="#30000000">
+            <Grid ColumnDefinitions="350, *"
+                  RowDefinitions="Auto, *"
+                  Margin="20"
+                  ColumnSpacing="20"
+                  RowSpacing="20">
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                            Text="{Binding WelcomeMessage}"
-                           FontSize="35"
-                           HorizontalAlignment="Center"
-                           Foreground="White"
-                           Margin="0,0,0,30"/>
-        
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                           Text="Deine Vault"
-                           FontSize="30"
+                           FontSize="24"
                            HorizontalAlignment="Left"
-                           Foreground="White"
-                           Margin="0,10,0,0"/>
+                           Foreground="#AAAAAA"
+                           Margin="0,0,0,10"/>
+        
+                <StackPanel Grid.Row="1" Grid.Column="0" Spacing="10">
+                    <TextBlock Text="Deine Vault"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
 
-                <DataGrid Grid.Row="2" Grid.Column="0"
-                          ItemsSource="{Binding Data}"
-                          SelectedItem="{Binding SelectedEntry}"
-                          GridLinesVisibility="All"
-                          BorderThickness="1"
-                          RowHeight="42"
-                          BorderBrush="SlateGray"
-                          Background="#80000000"
-                          ClipboardCopyMode="ExcludeHeader">
+                    <Border CornerRadius="12"
+                            Background="#20FFFFFF"
+                            ClipToBounds="True">
+                        <DataGrid ItemsSource="{Binding Data}"
+                                  SelectedItem="{Binding SelectedEntry}"
+                                  GridLinesVisibility="None"
+                                  BorderThickness="0"
+                                  HeadersVisibility="None"
+                                  ClipboardCopyMode="ExcludeHeader"
+                                  MaxHeight="600"
+                                  ColumnWidth="*">
 
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical" Spacing="2">
-                                        <TextBlock Text="{Binding Website}" FontWeight="Bold" FontSize="20"/>
-                                        <TextBlock Text="{Binding Websiteusername}" FontSize="15" Margin="0,0,0,10"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical" Spacing="2" Margin="10,5">
+                                                <TextBlock Text="{Binding Website}" 
+                                                           FontWeight="Bold" 
+                                                           FontSize="16" />
+                                                <TextBlock Text="{Binding Websiteusername}" 
+                                                           FontSize="13" 
+                                                           Opacity="0.7"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </StackPanel>
                 
-                <StackPanel Grid.Column="1" Grid.Row="2">
-                    <Grid ColumnDefinitions="Auto, Auto, Auto"
-                          RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto"
-                          IsVisible="{Binding SelectedEntry, Converter={x:Static ObjectConverters.IsNotNull}}"> <!-- Picture, Data, Button -->
+                <Border Grid.Column="1" Grid.Row="1"
+                        Background="#20FFFFFF"
+                        CornerRadius="12"
+                        Padding="20">
+                    <StackPanel IsVisible="{Binding SelectedEntry, 
+                              Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Spacing="20">
                         
-                            <Path Grid.Row="0"
-                                  Grid.Column="0"
-                                  Grid.RowSpan="2"
-                                  Width="24"
-                                  Height="24"
-                                  Stroke="White"
-                                  StrokeThickness="2"
-                                  Stretch="Uniform"
-                                  Data="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"/>
-                            <Label Content="Nutzername / E-Mail" Grid.Row="0" Grid.Column="1"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Text="{Binding SelectedEntry.Websiteusername}"/>
+                        <Grid ColumnDefinitions="*, Auto, Auto">
+                            <TextBlock Text="{Binding SelectedEntry.Website}"
+                                       FontSize="28"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"/>
                             
-                            <Path Grid.Row="2"
-                                  Grid.Column="0"
-                                  Grid.RowSpan="2"
-                                  Width="24"
-                                  Height="24"
-                                  Stroke="White"
-                                  StrokeThickness="2"
-                                  Stretch="Uniform"
-                                  Data="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288"/>
-                            <Label Content="Passwort" Grid.Row="2" Grid.Column="1"/>
-                            <TextBox Grid.Row="3" Grid.Column="1"
-                                     Text="{Binding SelectedEntry.Password}"/>
-                            <Button Grid.Row="2" Grid.Column="2" Grid.RowSpan="2"
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+                                <Button Command="{Binding ToggleEditCommand}"
+                                        CommandParameter="{Binding SelectedEntry}"
+                                        Content="{Binding EditButtonText}"
+                                        Width="120"
+                                        HorizontalContentAlignment="Center"/>
+                                <Button Background="#80200000"
+                                        Command="{Binding DeleteEntryCommand}"
+                                        CommandParameter="{Binding SelectedEntry}"
+                                        Content="🗑"
+                                        Width="40"
+                                        HorizontalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Separator Background="#40FFFFFF" Height="1"/>
+
+                        <Grid ColumnDefinitions="40, *, Auto"
+                              RowDefinitions="Auto, Auto, 20, Auto, Auto, 20, Auto, Auto"
+                              Margin="0,10,0,0">
+                            
+                            <!-- Username Section -->
+                            <Path Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                  Width="20" Height="20"
+                                  Stroke="White" StrokeThickness="2" Stretch="Uniform" 
+                                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                                  Data="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7 
+                                        C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z 
+                                        M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"/>
+                            <Label Content="Nutzername / E-Mail" Grid.Row="0" Grid.Column="1" 
+                                   Foreground="#AAAAAA" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                     Text="{Binding SelectedEntry.Websiteusername}"
+                                     IsReadOnly="{Binding EditNotAllowed}"
+                                     Margin="0,5,0,0">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">
+                                        <Setter Property="Opacity" Value="0.6" />
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                            
+                            <!-- Password Section -->
+                            <Path Grid.Row="3" Grid.Column="0" Grid.RowSpan="2"
+                                  Width="20" Height="20"
+                                  Stroke="White" StrokeThickness="2" Stretch="Uniform" 
+                                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                                  Data="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 
+                                        16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 
+                                        5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 
+                                        12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362
+                                        C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 
+                                        21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 
+                                        19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8
+                                        C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 
+                                        18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288
+                                        V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" />
+                            <Label Content="Passwort" Grid.Row="3" Grid.Column="1" 
+                                   Foreground="#AAAAAA" FontSize="12"/>
+                            <TextBox Grid.Row="4" Grid.Column="1"
+                                     Text="{Binding SelectedEntry.Password}"
+                                     IsReadOnly="{Binding SelectedEntry.IsPasswordReadOnly}"
+                                     PasswordChar="*"
+                                     Margin="0,5,0,0">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">
+                                        <Setter Property="Opacity" Value="0.6" />
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                            <Button Grid.Row="4" Grid.Column="2"
                                     Content="👁"
                                     Command="{Binding DecryptSelectedEntryCommand}"
-                                    CommandParameter="{Binding SelectedEntry}"/>
-                        
-                            <Path Grid.Row="4"
-                                  Grid.Column="0"
-                                  Grid.RowSpan="2"
-                                  Width="24"
-                                  Height="24"
-                                  Stroke="White"
-                                  StrokeThickness="1"
-                                  Stretch="Uniform"
-                                  Data="M6.15407 7.30116C7.52877 5.59304 9.63674 4.5 12 4.5C12.365 4.5 12.7238 4.52607 13.0748 4.57644L13.7126 5.85192L11.2716 8.2929L8.6466 8.6679L7.36009 9.95441L6.15407 7.30116ZM5.2011 8.82954C4.75126 9.79256 4.5 10.8669 4.5 12C4.5 15.6945 7.17133 18.7651 10.6878 19.3856L11.0989 18.7195L8.8147 15.547L10.3741 13.5256L9.63268 13.1549L6.94027 13.6036L6.41366 11.4972L5.2011 8.82954ZM7.95559 11.4802L8.05962 11.8964L9.86722 11.5951L11.3726 12.3478L14.0824 11.9714L18.9544 14.8135C19.3063 13.9447 19.5 12.995 19.5 12C19.5 8.93729 17.6642 6.30336 15.033 5.13856L15.5377 6.1481L11.9787 9.70711L9.35371 10.0821L7.95559 11.4802ZM18.2539 16.1414C16.9774 18.0652 14.8369 19.366 12.3859 19.4902L12.9011 18.6555L10.6853 15.578L12.0853 13.7632L13.7748 13.5286L18.2539 16.1414ZM12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z"/>
-                            <Label Content="Webseite" Grid.Row="4" Grid.Column="1"/>
-                            <TextBox Grid.Row="5" Grid.Column="1"
-                                     Text="{Binding SelectedEntry.Website}"/>
-                        
-                        
-                    </Grid>
-                </StackPanel>
+                                    CommandParameter="{Binding SelectedEntry}"
+                                    Margin="5,5,0,0"
+                                    VerticalAlignment="Stretch"/>
+                            
+                            <!-- Website Section -->
+                            <Path Grid.Row="6" Grid.Column="0" Grid.RowSpan="2"
+                                  Width="20" Height="20"
+                                  Stroke="White" StrokeThickness="1" Stretch="Uniform" 
+                                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                                  Data="M6.15407 7.30116C7.52877 5.59304 9.63674 4.5 12 4.5
+                                        C12.365 4.5 12.7238 4.52607 13.0748 4.57644
+                                        L13.7126 5.85192L11.2716 8.2929L8.6466 8.6679L7.36009 9.95441
+                                        L6.15407 7.30116ZM5.2011 8.82954C4.75126 9.79256 4.5 10.8669 
+                                        4.5 12C4.5 15.6945 7.17133 18.7651 10.6878 19.3856L11.0989 
+                                        18.7195L8.8147 15.547L10.3741 13.5256L9.63268 13.1549L6.94027 
+                                        13.6036L6.41366 11.4972L5.2011 8.82954ZM7.95559 11.4802
+                                        L8.05962 11.8964L9.86722 11.5951L11.3726 12.3478L14.0824 11.9714
+                                        L18.9544 14.8135C19.3063 13.9447 19.5 12.995 19.5 12
+                                        C19.5 8.93729 17.6642 6.30336 15.033 5.13856L15.5377 6.1481
+                                        L11.9787 9.70711L9.35371 10.0821L7.95559 11.4802ZM18.2539 
+                                        16.1414C16.9774 18.0652 14.8369 19.366 12.3859 19.4902
+                                        L12.9011 18.6555L10.6853 15.578L12.0853 13.7632L13.7748 
+                                        13.5286L18.2539 16.1414ZM12 3C7.02944 3 3 7.02944 3 12
+                                        C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12
+                                        C21 7.02944 16.9706 3 12 3Z"/>
+                            <Label Content="Webseite" Grid.Row="6" Grid.Column="1" 
+                                   Foreground="#AAAAAA" FontSize="12"/>
+                            <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                                     Text="{Binding SelectedEntry.Website}"
+                                     IsReadOnly="{Binding EditNotAllowed}"
+                                     Margin="0,5,0,0">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">
+                                        <Setter Property="Opacity" Value="0.6" />
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+                        </Grid>
+                    </StackPanel>
+                </Border>
                 
             </Grid>
         </StackPanel>
