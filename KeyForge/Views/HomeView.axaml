@@ -11,7 +11,7 @@
              x:DataType="vm:HomeViewModel">
     <Grid>
         <StackPanel>
-            <Border Background="#80000000" Padding="10">
+            <Border Background="#60000000" Padding="10">
                 <Grid ColumnDefinitions="Auto, *, Auto, Auto">
 
                     <TextBlock Grid.Column="0"
@@ -172,9 +172,9 @@
                             <Label Content="Passwort" Grid.Row="3" Grid.Column="1" 
                                    Foreground="#AAAAAA" FontSize="12"/>
                             <TextBox Grid.Row="4" Grid.Column="1"
+                                     x:Name="HomeViewPasswordBox"
                                      Text="{Binding SelectedEntry.Password}"
                                      IsReadOnly="{Binding SelectedEntry.IsPasswordReadOnly}"
-                                     PasswordChar="*"
                                      Margin="0,5,0,0">
                                 <TextBox.Styles>
                                     <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">

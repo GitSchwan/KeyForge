@@ -33,7 +33,7 @@
         <!-- Input field -->
         
         <Border Grid.Row="1"
-                Background="#80000000"
+                Background="#20FFFFFF"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Padding="20"
