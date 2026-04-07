@@ -46,6 +46,13 @@ public class HomeViewModel : ViewModelBase
         get => _canSave;
         set => SetProperty(ref _canSave, value);
     }
+
+    private VaultEntry? _selectedEntry;
+    public VaultEntry? SelectedEntry
+    {
+        get => _selectedEntry;
+        set => SetProperty(ref _selectedEntry, value);
+    }
     
     #endregion
 
@@ -130,7 +137,7 @@ public class HomeViewModel : ViewModelBase
         if (entry is null) return;
 
         using var context = new KeyForgeDbContext();
-        var password = _vaultService.getUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
+        var password = _vaultService.GetUserSpecifcWebsitePassword(entry.Id, _sessionService.CurrentUserId);
 
         if (entry.IsPasswordDecrypted)
         {

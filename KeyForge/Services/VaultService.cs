@@ -13,7 +13,7 @@ public interface IVaultService
 {
     List<VaultEntry> GetVaultEntriesForUser(int userId);
     
-    string getUserSpecifcWebsitePassword(int id, int userId);
+    string GetUserSpecifcWebsitePassword(int id, int userId);
 }
 
 public class VaultService : IVaultService
@@ -44,7 +44,7 @@ public class VaultService : IVaultService
     /// <param name="id"><see cref="int"/></param>
     /// <param name="userId"><see cref="int"/></param>
     /// <returns></returns>
-    public string getUserSpecifcWebsitePassword(int id, int userId)
+    public string GetUserSpecifcWebsitePassword(int id, int userId)
     {
         try
         {
