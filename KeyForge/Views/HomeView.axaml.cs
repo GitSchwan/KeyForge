@@ -6,6 +6,8 @@ using Avalonia.Input.Platform;
 using Avalonia.Threading;
 using KeyForge.Models;
 
+using KeyForge.ViewModels;
+
 namespace KeyForge.Views;
 
 public partial class HomeView : UserControl
@@ -15,36 +17,14 @@ public partial class HomeView : UserControl
     public HomeView()
     {
         InitializeComponent();
+        DataContextChanged += OnDataContextChanged;
     }
 
-    private async void MenuItem_OnClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void OnDataContextChanged(object? sender, EventArgs e)
     {
-        if (sender is MenuItem menuItem && menuItem.DataContext is VaultEntry entry)
+        if (DataContext is HomeViewModel vm)
         {
-            if (string.IsNullOrWhiteSpace(entry.Password))
-                return;
-
-            var topLevel = TopLevel.GetTopLevel(this);
-            var clipboard = topLevel?.Clipboard;
-
-            if (clipboard is null)
-                return;
-
-            var copiedText = entry.Password;
-            await clipboard.SetTextAsync(copiedText);
-
-            ShowToast("In die Zwischenablage kopiert");
-
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(TimeSpan.FromSeconds(20));
-
-                var currentText = await clipboard.TryGetTextAsync();
-                if (currentText == copiedText)
-                {
-                    await clipboard.SetTextAsync(string.Empty);
-                }
-            });
+            vm.ClipboardCopyHappened += (s, msg) => ShowToast(msg);
         }
     }
 

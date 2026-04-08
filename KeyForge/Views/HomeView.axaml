@@ -164,6 +164,13 @@
                                      Text="{Binding SelectedEntry.Websiteusername}"
                                      IsReadOnly="{Binding EditNotAllowed}"
                                      Margin="0,5,0,0">
+                                <TextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Kopieren" 
+                                                  Command="{Binding CopyToClipboardCommand}" 
+                                                  CommandParameter="{Binding SelectedEntry.Websiteusername}" />
+                                    </ContextMenu>
+                                </TextBox.ContextMenu>
                                 <TextBox.Styles>
                                     <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">
                                         <Setter Property="Opacity" Value="0.6" />
@@ -193,6 +200,13 @@
                                      Text="{Binding SelectedEntry.Password}"
                                      IsReadOnly="{Binding SelectedEntry.IsPasswordReadOnly}"
                                      Margin="0,5,0,0">
+                                <TextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Kopieren" 
+                                                  Command="{Binding CopyToClipboardCommand}" 
+                                                  CommandParameter="{Binding SelectedEntry.Password}" />
+                                    </ContextMenu>
+                                </TextBox.ContextMenu>
                                 <TextBox.Styles>
                                     <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">
                                         <Setter Property="Opacity" Value="0.6" />
@@ -233,6 +247,13 @@
                                      Text="{Binding SelectedEntry.Website}"
                                      IsReadOnly="{Binding EditNotAllowed}"
                                      Margin="0,5,0,0">
+                                <TextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Kopieren" 
+                                                  Command="{Binding CopyToClipboardCommand}" 
+                                                  CommandParameter="{Binding SelectedEntry.Website}" />
+                                    </ContextMenu>
+                                </TextBox.ContextMenu>
                                 <TextBox.Styles>
                                     <Style Selector="TextBox[IsReadOnly=True] /template/ Border#PART_BorderElement">
                                         <Setter Property="Opacity" Value="0.6" />

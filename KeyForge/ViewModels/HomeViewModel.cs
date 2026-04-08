@@ -25,6 +25,7 @@ public class HomeViewModel : ViewModelBase
     public IAsyncRelayCommand<VaultEntry> DeleteEntryCommand { get; }
     
     public IRelayCommand<VaultEntry> DecryptSelectedEntryCommand { get; }
+    public IAsyncRelayCommand<string> CopyToClipboardCommand { get; }
 
     private string _welcomeMessage = string.Empty;
     public string WelcomeMessage
@@ -100,6 +101,7 @@ public class HomeViewModel : ViewModelBase
         ToggleEditCommand = new AsyncRelayCommand<VaultEntry>(ToggleEditAsync);
         DeleteEntryCommand = new AsyncRelayCommand<VaultEntry>(DeleteEntryAsync);
         DecryptSelectedEntryCommand = new RelayCommand<VaultEntry>(DecryptSelectedEntry);
+        CopyToClipboardCommand = new AsyncRelayCommand<string>(CopyToClipboardAsync);
 
         WelcomeMessage = $"Willkommen {_sessionService.CurrentUsername}";
         
@@ -201,6 +203,42 @@ public class HomeViewModel : ViewModelBase
         }
 
         CanSave = true;
+    }
+
+    public event EventHandler<string>? ClipboardCopyHappened;
+    private static System.Timers.Timer? _clipboardTimer;
+
+    private async Task CopyToClipboardAsync(string? text)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+
+        var topLevel = App.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+            ? desktop.MainWindow
+            : null;
+
+        if (topLevel?.Clipboard is { } clipboard)
+        {
+            await clipboard.SetTextAsync(text);
+            ClipboardCopyHappened?.Invoke(this, "In die Zwischenablage kopiert");
+
+            // Clear after 20 seconds
+            _clipboardTimer?.Stop();
+            _clipboardTimer?.Dispose();
+            
+            _clipboardTimer = new System.Timers.Timer(20000); // 20 seconds
+            _clipboardTimer.AutoReset = false;
+            _clipboardTimer.Elapsed += async (_, _) =>
+            {
+                await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    if (topLevel?.Clipboard is { } cb)
+                    {
+                        await cb.SetTextAsync(string.Empty);
+                    }
+                });
+            };
+            _clipboardTimer.Start();
+        }
     }
 
     private static void DeleteEntry(VaultEntry? entry)
