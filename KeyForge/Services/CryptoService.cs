@@ -217,6 +217,10 @@ public class CryptoService : ICryptoService
         return System.Text.Encoding.UTF8.GetString(plaintext);
     }
 
+    /// <summary>
+    /// Generates a random password.
+    /// </summary>
+    /// <returns></returns>
     public string GenerateSavePassword()
     {
         const string validChars = "!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~";
