@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:models="clr-namespace:KeyForge.Models"
-             xmlns:drawing="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives"
              x:Class="KeyForge.Views.HomeView"
          
              x:Name="Root"
@@ -35,7 +33,8 @@
                                 Height="40"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Foreground="White"/>
+                                Foreground="White"
+                                Cursor="Hand"/>
 
                         <Button Content="⚙"
                                 FontSize="18"
@@ -43,7 +42,8 @@
                                 Height="40"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Foreground="White"/>
+                                Foreground="White"
+                                Cursor="Hand"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -75,7 +75,6 @@
                                   GridLinesVisibility="None"
                                   BorderThickness="0"
                                   HeadersVisibility="None"
-                                  ClipboardCopyMode="ExcludeHeader"
                                   MaxHeight="600"
                                   ColumnWidth="*">
                             
@@ -118,10 +117,10 @@
                 <Border Grid.Column="1" Grid.Row="1"
                         Background="#20FFFFFF"
                         CornerRadius="12"
-                        Padding="20">
-                    <StackPanel IsVisible="{Binding SelectedEntry, 
-                              Converter={x:Static ObjectConverters.IsNotNull}}"
-                                Spacing="20">
+                        Padding="20"
+                        IsVisible="{Binding SelectedEntry, 
+                        Converter={x:Static ObjectConverters.IsNotNull}}">
+                    <StackPanel Spacing="20">
                         
                         <Grid ColumnDefinitions="*, Auto, Auto">
                             <TextBlock Text="{Binding SelectedEntry.Website}"
@@ -134,13 +133,15 @@
                                         CommandParameter="{Binding SelectedEntry}"
                                         Content="{Binding EditButtonText}"
                                         Width="120"
-                                        HorizontalContentAlignment="Center"/>
+                                        HorizontalContentAlignment="Center"
+                                        Cursor="Hand"/>
                                 <Button Background="#80200000"
                                         Command="{Binding DeleteEntryCommand}"
                                         CommandParameter="{Binding SelectedEntry}"
                                         Content="🗑"
                                         Width="40"
-                                        HorizontalContentAlignment="Center"/>
+                                        HorizontalContentAlignment="Center"
+                                        Cursor="Hand"/>
                             </StackPanel>
                         </Grid>
 
@@ -218,7 +219,8 @@
                                     Command="{Binding DecryptSelectedEntryCommand}"
                                     CommandParameter="{Binding SelectedEntry}"
                                     Margin="5,5,0,0"
-                                    VerticalAlignment="Stretch"/>
+                                    VerticalAlignment="Stretch"
+                                    Cursor="Hand"/>
                             
                             <!-- Website Section -->
                             <Path Grid.Row="6" Grid.Column="0" Grid.RowSpan="2"

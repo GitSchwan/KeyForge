@@ -21,11 +21,13 @@
                 <Button Grid.Column="2"
                         Command="{Binding ToHomeView }"
                         Margin="10,0,10,0"
-                        Content="⟵"/>
+                        Content="⟵"
+                        Cursor="Hand"/>
 
                 <Button Grid.Column="3"
                         Margin="10,0,10,0"
-                        Content="⚙"/>
+                        Content="⚙"
+                        Cursor="No"/>
 
             </Grid>
         </Border>
@@ -83,7 +85,8 @@
                 <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"
                         Content="Speichern"
                         HotKey="Return"
-                        Command="{Binding AddViewSaveCommand}"/>
+                        Command="{Binding AddViewSaveCommand}"
+                        Cursor="Hand"/>
 
             </Grid>
         </Border>

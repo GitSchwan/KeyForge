@@ -74,10 +74,12 @@
                             Spacing="8">
                     <Button Content="Abbrechen"
                             Background="#33000000"
-                            Click="Cancel_Click"/>
+                            Click="Cancel_Click"
+                            Cursor="Hand"/>
                     <Button Content="Bestätigen"
                             Background="#33000000"
-                            Click="Confirm_Click"/>
+                            Click="Confirm_Click"
+                            Cursor="Hand"/>
                 </StackPanel>
             </Grid>
         </Grid>

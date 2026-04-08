@@ -8,6 +8,7 @@
         <Button Content="Neuer Nutzer"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
+                Cursor="Hand"
                 Margin="5"
                 Command="{Binding NavCreateUserCommand}"/>
         <StackPanel VerticalAlignment="Center" 
@@ -59,6 +60,7 @@
                             HorizontalAlignment="Center"
                             Margin="10"
                             HotKey="Return"
+                            Cursor="Hand"
                             Command="{Binding LoginCommand}" />
                     
                 </StackPanel>

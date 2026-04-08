@@ -8,7 +8,8 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
             Margin="5"
-            Command="{Binding NavigateToLogin}"/>
+            Command="{Binding NavigateToLogin}"
+            Cursor="Hand"/>
         <StackPanel VerticalAlignment="Center" Margin="0,150,0,0" HorizontalAlignment="Center" Width="400">
                 <Border Width="400" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" Background="#30000000">
                     <StackPanel>
@@ -78,7 +79,8 @@
                                 HorizontalAlignment="Center"
                                 Margin="10"
                                 HotKey="Return"
-                                Command="{Binding CreateUserCommand}" />
+                                Command="{Binding CreateUserCommand}"
+                                Cursor="Hand"/>
                         
                     </StackPanel>
                 </Border>
