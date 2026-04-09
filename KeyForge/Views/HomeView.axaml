@@ -75,7 +75,7 @@
                                   GridLinesVisibility="None"
                                   BorderThickness="0"
                                   HeadersVisibility="None"
-                                  MaxHeight="600"
+                                  MaxHeight="380"
                                   ColumnWidth="*">
                             
                             <DataGrid.Styles>
