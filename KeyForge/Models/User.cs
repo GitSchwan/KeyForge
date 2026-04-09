@@ -14,14 +14,14 @@ public class User
     [MaxLength(500)]
     public string MasterPassword { get; set; }
 
-    public List<VaultEntry> VaultEntries { get; set; }
+    public List<VaultEntry> VaultEntries { get; set; } = new();
 
+    public virtual UserSettings? Settings { get; set; }
 
     public User(string name, string masterPassword)
     {
         Name = name;
         MasterPassword = masterPassword;
     }
-    
 }
 

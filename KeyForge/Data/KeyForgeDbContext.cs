@@ -7,6 +7,7 @@ public class KeyForgeDbContext : DbContext
 {
     public DbSet<VaultEntry> VaultEntries => Set<VaultEntry>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserSettings> UserSettings => Set<UserSettings>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

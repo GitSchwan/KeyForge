@@ -134,6 +134,10 @@ public class HomeViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Toggles the edit mode of the entry. If the entry is already in edit mode, it will be saved.
+    /// </summary>
+    /// <param name="entry"></param>
     private async Task ToggleEditAsync(VaultEntry? entry)
     {
         if (entry is null) return;
@@ -150,6 +154,10 @@ public class HomeViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Saves the changes to the database.
+    /// </summary>
+    /// <param name="entry"></param>
     private async Task SaveAsync(VaultEntry? entry)
     {
         if (entry is null) return;

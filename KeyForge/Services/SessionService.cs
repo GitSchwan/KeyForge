@@ -11,8 +11,6 @@ public class SessionService
     public string? HashedMasterPassword { get; private set; }
 
     public byte[]? EncryptionKey { get; set; }
-    
-    public bool SavePossible { get; set; }
     public bool IsLoggedIn => CurrentUserId > -1;
 
     public void SetCurrentUser(int userId, string username, string hashedMasterPassword)
