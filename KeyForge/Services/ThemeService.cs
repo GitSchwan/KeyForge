@@ -1,4 +1,5 @@
-﻿using KeyForge.Models;
+﻿using Avalonia.Media;
+using KeyForge.Models;
 
 namespace KeyForge.Services;
 
@@ -20,5 +21,19 @@ public class ThemeService
         var userid = _sessionService.CurrentUserId;
         var themeId = _userSettingsService.GetThemeId(userid);
         return _themeRegistry.GetById(themeId);
+    }
+
+    public void initialCreateBackground(string themeid) //WIP
+    {
+        var background = new LinearGradientBrush
+        {
+            StartPoint = new Avalonia.RelativePoint(0, 0, Avalonia.RelativeUnit.Relative),
+            EndPoint = new Avalonia.RelativePoint(1, 1, Avalonia.RelativeUnit.Relative),
+            GradientStops =
+            {
+                new GradientStop { Color = Color.FromRgb(128, 0, 128), Offset = 0 },
+                new GradientStop { Color = Color.FromRgb(151, 17, 56), Offset = 1 }
+            }
+        };
     }
 }

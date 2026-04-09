@@ -21,6 +21,7 @@ public class HomeViewModel : ViewModelBase
     private readonly ICryptoService _cryptoService;
 
     public IRelayCommand NavigateToAddCommand { get; }
+    public IRelayCommand NavigateToSettingsCommand { get; }
     public IAsyncRelayCommand<VaultEntry> ToggleEditCommand { get; }
     public IAsyncRelayCommand<VaultEntry> DeleteEntryCommand { get; }
     
@@ -89,11 +90,13 @@ public class HomeViewModel : ViewModelBase
     
     public HomeViewModel(
         Action navigateToAdd,
+        Action navigateToSettings,
         IVaultService vaultService,
         SessionService sessionService,
         ICryptoService cryptoService)
     {
         NavigateToAddCommand = new RelayCommand(navigateToAdd);
+        NavigateToSettingsCommand = new RelayCommand(navigateToSettings);
         _vaultService = vaultService;
         _sessionService = sessionService;
         _cryptoService = cryptoService;

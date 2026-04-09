@@ -1,0 +1,36 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:KeyForge.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="KeyForge.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+    
+    <SplitView IsPaneOpen="True"
+               DisplayMode="CompactInline"
+               CompactPaneLength="48"
+               OpenPaneLength="200">
+        <SplitView.Pane>
+            <StackPanel>
+                <ListBox ItemsSource="{Binding NavItems}"
+                         SelectedItem="{Binding SelectedNavItem}"
+                         Background="Transparent">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SettingsNavItem">
+                            <StackPanel Orientation="Horizontal" Spacing="12" Height="40">
+                                <PathIcon Data="{Binding Icon}" Width="16" />
+                                <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </SplitView.Pane>
+        <SplitView.Content>
+            <ContentControl Content="{Binding CurrentPage}" />
+        </SplitView.Content>
+    </SplitView>
+    
+    
+</UserControl>
