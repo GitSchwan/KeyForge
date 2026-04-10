@@ -48,7 +48,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToSettings()
     {
-        CurrentViewModel = new SettingsViewModel(_themeRegistry, _themeService);
+        CurrentViewModel = new SettingsViewModel(_themeRegistry, _themeService, NavigateToHome);
     }
 
     private void NavigateToAdd()

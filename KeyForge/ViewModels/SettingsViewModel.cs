@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using CommunityToolkit.Mvvm.Input;
 using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
@@ -9,6 +11,8 @@ public class SettingsViewModel : ViewModelBase
     private readonly IThemeRegistry _themeRegistry;
     private readonly ThemeService _themeService;
 
+    public RelayCommand ShowHomeViewCommand { get; }
+    
     public ObservableCollection<SettingsNavItem> NavItems { get; }
     
     private SettingsNavItem? _selectedNavItem;
@@ -30,10 +34,12 @@ public class SettingsViewModel : ViewModelBase
         get => _currentPage;
         set => SetProperty(ref _currentPage, value);
     }
-    public SettingsViewModel(IThemeRegistry themeRegistry, ThemeService themeService)
+    public SettingsViewModel(IThemeRegistry themeRegistry, ThemeService themeService, Action navigateToHomeView)
     {
         _themeRegistry = themeRegistry;
         _themeService = themeService;
+        ShowHomeViewCommand = new RelayCommand(navigateToHomeView);
+        
         NavItems = new ObservableCollection<SettingsNavItem>
         {
             new SettingsNavItem("Aussehen", "M286.837,101.407h-33.58l-98.774-71." +

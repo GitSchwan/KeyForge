@@ -59,7 +59,7 @@
                            Text="{Binding WelcomeMessage}"
                            FontSize="24"
                            HorizontalAlignment="Left"
-                           Foreground="#AAAAAA"
+                           Foreground="White"
                            Margin="0,0,0,10"/>
         
                 <StackPanel Grid.Row="1" Grid.Column="0" Spacing="10">
@@ -135,14 +135,16 @@
                                         Content="{Binding EditButtonText}"
                                         Width="120"
                                         HorizontalContentAlignment="Center"
-                                        Cursor="Hand"/>
+                                        Cursor="Hand"
+                                        Foreground="White"/>
                                 <Button Background="#80200000"
                                         Command="{Binding DeleteEntryCommand}"
                                         CommandParameter="{Binding SelectedEntry}"
                                         Content="🗑"
                                         Width="40"
                                         HorizontalContentAlignment="Center"
-                                        Cursor="Hand"/>
+                                        Cursor="Hand"
+                                        Foreground="White"/>
                             </StackPanel>
                         </Grid>
 
@@ -161,7 +163,7 @@
                                         C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z 
                                         M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"/>
                             <Label Content="Nutzername / E-Mail" Grid.Row="0" Grid.Column="1" 
-                                   Foreground="#AAAAAA" FontSize="12"/>
+                                   Foreground="White" FontSize="12"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                      Text="{Binding SelectedEntry.Websiteusername}"
                                      IsReadOnly="{Binding EditNotAllowed}"
@@ -196,7 +198,7 @@
                                         18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288
                                         V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" />
                             <Label Content="Passwort" Grid.Row="3" Grid.Column="1" 
-                                   Foreground="#AAAAAA" FontSize="12"/>
+                                   Foreground="White" FontSize="12"/>
                             <TextBox Grid.Row="4" Grid.Column="1"
                                      x:Name="HomeViewPasswordBox"
                                      Text="{Binding SelectedEntry.Password}"
@@ -245,7 +247,7 @@
                                         C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12
                                         C21 7.02944 16.9706 3 12 3Z"/>
                             <Label Content="Webseite" Grid.Row="6" Grid.Column="1" 
-                                   Foreground="#AAAAAA" FontSize="12"/>
+                                   Foreground="White" FontSize="12"/>
                             <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
                                      Text="{Binding SelectedEntry.Website}"
                                      IsReadOnly="{Binding EditNotAllowed}"
