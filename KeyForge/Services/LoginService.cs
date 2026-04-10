@@ -27,11 +27,13 @@ public class LoginService : ILoginService
     {
         var user = _dbContext.Users.FirstOrDefault(u => u.Name == username);
         if (user is null) return false;
+        
+        var userSettings = _dbContext.UserSettings.FirstOrDefault(x => x.UserId == user.Id);
 
         var success = _cryptoService.VerifyPassword(password, user.MasterPassword);
         if (!success) return false;
 
-        _sessionService.SetCurrentUser(user.Id, user.Name, user.MasterPassword);
+        _sessionService.SetCurrentUser(user.Id, user.Name, user.MasterPassword, userSettings?.PreferredThemeId);
         return true;
     }
 

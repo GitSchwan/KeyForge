@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using KeyForge.Models;
 using KeyForge.Services;
 
@@ -26,7 +25,6 @@ public partial class VisualSettingsViewModel : ViewModelBase
         {
             var list = theme.ThemeId;
         }
-
     }
 
     [ObservableProperty] private Theme? _selectedTheme;

@@ -47,7 +47,7 @@ public partial class App : Application
             IThemeRegistry themeRegistry = new ThemeRegistry();
             ThemeService themeService = new ThemeService(themeRegistry, usersession, new UserSettingsService(_dbContext));
 
-            desktop.MainWindow = new MainWindow
+            desktop.MainWindow = new MainWindow(themeService)
             {
                 DataContext = new MainWindowViewModel(loginService, cryptoService, _dbContext, usersession, themeRegistry, themeService),
             };

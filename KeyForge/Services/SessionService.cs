@@ -13,7 +13,7 @@ public class SessionService
     public byte[]? EncryptionKey { get; set; }
     public bool IsLoggedIn => CurrentUserId > -1;
 
-    public void SetCurrentUser(int userId, string username, string hashedMasterPassword)
+    public void SetCurrentUser(int userId, string username, string hashedMasterPassword, string? theme)
     {
         CurrentUserId = userId;
         CurrentUsername = username;

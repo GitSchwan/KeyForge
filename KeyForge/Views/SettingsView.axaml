@@ -19,8 +19,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:SettingsNavItem">
                             <StackPanel Orientation="Horizontal" Spacing="12" Height="40">
-                                <PathIcon Data="{Binding Icon}" Width="16" />
-                                <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+                                <PathIcon Data="{Binding Icon}" Width="16"/>
+                                <TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

@@ -1,18 +1,29 @@
+using System;
 using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using KeyForge.ViewModels;
+using KeyForge.Data;
+using KeyForge.Models;
+using KeyForge.Services;
 
 namespace KeyForge.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    
+    private readonly ThemeService _themeService;
+    
+    public MainWindow(ThemeService themeService)
     {
         InitializeComponent();
 
         Opened += (_, _) => AttachToViewModel();
         DataContextChanged += (_, _) => AttachToViewModel();
+        
+        _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
+        _themeService.ThemeChanged += OnThemeChanged; // Subscribe to theme changes
     }
 
     private void AttachToViewModel()
@@ -52,16 +63,22 @@ public partial class MainWindow : Window
         else
         {
             TransparencyLevelHint = [WindowTransparencyLevel.None];
-            Background = new LinearGradientBrush
-            {
-                StartPoint = new Avalonia.RelativePoint(0, 0, Avalonia.RelativeUnit.Relative),
-                EndPoint = new Avalonia.RelativePoint(1, 1, Avalonia.RelativeUnit.Relative),
-                GradientStops =
-                {
-                    new GradientStop { Color = Color.FromRgb(128, 0, 128), Offset = 0 },
-                    new GradientStop { Color = Color.FromRgb(151, 17, 56), Offset = 1 }
-                }
-            };
+            OnThemeChanged(_themeService.GetCurrentTheme());
         }
+    }
+    
+    private void OnThemeChanged(Theme? theme)
+    {
+        if (theme is null) return;
+        Background = new LinearGradientBrush
+        {
+            StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+            EndPoint = new RelativePoint(1, 1, RelativeUnit.Relative),
+            GradientStops =
+            {
+                new GradientStop { Color = Color.Parse(theme.StartColor), Offset = 0 },
+                new GradientStop { Color = Color.Parse(theme.EndColor), Offset = 1 }
+            }
+        };
     }
 }
