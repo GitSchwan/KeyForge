@@ -44,10 +44,12 @@ public partial class App : Application
             
             ILoginService loginService = new LoginService(_dbContext, usersession);
             ICryptoService cryptoService = new CryptoService(_dbContext,usersession);
+            IThemeRegistry themeRegistry = new ThemeRegistry();
+            ThemeService themeService = new ThemeService(themeRegistry, usersession, new UserSettingsService(_dbContext));
 
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(loginService, cryptoService, _dbContext, usersession),
+                DataContext = new MainWindowViewModel(loginService, cryptoService, _dbContext, usersession, themeRegistry, themeService),
             };
         }
 

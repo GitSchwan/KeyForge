@@ -10,10 +10,11 @@ public class ThemeService
     private readonly UserSettingsService _userSettingsService;
     
     
-    public ThemeService(IThemeRegistry themeRegistry, SessionService sessionService)
+    public ThemeService(IThemeRegistry themeRegistry, SessionService sessionService, UserSettingsService userSettingsService)
     {
         _themeRegistry = themeRegistry;
         _sessionService = sessionService;
+        _userSettingsService = userSettingsService;
     }
 
     public Theme? GetCurrentTheme(int userId)
@@ -21,6 +22,12 @@ public class ThemeService
         var userid = _sessionService.CurrentUserId;
         var themeId = _userSettingsService.GetThemeId(userid);
         return _themeRegistry.GetById(themeId);
+    }
+    
+    public void SetTheme(string themeId)
+    {
+        var userid = _sessionService.CurrentUserId;
+        _userSettingsService.SetThemeId(userid, themeId);
     }
 
     public void initialCreateBackground(string themeid) //WIP

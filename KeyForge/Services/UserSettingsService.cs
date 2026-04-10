@@ -31,6 +31,7 @@ public class UserSettingsService : IUserSettingsService
         var settings = _dbContext.UserSettings.FirstOrDefault(x => x.UserId == userId);
         
         settings?.PreferredThemeId = themeId;
+        Console.WriteLine("DEBUG: Set theme to " + themeId);
         _dbContext.SaveChanges();
     }
 }

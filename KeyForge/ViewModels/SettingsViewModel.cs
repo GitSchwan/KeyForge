@@ -1,10 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
 
 public class SettingsViewModel : ViewModelBase
 {
+    private readonly IThemeRegistry _themeRegistry;
+    private readonly ThemeService _themeService;
+
     public ObservableCollection<SettingsNavItem> NavItems { get; }
     
     private SettingsNavItem? _selectedNavItem;
@@ -26,8 +30,10 @@ public class SettingsViewModel : ViewModelBase
         get => _currentPage;
         set => SetProperty(ref _currentPage, value);
     }
-    public SettingsViewModel()
+    public SettingsViewModel(IThemeRegistry themeRegistry, ThemeService themeService)
     {
+        _themeRegistry = themeRegistry;
+        _themeService = themeService;
         NavItems = new ObservableCollection<SettingsNavItem>
         {
             new SettingsNavItem("Aussehen", "M286.837,101.407h-33.58l-98.774-71." +
@@ -49,7 +55,7 @@ public class SettingsViewModel : ViewModelBase
                                             ",166.649,220.172,177.596z M20.327,249.123v-14.061  c6.733" +
                                             ",1.123,15.799,2.121,26.788,2.121c24.366,0,58.15-4.9,96.708-24" +
                                             ".201c28.442-14.236,60.259-18.617,94.568-13.021  c17.389,2.836" +
-                                            ",31.067,7.664,38.281,10.578v38.584H20.327z",new VisualSettingsViewModel()),
+                                            ",31.067,7.664,38.281,10.578v38.584H20.327z",new VisualSettingsViewModel(_themeRegistry, _themeService)),
             
             new SettingsNavItem("Profil verwalten", "M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 " +
                                                     "8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4," +

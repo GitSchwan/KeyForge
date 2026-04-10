@@ -2,21 +2,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:KeyForge.ViewModels"
+             xmlns:models="using:KeyForge.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="KeyForge.Views.VisualSettingsView">
+             x:Class="KeyForge.Views.VisualSettingsView"
+             x:DataType="vm:VisualSettingsViewModel">
     
     
     <StackPanel Margin="20" Spacing="10">
         <TextBlock Text="Aussehen Einstellung" FontSize="20" FontWeight="Bold"/>
         <Separator Background="#40FFFFFF" Height="1"/>
-        <TextBlock Text="Theme auswählen"/>
-        <SplitButton Content="Themes">
-            <SplitButton.Flyout>
-                <MenuFlyout Placement="Bottom">
-                    
-                </MenuFlyout>
-            </SplitButton.Flyout>
-        </SplitButton>
+        <ComboBox ItemsSource="{Binding Themes}"
+                  SelectedItem="{Binding SelectedTheme}"
+                  DisplayMemberBinding="{Binding ThemeId}"
+                  PlaceholderText="Theme auswählen"
+                  PlaceholderForeground="White">
+        </ComboBox>
+        
     </StackPanel>
     
     

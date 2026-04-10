@@ -9,6 +9,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly ICryptoService _cryptoService;
     private readonly KeyForgeDbContext _dbContext;
     private readonly SessionService _sessionService;
+    private readonly IThemeRegistry _themeRegistry;
+    private readonly ThemeService _themeService;
 
     private ViewModelBase? _currentViewModel;
     public ViewModelBase? CurrentViewModel
@@ -19,12 +21,15 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(ILoginService loginService, 
         ICryptoService cryptoService, 
-        KeyForgeDbContext dbContext, SessionService sessionService)
+        KeyForgeDbContext dbContext, SessionService sessionService,
+        IThemeRegistry themeRegistry, ThemeService themeService)
     {
         _loginService = loginService;
         _cryptoService = cryptoService;
         _dbContext = dbContext;
         _sessionService = sessionService;
+        _themeRegistry = themeRegistry;
+        _themeService = themeService;
 
         if (_loginService.HasUsers())
         {
@@ -43,7 +48,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToSettings()
     {
-        CurrentViewModel = new SettingsViewModel();
+        CurrentViewModel = new SettingsViewModel(_themeRegistry, _themeService);
     }
 
     private void NavigateToAdd()
