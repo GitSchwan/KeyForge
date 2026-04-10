@@ -9,36 +9,43 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
                 Cursor="Hand"
+                Foreground="White"
                 Margin="5"
                 Command="{Binding NavCreateUserCommand}"/>
         <StackPanel VerticalAlignment="Center" 
                     Margin="0,150,0,0" 
                     Width="400" 
                     HorizontalAlignment="Center">
-            <Border Width="400" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" Background="#30000000">
+            <Border Width="400" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    CornerRadius="10" Background="#70000000" BoxShadow="0 0 8 0 rgba(255,255,255,0.8), 0 0 4 0 rgba(255,255,255,0.5)">
                 <StackPanel>
                     <TextBlock Text="Anmelden"
                                HorizontalAlignment="Center"
                                TextWrapping="Wrap"
                                FontSize="24"
-                               Margin="10"/>
+                               Margin="10"
+                               Foreground="White"
+                               />
 
                     <Label Content="Nutzername"
                            Target="UsernameBox"
                            HorizontalAlignment="Left"
-                           Margin="50,0,0,0"/>
+                           Margin="50,0,0,0"
+                           Foreground="White"/>
 
                     <TextBox Watermark="Bitte gib deinen Nutzernamen ein..."
                              Text="{Binding Username}"
                              Width="300"
                              x:Name="UsernameBox"
                              HorizontalAlignment="Left"
-                             Margin="50,10,0,0"/>
+                             Margin="50,10,0,0"
+                             Foreground="White"/>
 
                     <Label Content="Masterpasswort"
                            Target="PasswordBox"
                            HorizontalAlignment="Left"
-                           Margin="50,10,0,0"/>
+                           Margin="50,10,0,0"
+                           Foreground="White"/>
 
                     <TextBox x:Name="PasswordBox"
                              Watermark="Bitte gib dein Masterpasswort ein..."
@@ -46,12 +53,14 @@
                              Width="300"
                              PasswordChar="*"
                              HorizontalAlignment="Left"
-                             Margin="50,10,0,0">
+                             Margin="50,10,0,0"
+                             Foreground="White">
                         <TextBox.InnerRightContent>
                             <ToggleButton 
                                 Content="👁" 
                                 IsChecked="{Binding #PasswordBox.RevealPassword}"
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center"
+                                Foreground="White"/>
                         </TextBox.InnerRightContent>
                         
                     </TextBox>
@@ -61,7 +70,8 @@
                             Margin="10"
                             HotKey="Return"
                             Cursor="Hand"
-                            Command="{Binding LoginCommand}" />
+                            Command="{Binding LoginCommand}" 
+                            Foreground="White"/>
                     
                 </StackPanel>
             </Border>
