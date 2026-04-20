@@ -13,4 +13,10 @@ public class UserSettings
     public string? PreferredThemeId { get; set; }
 
     public virtual User User { get; set; } = null!;
+    
+    public UserSettings(int userId, string? preferredThemeId)
+    {
+        UserId = userId;
+        PreferredThemeId = preferredThemeId;
+    }
 }
