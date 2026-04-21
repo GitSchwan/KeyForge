@@ -29,6 +29,16 @@
     </PackageReference>
   </ItemGroup>
 
+  <PropertyGroup>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' == ''">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Update="Views\CreateUserView.axaml.cs">
       <DependentUpon>CreateUserView.axaml</DependentUpon>
