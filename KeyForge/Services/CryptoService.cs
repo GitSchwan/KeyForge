@@ -9,21 +9,70 @@ namespace KeyForge.Services;
 
 public interface ICryptoService
 {
+    /// <summary>
+    /// Hashes a password using the PBKDF2 algorithm.
+    /// </summary>
+    /// <param name="password"><see cref="string"/></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     string HashPassword(string password);
-
+    
+    /// <summary>
+    /// Inserts a new user into the database.
+    /// </summary>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="hashedPassword"><see cref="string"/></param>
     void InsertUserData(string username, string hashedPassword);
-
+    
+    /// <summary>
+    /// Verifies a password against a stored hash.
+    /// </summary>
+    /// <param name="password"><see cref="string"/></param>
+    /// <param name="storedHash"><see cref="string"/></param>
+    /// <returns></returns>
     bool VerifyPassword(string password, string storedHash);
 
     void InsertVaultData(string website, string username, string encryptedPassword);
     
+    /// <summary>
+    /// Encrypts a password using the encryption key stored in the session.
+    /// </summary>
+    /// <param name="password"><see cref="string"/></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     string EncryptPassword(string password);
     
+    /// <summary>
+    /// Decrypts an encrypted password using the encryption key stored in the session.
+    /// </summary>
+    /// <param name="encryptedPassword"><see cref="string"/></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="FormatException"></exception>
     string DecryptPassword(string encryptedPassword);
     
+    /// <summary>
+    /// Derives an encryption key from a master password and a stored hash.
+    /// </summary>
+    /// <param name="masterPassword"></param>
+    /// <param name="storedHash"></param>
+    /// <returns></returns>
+    /// <exception cref="FormatException"></exception>
     byte[] DeriveEncryptionKey(string masterPassword, string storedHash);
     
+    /// <summary>
+    /// Generates a random password.
+    /// </summary>
+    /// <returns>A fkn Password</returns>
     string GenerateSavePassword();
+    
+    /// <summary>
+    /// Deletes User Data
+    /// </summary>
+    /// <param name="userId"></param>
+    void DeleteUserData(int userId);
 }
 
 public class CryptoService : ICryptoService
@@ -61,12 +110,7 @@ public class CryptoService : ICryptoService
     }
 
     
-    /// <summary>
-    /// Hashes a password using the PBKDF2 algorithm.
-    /// </summary>
-    /// <param name="password"><see cref="string"/></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
+    
     public string HashPassword(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
@@ -82,14 +126,7 @@ public class CryptoService : ICryptoService
 
         return $"{HashVersion}.{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
     }
-
-    /// <summary>
-    /// Derives an encryption key from a master password and a stored hash.
-    /// </summary>
-    /// <param name="masterPassword"></param>
-    /// <param name="storedHash"></param>
-    /// <returns></returns>
-    /// <exception cref="FormatException"></exception>
+    
     public byte[] DeriveEncryptionKey(string masterPassword, string storedHash)
     {
         var parts = storedHash.Split('.');
@@ -106,14 +143,6 @@ public class CryptoService : ICryptoService
             KeySize);
     }
     
-
-    
-    /// <summary>
-    /// Verifies a password against a stored hash.
-    /// </summary>
-    /// <param name="password"><see cref="string"/></param>
-    /// <param name="storedHash"><see cref="string"/></param>
-    /// <returns></returns>
     public bool VerifyPassword(string password, string storedHash)
     {
         if (string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(storedHash))
@@ -154,15 +183,7 @@ public class CryptoService : ICryptoService
 
         return CryptographicOperations.FixedTimeEquals(actualHash, expectedHash);
     }
-
     
-    /// <summary>
-    /// Encrypts a password using the encryption key stored in the session.
-    /// </summary>
-    /// <param name="password"><see cref="string"/></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public string EncryptPassword(string password)
     {
         if (string.IsNullOrWhiteSpace(password))
@@ -183,15 +204,7 @@ public class CryptoService : ICryptoService
 
         return $"{EncVersion}.{Convert.ToBase64String(nonce)}.{Convert.ToBase64String(tag)}.{Convert.ToBase64String(ciphertext)}";
     }
-
-    /// <summary>
-    /// Decrypts an encrypted password using the encryption key stored in the session.
-    /// </summary>
-    /// <param name="encryptedPassword"><see cref="string"/></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="FormatException"></exception>
+    
     public string DecryptPassword(string encryptedPassword)
     {
         if (string.IsNullOrWhiteSpace(encryptedPassword))
@@ -217,10 +230,7 @@ public class CryptoService : ICryptoService
         return System.Text.Encoding.UTF8.GetString(plaintext);
     }
 
-    /// <summary>
-    /// Generates a random password.
-    /// </summary>
-    /// <returns></returns>
+    
     public string GenerateSavePassword()
     {
         const string validChars = "!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~";
@@ -235,11 +245,7 @@ public class CryptoService : ICryptoService
     }
     
     #region Database Operations
-    /// <summary>
-    /// Inserts a new user into the database.
-    /// </summary>
-    /// <param name="username"><see cref="string"/></param>
-    /// <param name="hashedPassword"><see cref="string"/></param>
+
     public void InsertUserData(string username, string hashedPassword)
     {
         var user = new User(username, hashedPassword);
@@ -266,6 +272,15 @@ public class CryptoService : ICryptoService
         var vaultEntry = new VaultEntry(website, username, _sessionService.CurrentUserId, encryptedPassword);
 
         _dbContext.VaultEntries.Add(vaultEntry);
+        _dbContext.SaveChanges();
+    }
+
+    public void DeleteUserData(int userid)
+    {
+        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userid);
+        
+        if (user is null) return;
+        _dbContext.Users.Remove(user);
         _dbContext.SaveChanges();
     }
     #endregion
