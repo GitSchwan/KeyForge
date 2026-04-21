@@ -2,13 +2,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:KeyForge.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:ManageAccountViewModel"
              x:Class="KeyForge.Views.ManageAccountView">
     
     
     <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="Manage Account" FontSize="20" FontWeight="Bold"/>
-        <TextBlock Text="Account management settings."/>
+        <TextBlock Text="Benutzer Einstellung"/>
+        <Separator Background="#40FFFFFF" Height="1"></Separator>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Benutzer Löschen: " VerticalAlignment="Center"/>
+            <Button Content="Löschen" Background="DarkRed" Foreground="White"
+                    Command="{Binding DeleteUserCommand}"/>
+        </StackPanel>
     </StackPanel>
     
     

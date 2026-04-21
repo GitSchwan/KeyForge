@@ -43,12 +43,14 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void NavigateToHome()
     {
-        CurrentViewModel = new HomeViewModel(NavigateToAdd, NavigateToSettings, new VaultService(_dbContext), _sessionService, _cryptoService);
+        CurrentViewModel = new HomeViewModel(NavigateToAdd, NavigateToSettings, new VaultService(_dbContext), 
+            _sessionService, _cryptoService);
     }
 
     private void NavigateToSettings()
     {
-        CurrentViewModel = new SettingsViewModel(_themeRegistry, _themeService, NavigateToHome);
+        CurrentViewModel = new SettingsViewModel(_themeRegistry, _themeService, NavigateToHome, 
+            _cryptoService, _sessionService, NavigateToLogin);
     }
 
     private void NavigateToAdd()

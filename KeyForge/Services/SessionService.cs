@@ -20,9 +20,10 @@ public class SessionService
         HashedMasterPassword = hashedMasterPassword;
     }
 
-    public void Clear()
+    public void Logout()
     {
         CurrentUserId = -1;
         CurrentUsername = null;
+        HashedMasterPassword = null;   
     }
 }

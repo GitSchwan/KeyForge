@@ -114,7 +114,7 @@ public class HomeViewModel : ViewModelBase
         LoadData();
     }
 
-    private async Task DeleteEntryAsync(VaultEntry? entry) //async because of the dialog
+    private async Task DeleteEntryAsync(VaultEntry? entry) //async because of the dialog // Needs better implementation
     {
         if (entry is null)
             return;

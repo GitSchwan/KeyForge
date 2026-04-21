@@ -10,6 +10,10 @@ public class SettingsViewModel : ViewModelBase
 {
     private readonly IThemeRegistry _themeRegistry;
     private readonly ThemeService _themeService;
+    private readonly ICryptoService _cryptoService;
+    private readonly SessionService _sessionService;
+    
+    
 
     public RelayCommand ShowHomeViewCommand { get; }
     
@@ -34,10 +38,14 @@ public class SettingsViewModel : ViewModelBase
         get => _currentPage;
         set => SetProperty(ref _currentPage, value);
     }
-    public SettingsViewModel(IThemeRegistry themeRegistry, ThemeService themeService, Action navigateToHomeView)
+    public SettingsViewModel(IThemeRegistry themeRegistry, ThemeService themeService, Action navigateToHomeView, 
+        ICryptoService cryptoService, SessionService sessionService, Action NavigateToLogin)
     {
         _themeRegistry = themeRegistry;
         _themeService = themeService;
+        _cryptoService = cryptoService;
+        _sessionService = sessionService;
+        var _navigate = NavigateToLogin;
         ShowHomeViewCommand = new RelayCommand(navigateToHomeView);
         
         NavItems = new ObservableCollection<SettingsNavItem>
@@ -61,11 +69,13 @@ public class SettingsViewModel : ViewModelBase
                                             ",166.649,220.172,177.596z M20.327,249.123v-14.061  c6.733" +
                                             ",1.123,15.799,2.121,26.788,2.121c24.366,0,58.15-4.9,96.708-24" +
                                             ".201c28.442-14.236,60.259-18.617,94.568-13.021  c17.389,2.836" +
-                                            ",31.067,7.664,38.281,10.578v38.584H20.327z",new VisualSettingsViewModel(_themeRegistry, _themeService)),
+                                            ",31.067,7.664,38.281,10.578v38.584H20.327z",
+                new VisualSettingsViewModel(_themeRegistry, _themeService)),
             
             new SettingsNavItem("Profil verwalten", "M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 " +
                                                     "8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4," +
-                                                    "15.79 7.58,14 12,14Z", new ManageAccountViewModel())
+                                                    "15.79 7.58,14 12,14Z", 
+                new ManageAccountViewModel(_cryptoService, _sessionService, _navigate))
         };
 
         SelectedNavItem = NavItems.FirstOrDefault();
