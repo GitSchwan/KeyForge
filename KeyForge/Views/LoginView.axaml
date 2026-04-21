@@ -31,7 +31,7 @@
                             <Setter Property="BorderBrush" Value="Cyan"/>
 
                             <Style.Animations>
-                                <Animation Duration="0:0:40"
+                                <Animation Duration="0:0:60"
                                            IterationCount="INFINITE">
 
                                     <KeyFrame Cue="0%">

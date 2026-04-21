@@ -12,8 +12,57 @@
             Cursor="Hand"
             Foreground="White"/>
         <StackPanel VerticalAlignment="Center" Margin="0,100,0,0" HorizontalAlignment="Center" Width="400">
-                <Border Width="400" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" 
-                        Background="#70000000" BoxShadow="0 0 8 0 rgba(255,255,255,0.8), 0 0 4 0 rgba(255,255,255,0.5)">
+                
+            <Grid Width="400"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+
+                <Border CornerRadius="10"
+                        Background="#70000000"
+                        BorderThickness="2">
+
+                    <Border.Styles>
+                        <Style Selector="Border">
+                            <Setter Property="BorderBrush" Value="Cyan"/>
+
+                            <Style.Animations>
+                                <Animation Duration="0:0:60"
+                                           IterationCount="INFINITE">
+
+                                    <KeyFrame Cue="0%">
+                                        <Setter Property="BorderBrush" Value="Cyan"/>
+                                    </KeyFrame>
+
+                                    <KeyFrame Cue="16.66%">
+                                        <Setter Property="BorderBrush" Value="Magenta"/>
+                                    </KeyFrame>
+
+                                    <KeyFrame Cue="33.33%">
+                                        <Setter Property="BorderBrush" Value="Yellow"/>
+                                    </KeyFrame>
+
+                                    <KeyFrame Cue="50%">
+                                        <Setter Property="BorderBrush" Value="Lime"/>
+                                    </KeyFrame>
+
+                                    <KeyFrame Cue="66.66%">
+                                        <Setter Property="BorderBrush" Value="Orange"/>
+                                    </KeyFrame>
+
+                                    <KeyFrame Cue="83.33%">
+                                        <Setter Property="BorderBrush" Value="Red"/>
+                                    </KeyFrame>
+
+                                    <KeyFrame Cue="100%">
+                                        <Setter Property="BorderBrush" Value="Cyan"/>
+                                    </KeyFrame>
+
+                                </Animation>
+                            </Style.Animations>
+                        </Style>
+                    </Border.Styles>
+                    
+                    
                     <StackPanel>
                         <TextBlock Text="Neuer Nutzer"
                                    HorizontalAlignment="Center"
@@ -96,6 +145,7 @@
                         
                     </StackPanel>
                 </Border>
+                </Grid>
             </StackPanel>
    </StackPanel>
 </UserControl>
