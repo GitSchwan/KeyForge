@@ -25,8 +25,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Separator Margin="0,400,0,0" Foreground="White"/>
-                <Button Content="Zurück" Foreground="White" Margin="20"
+                <Separator Margin="0,400,0,0"/>
+                <Button Content="Zurück" Margin="20"
                         Command="{Binding ShowHomeViewCommand}"/>
             </StackPanel>
         </SplitView.Pane>

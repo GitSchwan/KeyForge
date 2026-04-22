@@ -21,7 +21,7 @@ public class ThemeRegistry : IThemeRegistry
         new Theme("deep_space", "#000000", "#434343", 45, "#000000", "#ffffff"),
         new Theme("dark_ocean", "#0c2b3a", "#1c5c7a", 90, "#0c2b3a", "#e0f7ff"),
         new Theme("purple_night", "#20002c", "#cbb4d4", 45, "#20002c", "#ffffff"),
-        new Theme("cyberpunk", "#0f0c29", "#302b63", 135, "#ff00cc", "#ffffff"),
+        new Theme("cyberpunk", "#0f0c29", "#302b63", 135, "#ff00cc", "#f8fc03"),
         new Theme("emerald_dark", "#0f3d3e", "#2e8b57", 90, "#0f3d3e", "#eafff5"),
         new Theme("lava", "#1a0000", "#b22222", 45, "#ff4500", "#ffffff"),
         new Theme("steel", "#232526", "#414345", 90, "#232526", "#dfe6e9"),

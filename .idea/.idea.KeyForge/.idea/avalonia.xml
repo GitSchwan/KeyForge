@@ -4,6 +4,8 @@
     <option name="projectPerEditor">
       <map>
         <entry key="KeyForge/App.axaml" value="KeyForge/KeyForge.csproj" />
+        <entry key="KeyForge/Styles/Colors.axaml" value="KeyForge/KeyForge.csproj" />
+        <entry key="KeyForge/Styles/Styles.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/AddView.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/ConfirmPopUp.axaml" value="KeyForge/KeyForge.csproj" />
         <entry key="KeyForge/Views/ConfirmPopUpView.axaml" value="KeyForge/KeyForge.csproj" />

@@ -29,15 +29,17 @@
     </PackageReference>
   </ItemGroup>
 
-  <PropertyGroup>
-    <SelfContained>true</SelfContained>
-    <PublishSingleFile>true</PublishSingleFile>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-  </PropertyGroup>
+<PropertyGroup>
+  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 
-  <PropertyGroup Condition="'$(RuntimeIdentifier)' == ''">
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-  </PropertyGroup>
+  <SelfContained>true</SelfContained>
+
+  <PublishSingleFile>true</PublishSingleFile>
+
+  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+  <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+</PropertyGroup>
 
   <ItemGroup>
     <Compile Update="Views\CreateUserView.axaml.cs">

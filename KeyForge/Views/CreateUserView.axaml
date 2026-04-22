@@ -9,8 +9,7 @@
             HorizontalAlignment="Right"
             Margin="5"
             Command="{Binding NavigateToLogin}"
-            Cursor="Hand"
-            Foreground="White"/>
+            Cursor="Hand"/>
         <StackPanel VerticalAlignment="Center" Margin="0,100,0,0" HorizontalAlignment="Center" Width="400">
                 
             <Grid Width="400"
@@ -68,28 +67,24 @@
                                    HorizontalAlignment="Center"
                                    TextWrapping="Wrap"
                                    FontSize="24"
-                                   Margin="10"
-                                   Foreground="White"/>
+                                   Margin="10"/>
 
                         <Label Content="Nutzername"
                                Target="CreateUserNameBox"
                                HorizontalAlignment="Left"
-                               Margin="50,0,0,0"
-                               Foreground="White"/>
+                               Margin="50,0,0,0"/>
 
                         <TextBox Watermark="Bitte gib einen Nutzernamen ein..."
                                  Text="{Binding Username}"
                                  Width="300"
                                  x:Name="CreateUserNameBox"
                                  HorizontalAlignment="Left"
-                                 Margin="50,10,0,0"
-                                 Foreground="White"/>
+                                 Margin="50,10,0,0"/>
 
                         <Label Content="Masterpasswort"
                                HorizontalAlignment="Left"
                                Target="MasterPasswordBox"
-                               Margin="50,10,0,0"
-                               Foreground="White"/>
+                               Margin="50,10,0,0"/>
 
                         <TextBox x:Name="MasterPasswordBox"
                             Watermark="Bitte gib ein Masterpasswort ein..."
@@ -97,14 +92,12 @@
                                  Width="300"
                                  PasswordChar="*"
                                  HorizontalAlignment="Left"
-                                 Margin="50,10,0,0"
-                            Foreground="White">
+                                 Margin="50,10,0,0">
                             <TextBox.InnerRightContent>
                                 <ToggleButton 
                                     Content="👁" 
                                     IsChecked="{Binding #MasterPasswordBox.RevealPassword}"
-                                    VerticalAlignment="Center"
-                                    Foreground="White"/>
+                                    VerticalAlignment="Center"/>
                             </TextBox.InnerRightContent>
                             
                             
@@ -113,8 +106,7 @@
                         <Label Content="Erneut eingeben"
                                    HorizontalAlignment="Left"
                                    Target="ConfirmBox"
-                                   Margin="50,10,0,0"
-                                   Foreground="White"/>
+                                   Margin="50,10,0,0"/>
                         
                         <TextBox x:Name="ConfirmBox" 
                                 Watermark="Bitte gib dein Masterpasswort erneut ein..."
@@ -122,15 +114,13 @@
                                  Width="300"
                                  PasswordChar="*"
                                  HorizontalAlignment="Left"
-                                 Margin="50,10,0,0"
-                                Foreground="White">
+                                 Margin="50,10,0,0">
                             
                             <TextBox.InnerRightContent>
                                 <ToggleButton 
                                     Content="👁" 
                                     IsChecked="{Binding #ConfirmBox.RevealPassword}"
-                                    VerticalAlignment="Center"
-                                    Foreground="White"/>
+                                    VerticalAlignment="Center"/>
                             </TextBox.InnerRightContent>
                             
                         </TextBox>
@@ -140,8 +130,7 @@
                                 Margin="10"
                                 HotKey="Return"
                                 Command="{Binding CreateUserCommand}"
-                                Cursor="Hand"
-                                Foreground="White"/>
+                                Cursor="Hand"/>
                         
                     </StackPanel>
                 </Border>

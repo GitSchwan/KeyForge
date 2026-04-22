@@ -9,7 +9,6 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
                 Cursor="Hand"
-                Foreground="White"
                 Margin="5"
                 Command="{Binding NavCreateUserCommand}"/>
         <StackPanel VerticalAlignment="Center" 
@@ -73,28 +72,24 @@
                                TextWrapping="Wrap"
                                FontSize="24"
                                Margin="10"
-                               Foreground="White"
                                />
 
                     <Label Content="Nutzername"
                            Target="UsernameBox"
                            HorizontalAlignment="Left"
-                           Margin="50,0,0,0"
-                           Foreground="White"/>
+                           Margin="50,0,0,0"/>
 
                     <TextBox Watermark="Bitte gib deinen Nutzernamen ein..."
                              Text="{Binding Username}"
                              Width="300"
                              x:Name="UsernameBox"
                              HorizontalAlignment="Left"
-                             Margin="50,10,0,0"
-                             Foreground="White"/>
+                             Margin="50,10,0,0"/>
 
                     <Label Content="Masterpasswort"
                            Target="PasswordBox"
                            HorizontalAlignment="Left"
-                           Margin="50,10,0,0"
-                           Foreground="White"/>
+                           Margin="50,10,0,0"/>
 
                     <TextBox x:Name="PasswordBox"
                              Watermark="Bitte gib dein Masterpasswort ein..."
@@ -102,14 +97,12 @@
                              Width="300"
                              PasswordChar="*"
                              HorizontalAlignment="Left"
-                             Margin="50,10,0,0"
-                             Foreground="White">
+                             Margin="50,10,0,0">
                         <TextBox.InnerRightContent>
                             <ToggleButton 
                                 Content="👁" 
                                 IsChecked="{Binding #PasswordBox.RevealPassword}"
-                                VerticalAlignment="Center"
-                                Foreground="White"/>
+                                VerticalAlignment="Center"/>
                         </TextBox.InnerRightContent>
                         
                     </TextBox>
@@ -119,8 +112,7 @@
                             Margin="10"
                             HotKey="Return"
                             Cursor="Hand"
-                            Command="{Binding LoginCommand}" 
-                            Foreground="White"/>
+                            Command="{Binding LoginCommand}" />
                     
                 </StackPanel>
             </Border>

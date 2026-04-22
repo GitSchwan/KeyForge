@@ -1,0 +1,32 @@
+﻿<Styles xmlns="https://github.com/avaloniaui">
+    <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+    </Style>
+    
+    <Style Selector="Label">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+    </Style>
+    
+    <Style Selector="Path">
+        <Setter Property="Stroke" Value="{DynamicResource Brush.Primary}"/>
+    </Style>
+    
+    <Style Selector="Button">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+    </Style>
+    
+    <Style Selector="Button:pointerover">
+        <Setter Property="Background" Value="#444"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+    </Style>
+
+    <Style Selector="Button:pressed">
+        <Setter Property="Background" Value="#666"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+    </Style>
+    
+    <Style Selector="Separator">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+    </Style>
+
+</Styles>

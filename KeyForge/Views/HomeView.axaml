@@ -18,7 +18,6 @@
                                VerticalAlignment="Center"
                                FontSize="36"
                                FontWeight="Bold"
-                               Foreground="White"
                                Margin="10,0,0,0"/>
 
                     <StackPanel Grid.Column="2" Grid.ColumnSpan="2" 
@@ -33,7 +32,6 @@
                                 Height="40"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Foreground="White"
                                 Cursor="Hand"/>
 
                         <Button Command="{Binding NavigateToSettingsCommand}"
@@ -43,7 +41,6 @@
                                 Height="40"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Foreground="White"
                                 Cursor="Hand"/>
                     </StackPanel>
                 </Grid>
@@ -59,14 +56,12 @@
                            Text="{Binding WelcomeMessage}"
                            FontSize="24"
                            HorizontalAlignment="Left"
-                           Foreground="White"
                            Margin="0,0,0,10"/>
         
                 <StackPanel Grid.Row="1" Grid.Column="0" Spacing="10">
                     <TextBlock Text="Deine Vault"
                                FontSize="22"
-                               FontWeight="SemiBold"
-                               Foreground="White"/>
+                               FontWeight="SemiBold"/>
 
                     <Border CornerRadius="12"
                             Background="#20FFFFFF"
@@ -135,16 +130,14 @@
                                         Content="{Binding EditButtonText}"
                                         Width="120"
                                         HorizontalContentAlignment="Center"
-                                        Cursor="Hand"
-                                        Foreground="White"/>
+                                        Cursor="Hand"/>
                                 <Button Background="#80200000"
                                         Command="{Binding DeleteEntryCommand}"
                                         CommandParameter="{Binding SelectedEntry}"
                                         Content="🗑"
                                         Width="40"
                                         HorizontalContentAlignment="Center"
-                                        Cursor="Hand"
-                                        Foreground="White"/>
+                                        Cursor="Hand"/>
                             </StackPanel>
                         </Grid>
 
@@ -157,13 +150,12 @@
                             <!-- Username Section -->
                             <Path Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
                                   Width="20" Height="20"
-                                  Stroke="White" StrokeThickness="2" Stretch="Uniform" 
+                                  StrokeThickness="2" Stretch="Uniform" 
                                   VerticalAlignment="Center" HorizontalAlignment="Left"
                                   Data="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7 
                                         C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z 
                                         M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"/>
-                            <Label Content="Nutzername / E-Mail" Grid.Row="0" Grid.Column="1" 
-                                   Foreground="White" FontSize="12"/>
+                            <Label Content="Nutzername / E-Mail" Grid.Row="0" Grid.Column="1" FontSize="12"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                      Text="{Binding SelectedEntry.Websiteusername}"
                                      IsReadOnly="{Binding EditNotAllowed}"
@@ -185,7 +177,7 @@
                             <!-- Password Section -->
                             <Path Grid.Row="3" Grid.Column="0" Grid.RowSpan="2"
                                   Width="20" Height="20"
-                                  Stroke="White" StrokeThickness="2" Stretch="Uniform" 
+                                  StrokeThickness="2" Stretch="Uniform" 
                                   VerticalAlignment="Center" HorizontalAlignment="Left"
                                   Data="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 
                                         16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 
@@ -198,7 +190,7 @@
                                         18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288
                                         V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" />
                             <Label Content="Passwort" Grid.Row="3" Grid.Column="1" 
-                                   Foreground="White" FontSize="12"/>
+                                   FontSize="12"/>
                             <TextBox Grid.Row="4" Grid.Column="1"
                                      x:Name="HomeViewPasswordBox"
                                      Text="{Binding SelectedEntry.Password}"
@@ -228,7 +220,7 @@
                             <!-- Website Section -->
                             <Path Grid.Row="6" Grid.Column="0" Grid.RowSpan="2"
                                   Width="20" Height="20"
-                                  Stroke="White" StrokeThickness="1" Stretch="Uniform" 
+                                  StrokeThickness="1" Stretch="Uniform" 
                                   VerticalAlignment="Center" HorizontalAlignment="Left"
                                   Data="M6.15407 7.30116C7.52877 5.59304 9.63674 4.5 12 4.5
                                         C12.365 4.5 12.7238 4.52607 13.0748 4.57644
@@ -247,7 +239,7 @@
                                         C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12
                                         C21 7.02944 16.9706 3 12 3Z"/>
                             <Label Content="Webseite" Grid.Row="6" Grid.Column="1" 
-                                   Foreground="White" FontSize="12"/>
+                                   FontSize="12"/>
                             <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
                                      Text="{Binding SelectedEntry.Website}"
                                      IsReadOnly="{Binding EditNotAllowed}"
@@ -283,7 +275,6 @@
                 BorderThickness="1"
                 Padding="14,8">
             <TextBlock x:Name="ToastText"
-                       Foreground="White"
                        FontSize="14"
                        Text="Copied to clipboard"/>
         </Border>

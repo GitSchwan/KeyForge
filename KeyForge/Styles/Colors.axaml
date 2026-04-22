@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- =========================
+         Base Colors (primitive)
+         ========================= -->
+    <Color x:Key="Color.Primary">#000000</Color>
+    <Color x:Key="Color.PrimaryVariant">#1565C0</Color>
+    <Color x:Key="Color.Secondary">#FF9800</Color>
+    <Color x:Key="Color.Background">#121212</Color>
+    <Color x:Key="Color.Error">#CF6679</Color>
+
+    <Color x:Key="Color.OnPrimary">#FFFFFF</Color>
+    <Color x:Key="Color.Foreground">#FFFFFF</Color>
+    <Color x:Key="Color.OnSurface">#FFFFFF</Color>
+
+    <!-- =========================
+         Brushes (usable in UI)
+         ========================= -->
+    <SolidColorBrush x:Key="Brush.Primary" Color="{DynamicResource Color.Primary}"/>
+    <SolidColorBrush x:Key="Brush.PrimaryVariant" Color="{DynamicResource Color.PrimaryVariant}"/>
+    <SolidColorBrush x:Key="Brush.Secondary" Color="{DynamicResource Color.Secondary}"/>
+
+    <SolidColorBrush x:Key="Brush.Background" Color="{DynamicResource Color.Background}"/>
+    <SolidColorBrush x:Key="Brush.Error" Color="{DynamicResource Color.Error}"/>
+
+    <SolidColorBrush x:Key="Brush.OnPrimary" Color="{DynamicResource Color.OnPrimary}"/>
+    <SolidColorBrush x:Key="Brush.Foreground" Color="{DynamicResource Color.Foreground}"/>
+    <SolidColorBrush x:Key="Brush.OnSurface" Color="{DynamicResource Color.OnSurface}"/>
+
+    <!--  =========================
+          Optional UI helpers
+          ========================= -->
+    <SolidColorBrush x:Key="Brush.Border" Color="#33FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.Disabled" Color="#61FFFFFF"/>
+    
+
+</ResourceDictionary>
