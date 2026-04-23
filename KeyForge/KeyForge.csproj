@@ -33,6 +33,8 @@
 <PropertyGroup>
   <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 
+  <ApplicationIcon>Assets\anvil.ico</ApplicationIcon>
+  
   <SelfContained>true</SelfContained>
 
   <PublishSingleFile>true</PublishSingleFile>
