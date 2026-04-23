@@ -1,7 +1,4 @@
-﻿using System;
-using Avalonia.Controls;
-
-namespace KeyForge.Services;
+﻿namespace KeyForge.Services;
 
 public class SessionService
 {

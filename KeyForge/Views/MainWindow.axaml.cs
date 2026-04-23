@@ -2,11 +2,9 @@ using System;
 using System.ComponentModel; 
 using Avalonia; 
 using Avalonia.Controls; 
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media; using KeyForge.ViewModels; 
-using KeyForge.Data; 
 using KeyForge.Models; 
 using KeyForge.Services; 
 
@@ -100,8 +98,8 @@ public partial class MainWindow : Window {
         if (currentApplication is null) return;
 
         currentApplication.Resources["Brush.Foreground"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor));
-        currentApplication.Resources["Brush.Primary"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor)); // Not optimal
-        currentApplication.Resources["Brush.Secondary"] = new SolidColorBrush(Color.Parse(theme.StartColor)); // Not optimal
+        currentApplication.Resources["Brush.Primary"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor));
+        currentApplication.Resources["Brush.Secondary"] = new SolidColorBrush(Color.Parse(theme.StartColor));
     } 
 }
 

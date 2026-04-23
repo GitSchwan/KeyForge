@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using KeyForge.Data;
 using KeyForge.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace KeyForge.Services;
 

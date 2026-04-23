@@ -10,7 +10,7 @@
             Margin="5"
             Command="{Binding NavigateToLogin}"
             Cursor="Hand"/>
-        <StackPanel VerticalAlignment="Center" Margin="0,100,0,0" HorizontalAlignment="Center" Width="400">
+        <StackPanel VerticalAlignment="Center" Margin="0,80,0,0" HorizontalAlignment="Center" Width="400">
                 
             <Grid Width="400"
                   HorizontalAlignment="Center"

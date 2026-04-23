@@ -3,7 +3,7 @@ using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
     private readonly ILoginService _loginService;
     private readonly ICryptoService _cryptoService;
@@ -33,11 +33,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
         if (_loginService.HasUsers())
         {
-            CurrentViewModel = new LoginViewModel(_cryptoService ,_loginService, _sessionService, NavigateToHome, NavigateToCreateUser);
+            CurrentViewModel = new LoginViewModel(_cryptoService ,_loginService, _sessionService, 
+                NavigateToHome, NavigateToCreateUser);
         }
         else
         {
-            CurrentViewModel = new CreateUserViewModel(_cryptoService, NavigateToHome);
+            CurrentViewModel = new CreateUserViewModel(_cryptoService, NavigateToLogin);
         }
     }
 
@@ -65,6 +66,7 @@ public partial class MainWindowViewModel : ViewModelBase
     
     private void NavigateToLogin()
     {
-        CurrentViewModel = new LoginViewModel(_cryptoService ,_loginService, _sessionService, NavigateToHome, NavigateToCreateUser);
+        CurrentViewModel = new LoginViewModel(_cryptoService ,_loginService, _sessionService, 
+            NavigateToHome, NavigateToCreateUser);
     }
 }

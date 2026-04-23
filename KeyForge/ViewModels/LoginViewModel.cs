@@ -4,7 +4,7 @@ using KeyForge.Services;
 
 namespace KeyForge.ViewModels;
 
-public partial class LoginViewModel : ViewModelBase
+public class LoginViewModel : ViewModelBase
 {
     private readonly ILoginService _loginService;
     private readonly ICryptoService _cryptoService;

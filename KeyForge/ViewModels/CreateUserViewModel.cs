@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using KeyForge.Services;
 
