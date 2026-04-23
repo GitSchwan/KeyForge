@@ -8,7 +8,12 @@
         TransparencyLevelHint="None"
         Width="1000"
         Height="600"
-        ExtendClientAreaToDecorationsHint="False"
+        
+        SystemDecorations="None"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0"
+        
         mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="460"
         CanResize="False"
         x:Class="KeyForge.Views.MainWindow"
@@ -29,6 +34,30 @@
             <views:AddView/>
         </DataTemplate>
     </Window.DataTemplates>
+    
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Custom Titlebar -->
+        <Border x:Name="CustomTitleBar" Grid.Row="0" Height="30" PointerPressed="TitleBar_PointerPressed">
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+            
+                <!-- Titel -->
+                <TextBlock Text="Keyforge"
+                           VerticalAlignment="Center"
+                           Margin="10,0"/>
 
-    <ContentControl Content="{Binding CurrentViewModel}" />
+                <!-- Minimize -->
+                <Button Grid.Column="1" Content="—" Click="Minimize_Click" Background="Transparent"/>
+
+                <!-- Close -->
+                <Button Grid.Column="3" Content="X" Click="Close_Click" Background="Transparent">
+                </Button>
+            
+            </Grid>
+        </Border>
+        
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" />
+    </Grid>
+    
+
 </Window>

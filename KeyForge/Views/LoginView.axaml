@@ -12,7 +12,7 @@
                 Margin="5"
                 Command="{Binding NavCreateUserCommand}"/>
         <StackPanel VerticalAlignment="Center" 
-                    Margin="0,150,0,0" 
+                    Margin="0,100,0,0" 
                     Width="400" 
                     HorizontalAlignment="Center">
             

@@ -2,7 +2,9 @@ using System;
 using System.ComponentModel; 
 using Avalonia; 
 using Avalonia.Controls; 
-using Avalonia.Controls.ApplicationLifetimes; 
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media; using KeyForge.ViewModels; 
 using KeyForge.Data; 
 using KeyForge.Models; 
@@ -19,6 +21,21 @@ public partial class MainWindow : Window {
         DataContextChanged += (_, _) => AttachToViewModel(); 
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
         _themeService.ThemeChanged += OnThemeChanged; // Subscribe to theme changes
+    }
+    
+    private void Minimize_Click(object? sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Minimized;
+    }
+
+    private void Close_Click(object? sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
+    
+    private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        BeginMoveDrag(e);
     }
 
     private void AttachToViewModel()
@@ -71,5 +88,7 @@ public partial class MainWindow : Window {
         
         Application.Current.Resources["Brush.Foreground"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor));
         Application.Current.Resources["Brush.Primary"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor)); // Not optimal
-    } }
+        Application.Current.Resources["Brush.Secondary"] = new SolidColorBrush(Color.Parse(theme.StartColor)); // Not optimal
+    } 
+}
 

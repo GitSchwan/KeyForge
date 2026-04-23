@@ -6,7 +6,7 @@
          ========================= -->
     <Color x:Key="Color.Primary">#000000</Color>
     <Color x:Key="Color.PrimaryVariant">#1565C0</Color>
-    <Color x:Key="Color.Secondary">#FF9800</Color>
+    <Color x:Key="Color.Secondary">#222</Color>
     <Color x:Key="Color.Background">#121212</Color>
     <Color x:Key="Color.Error">#CF6679</Color>
 
