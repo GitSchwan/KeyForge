@@ -13,7 +13,14 @@ using KeyForge.Services;
 namespace KeyForge.Views; 
 public partial class MainWindow : Window { 
     
-    private readonly ThemeService _themeService; 
+    private readonly ThemeService? _themeService; 
+
+    public MainWindow()
+    {
+        InitializeComponent();
+        Opened += (_, _) => AttachToViewModel();
+        DataContextChanged += (_, _) => AttachToViewModel();
+    }
     
     public MainWindow(ThemeService themeService) { 
         InitializeComponent(); 
@@ -69,7 +76,10 @@ public partial class MainWindow : Window {
         else
         {
             TransparencyLevelHint = [WindowTransparencyLevel.None]; 
-            OnThemeChanged(_themeService.GetCurrentTheme());
+            if (_themeService is not null)
+            {
+                OnThemeChanged(_themeService.GetCurrentTheme());
+            }
         }
     }
 
@@ -86,9 +96,12 @@ public partial class MainWindow : Window {
                 new GradientStop { Color = Color.Parse(theme.EndColor), Offset = 1 } }
         }; 
         
-        Application.Current.Resources["Brush.Foreground"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor));
-        Application.Current.Resources["Brush.Primary"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor)); // Not optimal
-        Application.Current.Resources["Brush.Secondary"] = new SolidColorBrush(Color.Parse(theme.StartColor)); // Not optimal
+        var currentApplication = Application.Current;
+        if (currentApplication is null) return;
+
+        currentApplication.Resources["Brush.Foreground"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor));
+        currentApplication.Resources["Brush.Primary"] = new SolidColorBrush(Color.Parse(theme.ForegroundColor)); // Not optimal
+        currentApplication.Resources["Brush.Secondary"] = new SolidColorBrush(Color.Parse(theme.StartColor)); // Not optimal
     } 
 }
 

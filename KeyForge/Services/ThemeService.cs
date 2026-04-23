@@ -25,7 +25,7 @@ public class ThemeService
         return _themeRegistry.GetById(themeId);
     }
     
-    public event Action<Theme?> ThemeChanged;
+    public event Action<Theme?>? ThemeChanged;
     
     public void SetTheme(string themeId)
     {

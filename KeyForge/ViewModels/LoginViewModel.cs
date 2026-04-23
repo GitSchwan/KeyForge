@@ -29,7 +29,8 @@ public partial class LoginViewModel : ViewModelBase
     public IRelayCommand LoginCommand { get; }
     public IRelayCommand NavCreateUserCommand { get; }
 
-    public LoginViewModel(ICryptoService cryptoService ,ILoginService loginService, SessionService sessionService, Action navigateToHome, Action navigateToCreateUser)
+    public LoginViewModel(ICryptoService cryptoService ,ILoginService loginService, SessionService sessionService,
+        Action navigateToHome, Action navigateToCreateUser)
     {
         _loginService = loginService;
         _navigateToHome = navigateToHome;
@@ -50,7 +51,10 @@ public partial class LoginViewModel : ViewModelBase
         var done = _loginService.LoginServiceLogin(username, password);
         if (done)
         {
-            var key = _cryptoService.DeriveEncryptionKey(password, _sessionService.HashedMasterPassword);
+            var storedHash = _sessionService.HashedMasterPassword;
+            if (string.IsNullOrWhiteSpace(storedHash)) return;
+
+            var key = _cryptoService.DeriveEncryptionKey(password, storedHash);
             
             _sessionService.EncryptionKey = key;
             
