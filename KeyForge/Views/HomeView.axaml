@@ -10,15 +10,16 @@
              x:DataType="vm:HomeViewModel">
     <Grid>
         <StackPanel>
-            <Border Background="#60000000" Padding="10">
+            <Border Background="#30000000" Padding="10">
                 <Grid ColumnDefinitions="Auto, *, Auto, Auto">
 
-                    <TextBlock Grid.Column="0"
-                               Text="KeyForge"
-                               VerticalAlignment="Center"
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                               Text="{Binding WelcomeMessage}"
                                FontSize="36"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
                                FontWeight="Bold"
-                               Margin="10,0,0,0"/>
+                               Margin="0,0,0,10"/>
 
                     <StackPanel Grid.Column="2" Grid.ColumnSpan="2" 
                                 Orientation="Horizontal" 
@@ -47,18 +48,12 @@
             </Border>
 
             <Grid ColumnDefinitions="350, *"
-                  RowDefinitions="Auto, *"
+                  RowDefinitions="Auto"
                   Margin="20"
                   ColumnSpacing="20"
                   RowSpacing="20">
-
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                           Text="{Binding WelcomeMessage}"
-                           FontSize="24"
-                           HorizontalAlignment="Left"
-                           Margin="0,0,0,10"/>
         
-                <StackPanel Grid.Row="1" Grid.Column="0" Spacing="10">
+                <StackPanel Grid.Column="0" Spacing="10">
                     <TextBlock Text="Deine Vault"
                                FontSize="22"
                                FontWeight="SemiBold"/>
