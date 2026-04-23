@@ -1,4 +1,6 @@
-﻿using KeyForge.Models;
+﻿using System;
+using System.IO;
+using KeyForge.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace KeyForge.Data;
@@ -13,7 +15,14 @@ public class KeyForgeDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=keyforge.db");
+            var folder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "KeyForge");
+
+            Directory.CreateDirectory(folder);
+
+            var dbPath = Path.Combine(folder, "keyforge.db");
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
         }
     }
 }
