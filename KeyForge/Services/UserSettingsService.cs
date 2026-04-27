@@ -20,6 +20,10 @@ public class UserSettingsService : IUserSettingsService
         _dbContext = context;
     }
     
+    /// <summary>
+    /// Sets the initial settings for a user
+    /// </summary>
+    /// <param name="userId"><see cref="int"/></param>
     private void SetInitialSettings(int userId)
     {
         var iniUserSettings = new UserSettings(userId, "sunset");

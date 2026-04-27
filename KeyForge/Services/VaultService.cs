@@ -11,8 +11,17 @@ namespace KeyForge.Services;
 
 public interface IVaultService
 {
+    /// <summary>
+    /// Gets all vault entries for a user
+    /// </summary>
+    /// <param name="userId"><see cref="int"/></param>
     List<VaultEntry> GetVaultEntriesForUser(int userId);
     
+    /// <summary>
+    /// Gets the password for a specific website
+    /// </summary>
+    /// <param name="id"><see cref="int"/></param>
+    /// <param name="userId"><see cref="int"/></param>
     string GetUserSpecifcWebsitePassword(int id, int userId);
 }
 
@@ -28,7 +37,7 @@ public class VaultService : IVaultService
     /// <summary>
     /// Gets all vault entries for a user
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="userId"><see cref="int"/></param>
     /// <returns></returns>
     public List<VaultEntry> GetVaultEntriesForUser(int userId)
     {

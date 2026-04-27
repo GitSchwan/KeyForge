@@ -6,7 +6,16 @@ namespace KeyForge.Services;
 
 public interface ILoginService
 {
+    /// <summary>
+    /// Checks if the user exists and if the password is correct.
+    /// </summary>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="password"><see cref="string"/></param>
     bool LoginServiceLogin(string username, string password);
+    
+    /// <summary>
+    /// Checks if there are any users in the database.
+    /// </summary>
     bool HasUsers();
 }
 
@@ -22,7 +31,7 @@ public class LoginService : ILoginService
         _cryptoService = new CryptoService(dbContext, sessionService);
         _sessionService = sessionService;
     }
-
+    
     public bool LoginServiceLogin(string username, string password)
     {
         var user = _dbContext.Users.FirstOrDefault(u => u.Name == username);

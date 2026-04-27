@@ -31,13 +31,19 @@ public interface ICryptoService
     /// <returns></returns>
     bool VerifyPassword(string password, string storedHash);
 
+    /// <summary>
+    /// Inserts a new vault entry into the database.
+    /// </summary>
+    /// <param name="website"><see cref="string"/></param>
+    /// <param name="username"><see cref="string"/></param>
+    /// <param name="encryptedPassword"><see cref="string"/></param>
     void InsertVaultData(string website, string username, string encryptedPassword);
     
     /// <summary>
     /// Encrypts a password using the encryption key stored in the session.
     /// </summary>
     /// <param name="password"><see cref="string"/></param>
-    /// <returns></returns>
+    /// <returns><see cref="string"/></returns>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     string EncryptPassword(string password);
@@ -55,9 +61,8 @@ public interface ICryptoService
     /// <summary>
     /// Derives an encryption key from a master password and a stored hash.
     /// </summary>
-    /// <param name="masterPassword"></param>
-    /// <param name="storedHash"></param>
-    /// <returns></returns>
+    /// <param name="masterPassword"><see cref="string"/></param>
+    /// <param name="storedHash"><see cref="string"/></param>
     /// <exception cref="FormatException"></exception>
     byte[] DeriveEncryptionKey(string masterPassword, string storedHash);
     
@@ -70,7 +75,7 @@ public interface ICryptoService
     /// <summary>
     /// Deletes User Data
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="userId"><see cref="int"/></param>
     void DeleteUserData(int userId);
 }
 

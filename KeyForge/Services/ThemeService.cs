@@ -18,6 +18,9 @@ public class ThemeService
         _userSettingsService = userSettingsService;
     }
 
+    /// <summary>
+    /// Gets the current theme
+    /// </summary>
     public Theme? GetCurrentTheme()
     {
         var userid = _sessionService.CurrentUserId;
@@ -27,6 +30,10 @@ public class ThemeService
     
     public event Action<Theme?>? ThemeChanged;
     
+    /// <summary>
+    /// Sets the current theme
+    /// </summary>
+    /// <param name="themeId"><see cref="string"/></param>
     public void SetTheme(string themeId)
     {
         var userid = _sessionService.CurrentUserId;

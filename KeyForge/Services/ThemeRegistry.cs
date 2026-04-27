@@ -6,7 +6,15 @@ namespace KeyForge.Services;
 
 public interface IThemeRegistry
 {
+    /// <summary>
+    /// Gets all themes.
+    /// </summary>
     IEnumerable<Theme> GetAll();
+    
+    /// <summary>
+    /// Gets a theme by its id.
+    /// </summary>
+    /// <param name="themeid"><see cref="string"/></param>
     Theme? GetById(string themeid);
 }
 
