@@ -5,7 +5,8 @@
         Title="Bestätigen"
         Width="400"
         Height="200"
-       
+        Background="{DynamicResource Brush.Secondary}"      
+        
         SystemDecorations="None"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
@@ -34,7 +35,7 @@
     <Grid RowDefinitions="Auto,*">
     
         <!-- Custom Titlebar -->
-        <Border Background="#222" Height="40" PointerPressed="TitleBar_PointerPressed">
+        <Border Background="#30000000" Height="40" PointerPressed="TitleBar_PointerPressed">
             <Grid ColumnDefinitions="*,Auto,Auto,Auto">
             
                 <!-- Titel -->
@@ -57,7 +58,7 @@
         </Border>
 
         <!-- Content -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="{DynamicResource Brush.Secondary}">
             <Grid RowDefinitions="*,Auto" Margin="20" HorizontalAlignment="Center">
                 <TextBlock Grid.Row="0"
                            Text="{Binding Message}"
@@ -80,9 +81,5 @@
                 </StackPanel>
             </Grid>
         </Grid>
-
     </Grid>
-    
-    
-
 </Window>
