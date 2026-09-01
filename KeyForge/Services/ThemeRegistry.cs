@@ -34,7 +34,8 @@ public class ThemeRegistry : IThemeRegistry
         new Theme("lava", "#1a0000", "#b22222", 45, "#ff4500", "#ffffff"),
         new Theme("steel", "#232526", "#414345", 90, "#232526", "#dfe6e9"),
         new Theme("night_sky", "#141e30", "#243b55", 120, "#141e30", "#ffffff"),
-        new Theme("obsidian", "#0b0b0b", "#1a1a1a", 90, "#0b0b0b", "#f5f5f5")
+        new Theme("obsidian", "#0b0b0b", "#1a1a1a", 90, "#0b0b0b", "#f5f5f5"),
+        new Theme("chicken_jonckey", "#00ff66", "#f50cce", 90, "#000046", "#ffffff"),
     };
 
     public IEnumerable<Theme> GetAll() => _themes;
